@@ -231,5 +231,11 @@
             extensions="sm">
     </provider>
   </extension>
+  <extension
+        point="org.eclipse.xtext.ui.shared.overridingGuiceModule">
+     <module
+           class="nl.dslmeinte.xtext.builder.ReadonlyIndifferentOverridingGuiceModule">
+     </module>
+  </extension>
 
 </plugin>

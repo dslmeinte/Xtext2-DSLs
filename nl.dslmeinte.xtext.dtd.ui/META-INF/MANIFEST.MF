@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: nl.dslmeinte.xtext.dtd.ui
-Bundle-Vendor: My Company
+Bundle-Name: Xtext UI project for DTD language
+Bundle-Vendor: DslConsultancy.com
 Bundle-Version: 1.0.0
 Bundle-SymbolicName: nl.dslmeinte.xtext.dtd.ui; singleton:=true
 Bundle-ActivationPolicy: lazy
@@ -19,6 +19,7 @@ Require-Bundle: nl.dslmeinte.xtext.dtd;visibility:=reexport,
 Import-Package: org.apache.log4j,
  org.apache.commons.logging
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Export-Package: nl.dslmeinte.xtext.dtd.ui.contentassist.antlr,
+Export-Package: nl.dslmeinte.xtext.dtd.ui,
+ nl.dslmeinte.xtext.dtd.ui.contentassist.antlr,
  nl.dslmeinte.xtext.dtd.ui.internal
 Bundle-Activator: nl.dslmeinte.xtext.dtd.ui.internal.DtdActivator
