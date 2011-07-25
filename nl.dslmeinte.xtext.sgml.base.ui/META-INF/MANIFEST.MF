@@ -23,5 +23,5 @@ Export-Package: nl.dslmeinte.xtext.sgml.base.ui.contentassist,
  nl.dslmeinte.xtext.sgml.base.ui.contentassist.antlr,
  nl.dslmeinte.xtext.sgml.base.ui.internal,
  nl.dslmeinte.xtext.sgml.base.ui.syntaxcoloring,
- nl.dsmeinte.xtext.sgml.base.lexer.ui
+ nl.dsmeinte.xtext.sgml.lexer.ui
 Bundle-Activator: nl.dslmeinte.xtext.sgml.base.ui.internal.BaseActivator
