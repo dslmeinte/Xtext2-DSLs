@@ -6,11 +6,11 @@ Bundle-Version: 0.1.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: DslConsultancy.com
 Require-Bundle: org.junit4;bundle-version="4.8.1",
- org.eclipse.xtext.junit;bundle-version="1.0.1",
- org.eclipse.xtext;bundle-version="1.0.1",
+ org.eclipse.xtext.junit;bundle-version="2.0.0",
+ org.eclipse.xtext;bundle-version="2.0.0",
  nl.dslmeinte.xtext.dtd;bundle-version="1.0.0",
  nl.dslmeinte.xtext.sgml.base;bundle-version="1.0.0",
- nl.dslmeinte.xtext.util;bundle-version="0.3.0",
+ nl.dslmeinte.xtext.util;bundle-version="1.0.0",
  nl.dslmeinte.xtext.sgml.test.simplemarkup;bundle-version="1.0.0",
  nl.dslmeinte.xtext.conditional;bundle-version="1.0.0",
  nl.dslmeinte.xtext.sgml.dtd;bundle-version="1.0.0"

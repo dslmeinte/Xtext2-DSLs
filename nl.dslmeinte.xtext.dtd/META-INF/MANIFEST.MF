@@ -23,11 +23,12 @@ Import-Package: org.apache.log4j,
  org.eclipse.xtext.xtend2.lib
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: nl.dslmeinte.xtext.dtd,
- nl.dslmeinte.xtext.dtd.services,
  nl.dslmeinte.xtext.dtd.dtdModel,
  nl.dslmeinte.xtext.dtd.dtdModel.impl,
  nl.dslmeinte.xtext.dtd.dtdModel.util,
- nl.dslmeinte.xtext.dtd.serializer,
  nl.dslmeinte.xtext.dtd.parser.antlr,
  nl.dslmeinte.xtext.dtd.parser.antlr.internal,
+ nl.dslmeinte.xtext.dtd.serializer,
+ nl.dslmeinte.xtext.dtd.services,
+ nl.dslmeinte.xtext.dtd.util,
  nl.dslmeinte.xtext.dtd.validation
