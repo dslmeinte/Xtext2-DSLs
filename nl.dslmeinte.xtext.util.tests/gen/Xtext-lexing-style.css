@@ -1,0 +1,49 @@
+div.tokenVisualization {
+	font-family: Monaco;
+	font-size: 11px;
+}
+
+/* (order taken from org.eclipse.xtext.parser.antlr.internal/InternalXtext.tokens) */
+
+.tokenType7 {	/* ML_COMMENT */
+	color: green;
+}
+
+.tokenType4 {	/* ID */
+	color: gray;
+}
+
+.tokenType9 {	/* WS */
+	background-color: yellow;
+}
+
+.tokenType6 {	/* STRING */
+	color: orange;
+}
+
+.tokenType5 {	/* STRING */
+	color: blue;
+}
+
+.tokenType8 {	/* SL_COMMENT */
+	color: green;
+}
+
+/* multi-character text keywords: */
+.tokenType21,
+.tokenType18,
+.tokenType38,
+.tokenType12,
+.tokenType14,
+.tokenType42,
+.tokenType11,
+.tokenType20,
+.tokenType19,
+.tokenType33
+{	
+	color: purple;
+	font-weight: bold;
+}
+
+/* (all remaining token types are single-character or non-text keywords) */
+
