@@ -1,0 +1,10 @@
+<!-- allow comments before header -->
+<!DOCTYPE SISGML PUBLIC "conf/simpleMarkup.dtd" "simpleMarkup.dtd"
+[
+	<!ENTITY myEntity SYSTEM "/foo/bar" --bla-die-blah-->
+]
+>
+<Content>
+	<Reference TO="foo">
+	<Section name="foo" styleName="abstract" condition="true"><!--foo--><Par>bar & bar &myEntity;		</Par></Section>
+</Content>

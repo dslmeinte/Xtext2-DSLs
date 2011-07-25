@@ -1,0 +1,43 @@
+div.tokenVisualization {
+	font-family: Monaco;
+	font-size: 11px;
+	white-space: nowrap;
+}
+
+.whitespace {
+	background-color: silver;
+}
+
+.identifier {
+	color: blue;
+}
+
+.sgml_comments, .header_comments {
+	color: green;
+}
+
+.quoted_string {
+	color: orange;
+}
+
+.doctype, .entity, .public_, .system {
+	color: purple;
+	font-weight: bold;
+}
+
+.tagKeyword {
+	color: red;
+}
+
+.literal_contents {
+	background-color: yellow;
+}
+
+/*
+	EOF,
+	open_bracket, close_bracket,
+	open_tag, close_tag, slash, equals,
+	single_quote, double_quote,
+	&c... not (explicitly) styled
+*/
+

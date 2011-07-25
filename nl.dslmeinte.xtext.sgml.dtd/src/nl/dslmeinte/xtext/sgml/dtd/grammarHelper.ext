@@ -1,0 +1,38 @@
+import dtdModel;
+
+extension nl::dslmeinte::xtext::dtd::util::dtdExtensions;
+extension org::eclipse::xtend::util::stdlib::io;
+
+
+// returns whether the close tag of this Element is optional:
+Boolean isCloseTagOptional(Element this) : EmptyContent.isAssignableFrom(content.metaType);
+
+// returns whether this Attribute is optional:
+Boolean isOptional(Attribute this) : cardinality == AttributeCardinality::implied;
+
+// returns the Xtext syntax for ElementCardinality literals:
+String syntax(ElementCardinality this) :
+	switch(this) {
+		case ElementCardinality::optional	: '?'
+		case ElementCardinality::zeroOrMore	: '*'
+		case ElementCardinality::oneOrMore	: '+'
+		default	: 'error'
+	};
+
+// returns whether this Element can have no 0 Attribute-s:
+Boolean attributesCanBeEmpty(Element this) : attributes().forAll( a | a.cardinality == AttributeCardinality::implied );
+
+Boolean canHaveFollowingContent(Element this) : content.canHaveFollowingContent();
+
+// returns whether this Expression can have (non-whitespace) literal contents after the opening tag:
+private Boolean canHaveFollowingContent(Expression this) :
+	// sentinel:
+	( "no Xtension 'canHaveFollowingContent' defined for sub type " + metaType.name + " of " + Expression.metaType.name ).error();
+
+private Boolean canHaveFollowingContent(Alternatives this)		: alternatives.exists( e | e.canHaveFollowingContent() );
+private Boolean canHaveFollowingContent(Concatenation this)		: members.first().canHaveFollowingContent();
+private Boolean canHaveFollowingContent(Cardinality this)		: canHaveFollowingContent(nestedExpr);
+private Boolean canHaveFollowingContent(EmptyContent this)		: false;
+private Boolean canHaveFollowingContent(PCData this)			: true;
+private Boolean canHaveFollowingContent(ElementReference this)	: false;
+

@@ -1,0 +1,9 @@
+<!DOCTYPE SISGML PUBLIC "simpleMarkup.dtd"
+[
+	<!ENTITY myEntity SYSTEM "/foo/bar" --bla-die-blah-->
+]
+>
+<Content>
+	<Reference TO="foo">
+	<Section name="bar" styleName="abstract" condition="true"><!--foo--><Par>bar & bar &myEntity;		</Par></Section>
+</Content>

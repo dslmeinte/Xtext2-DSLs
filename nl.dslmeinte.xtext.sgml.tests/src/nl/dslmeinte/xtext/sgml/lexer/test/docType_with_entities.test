@@ -1,0 +1,5 @@
+<!DOCTYPE DOC PUBLIC "doc.dtd"
+[
+<!ENTITY A SYSTEM "foo" --bar-->
+<!ENTITY B SYSTEM "foo" --bar-->
+]>
