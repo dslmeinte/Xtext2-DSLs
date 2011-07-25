@@ -16,10 +16,17 @@ import org.eclipse.xtext.ui.shared.internal.SharedModule;
  * <pre>
  * </pre>
  * 
- * TODO  finish code example
+ * TODO finish code example
+ * 
+ * @deprecated Because of Equinox (OSGi) access restrictions in the
+ *             {@code org.eclipse.xtext.builder} and
+ *             {@code org.eclipse.xtext.ui.shared} plugins, it's (currently) not
+ *             possible to override either {@link MarkerUpdaterImpl} and
+ *             {@link SharedModule}.
  * 
  * @author Meinte Boersma
  */
+@Deprecated
 @SuppressWarnings("restriction")
 public class ReadonlyIndifferentOverridingGuiceModule extends SharedModule {
 

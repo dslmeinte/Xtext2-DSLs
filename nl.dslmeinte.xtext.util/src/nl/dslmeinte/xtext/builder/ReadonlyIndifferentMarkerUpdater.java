@@ -42,6 +42,7 @@ import com.google.inject.Inject;
  * 
  * @author Meinte Boersma
  */
+@Deprecated
 @SuppressWarnings("restriction")
 public class ReadonlyIndifferentMarkerUpdater implements IMarkerUpdater {
 
