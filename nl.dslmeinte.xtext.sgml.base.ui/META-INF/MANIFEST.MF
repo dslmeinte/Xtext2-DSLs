@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Xtext UI project for nl.dslmeinte.xtext.sgml.base.Base language
+Bundle-Name: Xtext UI project for SGML Base language
 Bundle-Vendor: DslConsultancy.com
 Bundle-Version: 1.0.0
 Bundle-SymbolicName: nl.dslmeinte.xtext.sgml.base.ui; singleton:=true
@@ -19,6 +19,9 @@ Require-Bundle: nl.dslmeinte.xtext.sgml.base;visibility:=reexport,
 Import-Package: org.apache.log4j,
  org.apache.commons.logging
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Export-Package: nl.dslmeinte.xtext.sgml.base.ui.contentassist.antlr,
- nl.dslmeinte.xtext.sgml.base.ui.internal
+Export-Package: nl.dslmeinte.xtext.sgml.base.ui.contentassist,
+ nl.dslmeinte.xtext.sgml.base.ui.contentassist.antlr,
+ nl.dslmeinte.xtext.sgml.base.ui.internal,
+ nl.dslmeinte.xtext.sgml.base.ui.syntaxcoloring,
+ nl.dsmeinte.xtext.sgml.base.lexer.ui
 Bundle-Activator: nl.dslmeinte.xtext.sgml.base.ui.internal.BaseActivator
