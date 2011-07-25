@@ -69,4 +69,19 @@ public class AntlrTokenFacade implements TokenFacade {
 
 	// TODO  add a check on whether all BaseTerminals enum literals are mapped (other than through a unit test)
 
+	@Override
+	public BaseTerminals asBase(int type) {
+		for( Entry<BaseTerminals, Integer> entry : baseTerminalsMap.entrySet() ) {
+			if( entry.getValue().intValue() == type ) {
+				return entry.getKey();
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public boolean isBase(int type) {
+		return baseTerminalsMap. containsValue(type);
+	}
+
 }

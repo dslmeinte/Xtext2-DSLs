@@ -18,4 +18,8 @@ public interface TokenFacade {
 
 	public abstract int map(BaseTerminals baseTerminal);
 
+	public abstract boolean isBase(int type);
+
+	public abstract BaseTerminals asBase(int type);
+
 }
