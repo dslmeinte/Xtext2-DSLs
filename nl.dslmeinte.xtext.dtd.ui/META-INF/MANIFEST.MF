@@ -1,0 +1,24 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: nl.dslmeinte.xtext.dtd.ui
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0
+Bundle-SymbolicName: nl.dslmeinte.xtext.dtd.ui; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: nl.dslmeinte.xtext.dtd;visibility:=reexport,
+ org.eclipse.xtext.ui,
+ org.eclipse.ui.editors;bundle-version="3.5.0",
+ org.eclipse.ui.ide;bundle-version="3.5.0",
+ org.eclipse.xtext.ui.shared,
+ org.eclipse.ui,
+ org.eclipse.xtext.builder,
+ org.antlr.runtime,
+ org.eclipse.xtext.common.types.ui,
+ org.eclipse.xtext.ui.codetemplates.ui,
+ org.eclipse.compare
+Import-Package: org.apache.log4j,
+ org.apache.commons.logging
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Export-Package: nl.dslmeinte.xtext.dtd.ui.contentassist.antlr,
+ nl.dslmeinte.xtext.dtd.ui.internal
+Bundle-Activator: nl.dslmeinte.xtext.dtd.ui.internal.DtdActivator

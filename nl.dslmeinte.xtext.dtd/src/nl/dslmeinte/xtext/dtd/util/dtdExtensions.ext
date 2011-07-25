@@ -1,0 +1,18 @@
+import dtdModel;
+
+// all Attribute-s pertaining to this Element:
+List[Attribute] attributes(Element this) :
+	JAVA nl.dslmeinte.xtext.dtd.DTDModelUtil.attributes(nl.dslmeinte.xtext.dtd.dtdModel.Element);
+
+// the first Element in this DTD:
+Element firstElement(DocumentTypeDefinition this) :
+	JAVA nl.dslmeinte.xtext.dtd.DTDModelUtil.firstElement(nl.dslmeinte.xtext.dtd.dtdModel.DocumentTypeDefinition);
+
+// the Element with the given name in the DTD given, or null if it couldn't be found:
+Element findElement(String name, DocumentTypeDefinition dtd) :
+	JAVA nl.dslmeinte.xtext.dtd.DTDModelUtil.findElement(java.lang.String, nl.dslmeinte.xtext.dtd.dtdModel.DocumentTypeDefinition);
+
+// the keywords, i.e.: tag and attribute names, in the DTD:
+Set[String] keywords(DocumentTypeDefinition this) :
+	JAVA nl.dslmeinte.xtext.dtd.DTDModelUtil.keywords(nl.dslmeinte.xtext.dtd.dtdModel.DocumentTypeDefinition);
+
