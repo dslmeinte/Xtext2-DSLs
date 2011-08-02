@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: nl.dslmeinte.xtext.express
-Bundle-Vendor: My Company
+Bundle-Name: EXPRESS language implementation
+Bundle-Vendor: DslConsultancy.com
 Bundle-Version: 1.0.0
 Bundle-SymbolicName: nl.dslmeinte.xtext.express; singleton:=true
 Bundle-ActivationPolicy: lazy
@@ -21,7 +21,7 @@ Import-Package: org.apache.log4j,
  org.apache.commons.logging,
  org.eclipse.xtext.xbase.lib,
  org.eclipse.xtext.xtend2.lib
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: nl.dslmeinte.xtext.express,
  nl.dslmeinte.xtext.express.base,
  nl.dslmeinte.xtext.express.base.base,

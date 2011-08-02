@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: nl.dslmeinte.xtext.express.ui
-Bundle-Vendor: My Company
+Bundle-Name: UI plug-in for EXPRESS language implementation
+Bundle-Vendor: DslConsultancy.com
 Bundle-Version: 1.0.0
 Bundle-SymbolicName: nl.dslmeinte.xtext.express.ui; singleton:=true
 Bundle-ActivationPolicy: lazy
@@ -18,6 +18,6 @@ Require-Bundle: nl.dslmeinte.xtext.express;visibility:=reexport,
  org.eclipse.compare
 Import-Package: org.apache.log4j,
  org.apache.commons.logging
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: nl.dslmeinte.xtext.express.base.ui.internal
 Bundle-Activator: nl.dslmeinte.xtext.express.ui.internal.ExpressActivator

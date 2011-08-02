@@ -89,6 +89,7 @@ Workflow {
 
         }
 
+		// FIXME  Activator for Express (and Expression) not generated
         language = {
             uri = "classpath:/nl/dslmeinte/xtext/express/Express.xtext"
             fileExtensions = express.file.extensions
