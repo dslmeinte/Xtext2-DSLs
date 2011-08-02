@@ -1,0 +1,84 @@
+grammar nl.dslmeinte.xtext.express.expression.Expression with nl.dslmeinte.xtext.express.base.Base
+
+generate expression "http://www.dslmeinte.nl/xtext/express/expression/Expression"
+
+ExpressionTestModel:
+	expressions+=Expression+;
+
+
+/*
+ * +-------------------+
+ * | §12 - expressions |
+ * +-------------------+
+ */
+
+Expression returns Expression:
+	RelationalExpression
+	;
+
+RelationalExpression returns Expression:
+	AdditiveExpression
+		({RelationalExpression.left=current} operator=RelationalOperator right=AdditiveExpression)*
+	;
+
+enum RelationalOperator:
+	  smallerThan='<' | greaterThan='>' | smallerThanOrEqual='<=' | greaterThanOrEqual='>='
+	| notEquals='<>' | equals='=' | instanceEquals=':=:' | instanceNotEquals=':<>:'
+	| in | like
+	;
+
+AdditiveExpression returns Expression:
+	MultiplicativeExpression
+		({AdditiveExpression.left=current} operator=AdditiveOperator right=MultiplicativeExpression)*
+	;
+
+enum AdditiveOperator:
+	minus='-' | plus='+' | or | xor
+	;
+
+MultiplicativeExpression returns Expression:
+	ExponentiationExpression
+		({MultiplicativeExpression.left=current} operator=MultiplicativeOperator right=ExponentiationExpression)*
+	;
+
+enum MultiplicativeOperator:
+	mult='*' | div='/' | integerDiv='div' | integerMod='mod' | and | complexEntityConstruction='||'
+	;
+
+ExponentiationExpression returns Expression:
+	UnaryExpression
+		({ExponentiationExpression.left=current} '**' right=ExponentiationExpression)?	// right-associativity
+	;
+
+UnaryExpression returns Expression:
+	  ComponentReferenceExpression
+	| ( {UnaryExpression} operator=UnaryOperator operand=UnaryExpression )
+	;
+
+enum UnaryOperator:
+	/* plus='+' | minus='-' | */ not
+	;
+	// FIXME  '+' and '-' interfere with AdditiveExpression.operator and (apparently) cause non-LL(*)-ness
+
+ComponentReferenceExpression returns Expression:
+	  PrimaryExpression
+	  (
+	  	  ( {IndexingExpression.left=current} '[' from=INT (':' to=INT)? ']' )
+	  	| ( {DotExpression.left=current} '.' right=PrimaryExpression)+
+	  	| ( {GroupReferenceExpression.left=current} '\\' right=PrimaryExpression )
+	  )
+	;
+
+PrimaryExpression returns Expression:
+	  '(' Expression ')'
+	| ( {GenericReference} ref=ID )
+	;
+
+
+// §7.2.3 - built-in constants
+
+QuestionMark:	{QuestionMark} '?';
+Self:			{Self} 'self';
+Const_E:		{Const_E} 'const_e';
+Pi:				{Pi} 'PI';
+

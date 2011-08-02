@@ -1,62 +1,12 @@
-grammar nl.dslmeinte.xtext.express.Express hidden(WHITESPACE, EMBEDDED_REMARK, TAIL_REMARK)
-
-import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+grammar nl.dslmeinte.xtext.express.Express with nl.dslmeinte.xtext.express.expression.Expression
 
 generate express "http://www.dslmeinte.nl/xtext/express/Express"
 
-Model:
-	( types+=Type )+
-	;
 
+// §9.3  Schema
 
-/*
- * +----+
- * | §7 |
- * +----+
- */
-
-terminal WHITESPACE: (' '|'\t'|'\r'|'\n')+;
-
-// §7.1.6.1 - embedded remark
-terminal EMBEDDED_REMARK: '(*' -> '*)';
-	// TODO  support nested remarks (§7.1.6.1)
-
-// §7.1.6.2 - tail remark
-terminal TAIL_REMARK: '--' !('\n'|'\r')* ('\r'? '\n')?;
-
-terminal ID  		: '^'?('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')*;
-	// TODO  find out whether ^ in ID is desirable
-
-// §7.5
-
-Literal:
-	BinaryLiteral | IntegerLiteral | StringLiteral | LogicalLiteral // | RealLiteral 
-	;
-
-BinaryLiteral hidden():
-	'%' ( bits+=('0'|'1') )+
-	;
-
-IntegerLiteral:
-	value=INT
-	;
-
-terminal INT returns ecore::EInt: ('0'..'9')+;
-
-StringLiteral:
-	value=STRING
-	;
-
-terminal STRING	: 
-	"'" ( '\\' ('b'|'t'|'n'|'f'|'r'|'u'|'"'|"'"|'\\') | !('\\'|"'") )* "'"
-	; 
-
-LogicalLiteral:
-	value=LogicalLiteralSyntax
-	;
-
-enum LogicalLiteralSyntax:
-	false | true | unknown
+Schema:
+	'schema' name=ID ';' constants+=ConstantsDeclaration? declarations+=Declaration* 'end_schema' ';'
 	;
 
 
@@ -67,7 +17,7 @@ enum LogicalLiteralSyntax:
  */
 
 DataType:
-	SimpleDataType | AggregationDataType // | NamedDataType | ConstructedDataType | GeneralizedDataType
+	SimpleDataType | AggregationDataType | NamedDataType | ConstructedDataType // | GeneralizedDataType
 	;
 
 // §8.1
@@ -138,19 +88,28 @@ SelectDataType:
 	'select' '(' types+=[NamedDataType] ( ',' types+=[NamedDataType] )* ')'
 	;
 
+GeneralizedDataType:
+	AggregationDataType // | GeneralAggregationDataType | GenericType
+	;
+
 // §8.6
 
-BaseType:
+BaseType:	// (§8.6.1)
 	AggregationDataType | SimpleDataType | NamedDataType
 	;
 
-UnderlyingDataType:
+ParameterDataType:	// (§8.6.2)
+	GeneralizedDataType | NamedDataType | SimpleDataType
+	;
+
+UnderlyingDataType:	// (§8.6.3)
 	ConstructedDataType | AggregationDataType | SimpleDataType | TypeReference
 	;
 
-TypeReference:
+TypeReference:	// (§8.3.2)
 	type=[NamedDataType]
 	;
+
 
 /*
  * +----+
@@ -158,7 +117,7 @@ TypeReference:
  * +----+
  */
 
-Type:
+Declaration:
 	TypeDecl | Entity
 	;
 
@@ -200,4 +159,18 @@ AttributeID: name=ID;
 QualifiedAttributeID hidden():
 	'self' '\\' entity=[Entity] '.' attribute=[Attribute]
 	;
+
+
+// §9.4  Constant
+
+ConstantsDeclaration:
+	'CONSTANT'
+	declarations+=ConstantDeclaration+
+	'END_CONSTANT' ';'
+	;
+
+ConstantDeclaration:
+	name=ID ':' type=BaseType ':=' /* TODO  value=Expression */';'
+	;
+
 

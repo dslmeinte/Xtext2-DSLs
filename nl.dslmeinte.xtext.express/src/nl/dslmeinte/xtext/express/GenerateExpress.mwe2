@@ -4,12 +4,15 @@ import org.eclipse.emf.mwe.utils.*
 import org.eclipse.xtext.generator.*
 import org.eclipse.xtext.ui.generator.*
 
-var grammarURI = "classpath:/nl/dslmeinte/xtext/express/Express.xtext"
-var file.extensions = "express,exp"
+var base.file.extensions = "exp_base"
+var expression.file.extensions = "exp_expr"
+var express.file.extensions = "exp"
+
 var projectName = "nl.dslmeinte.xtext.express"
 var runtimeProject = "../${projectName}"
 
 Workflow {
+
     bean = StandaloneSetup {
         scanClassPath = true
         platformUri = "${runtimeProject}/.."
@@ -29,9 +32,66 @@ Workflow {
         pathTestProject = "${runtimeProject}.tests"
         projectNameRt = projectName
         projectNameUi = "${projectName}.ui"
+
         language = {
-            uri = grammarURI
-            fileExtensions = file.extensions
+            uri = "classpath:/nl/dslmeinte/xtext/express/base/Base.xtext"
+            fileExtensions = base.file.extensions
+
+            fragment = grammarAccess.GrammarAccessFragment {}
+            fragment = ecore.EcoreGeneratorFragment {}
+            fragment = serializer.SerializerFragment {}	// (serializer 2.0)
+            fragment = resourceFactory.ResourceFactoryFragment { fileExtensions = base.file.extensions }
+            fragment = parser.antlr.ex.rt.AntlrGeneratorFragment {
+            	options = { ignoreCase=true }
+            }
+            fragment = validation.JavaValidatorFragment {}
+            fragment = contentAssist.JavaBasedContentAssistFragment {}
+            fragment = parser.antlr.ex.ca.ContentAssistParserGeneratorFragment {}
+        }
+
+        language = {
+            uri = "classpath:/nl/dslmeinte/xtext/express/expression/Expression.xtext"
+            fileExtensions = expression.file.extensions
+
+            fragment = grammarAccess.GrammarAccessFragment {}
+            fragment = ecore.EcoreGeneratorFragment {}
+            fragment = serializer.SerializerFragment {}
+            fragment = resourceFactory.ResourceFactoryFragment { fileExtensions = expression.file.extensions }
+            fragment = parser.antlr.ex.rt.AntlrGeneratorFragment {
+            	options = { ignoreCase=true }
+            }
+            fragment = validation.JavaValidatorFragment {
+                composedCheck = "org.eclipse.xtext.validation.ImportUriValidator"
+                composedCheck = "org.eclipse.xtext.validation.NamesAreUniqueValidator"
+            }
+            fragment = scoping.ImportURIScopingFragment {}
+            fragment = exporting.SimpleNamesFragment {}
+            fragment = builder.BuilderIntegrationFragment {}
+            fragment = formatting.FormatterFragment {}
+            fragment = labeling.LabelProviderFragment {}
+            fragment = outline.OutlineTreeProviderFragment {}
+            fragment = outline.QuickOutlineFragment {}
+            fragment = quickfix.QuickfixProviderFragment {}
+            fragment = contentAssist.JavaBasedContentAssistFragment {}
+            fragment = parser.antlr.ex.ca.ContentAssistParserGeneratorFragment {
+            	options={
+            		ignoreCase=true
+            	}
+            }
+            fragment = junit.Junit4Fragment {}
+            fragment = types.TypesGeneratorFragment {}
+            fragment = xbase.XbaseGeneratorFragment {}
+            fragment = templates.CodetemplatesGeneratorFragment {}
+            fragment = refactoring.RefactorElementNameFragment {}
+            fragment = compare.CompareFragment {
+                 fileExtensions = expression.file.extensions
+            }
+
+        }
+
+        language = {
+            uri = "classpath:/nl/dslmeinte/xtext/express/Express.xtext"
+            fileExtensions = express.file.extensions
 
             fragment = grammarAccess.GrammarAccessFragment {}
             fragment = ecore.EcoreGeneratorFragment {}
@@ -41,7 +101,7 @@ Workflow {
             // the serialization component (1.0)
             // fragment = parseTreeConstructor.ParseTreeConstructorFragment {}
 
-            fragment = resourceFactory.ResourceFactoryFragment { fileExtensions = file.extensions }
+            fragment = resourceFactory.ResourceFactoryFragment { fileExtensions = express.file.extensions }
 
             fragment = parser.antlr.ex.rt.AntlrGeneratorFragment {
             	options = { ignoreCase=true }
@@ -89,9 +149,11 @@ Workflow {
 
             // provides a compare view
             fragment = compare.CompareFragment {
-                 fileExtensions = file.extensions
+                 fileExtensions = express.file.extensions
             }
 
         }
+
     }
+
 }

@@ -1,0 +1,60 @@
+grammar nl.dslmeinte.xtext.express.base.Base hidden(WHITESPACE, EMBEDDED_REMARK, TAIL_REMARK)
+
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+
+generate base "http://www.dslmeinte.nl/xtext/express/Base"
+
+BaseTestModel:
+	literals+=Literal+
+	;
+
+
+/*
+ * +----+
+ * | §7 |
+ * +----+
+ */
+
+terminal WHITESPACE: (' '|'\t'|'\r'|'\n')+;
+
+// §7.1.6.1 - embedded remark
+terminal EMBEDDED_REMARK: '(*' -> '*)';
+	// TODO  support nested remarks (§7.1.6.1)
+
+// §7.1.6.2 - tail remark
+terminal TAIL_REMARK: '--' !('\n'|'\r')* ('\r'? '\n')?;
+
+terminal ID  		: '^'?('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')*;
+	// TODO  find out whether ^ in ID is desirable
+
+// §7.5
+
+Literal:
+	  {BinaryLiteral} value=BINARY
+	| {IntegerLiteral} value=INT
+	| {StringLiteral} value=STRING
+	| {LogicalLiteral} value=LogicalLiteralSyntax
+	| {RealLiteral} value=REAL
+	;
+
+terminal BINARY returns ecore::EString:
+	'%' ('0'|'1')+
+	;
+	// TODO  implement value converter?
+
+terminal INT returns ecore::EInt:
+	('0'..'9')+
+	;
+
+terminal REAL returns ecore::EDouble:
+	('0'..'9')+ '.' ('0'..'9')* (('e'|'E') ('+'|'-')? ('0'..'9')+)?
+	;
+
+terminal STRING	: 
+	"'" ( '\\' ('b'|'t'|'n'|'f'|'r'|'u'|'"'|"'"|'\\') | !('\\'|"'") )* "'"
+	; 
+
+enum LogicalLiteralSyntax:	// (§7.2.3)
+	false | true | unknown
+	;
+

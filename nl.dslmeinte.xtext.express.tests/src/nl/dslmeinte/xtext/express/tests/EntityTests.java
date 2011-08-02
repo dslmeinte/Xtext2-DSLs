@@ -16,17 +16,21 @@ public class EntityTests extends AbstractXtextTests {
 
 	@Test
 	public void test_9_1() throws Exception {
-		getModelAndExpect("TYPE person_name = STRING;\nEND_TYPE;", 0);
+		getModelAndExpect(inSchema("TYPE person_name = STRING;\nEND_TYPE;"), 0);
 	}
 
 	@Test
 	public void test_9_1_where_clause() throws Exception {
-		getModelAndExpect("TYPE positive = INTEGER;\nWHERE\n\tnot_negative : SELF > 0;\nEND_TYPE;", 0);
+		getModelAndExpect(inSchema("TYPE positive = INTEGER;\nWHERE\n\tnot_negative : SELF > 0;\nEND_TYPE;"), 0);
 	}
 
 	@Test
 	public void test_9_2_1_1() throws Exception {
-		getModelAndExpect("ENTITY point;\n\tx, y, z : REAL;\nEND_ENTITY;", 0);
+		getModelAndExpect(inSchema("ENTITY point;\n\tx, y, z : REAL;\nEND_ENTITY;"), 0);
+	}
+
+	private String inSchema(String text) {
+		return "SCHEMA mySchema;\n" + text + "\nEND_SCHEMA;";
 	}
 
 }
