@@ -3,7 +3,7 @@ grammar nl.dslmeinte.xtext.express.expression.Expression with nl.dslmeinte.xtext
 generate expression "http://www.dslmeinte.nl/xtext/express/expression/Expression"
 
 ExpressionTestModel:
-	expressions+=Expression+;
+	(expressions+=Expression ';')+;
 
 
 /*
@@ -52,33 +52,44 @@ ExponentiationExpression returns Expression:
 
 UnaryExpression returns Expression:
 	  ComponentReferenceExpression
-	| ( {UnaryExpression} operator=UnaryOperator operand=UnaryExpression )
+	| {UnaryExpression} operator=UnaryOperator operand=UnaryExpression
 	;
 
 enum UnaryOperator:
-	/* plus='+' | minus='-' | */ not
+	not | plus='+' | minus='-'
 	;
-	// FIXME  '+' and '-' interfere with AdditiveExpression.operator and (apparently) cause non-LL(*)-ness
 
 ComponentReferenceExpression returns Expression:
 	  PrimaryExpression
 	  (
 	  	  ( {IndexingExpression.left=current} '[' from=INT (':' to=INT)? ']' )
-	  	| ( {DotExpression.left=current} '.' right=PrimaryExpression)+
-	  	| ( {GroupReferenceExpression.left=current} '\\' right=PrimaryExpression )
+	  	| ( {DotExpression.left=current} '.' right=PrimaryExpression)*
+	  	| ( {GroupReferenceExpression.left=current} '\\' right=PrimaryExpression)
 	  )
 	;
 
 PrimaryExpression returns Expression:
 	  '(' Expression ')'
-	| ( {GenericReference} ref=ID )
+	| Literal
+	| {BuiltinConstant} constant=BuiltinConstants
+	| {GenericReference} ref=ID
+	;
+
+Literal:
+	  {BinaryLiteral} value=BINARY
+	| {IntegerLiteral} value=INT
+	| {StringLiteral} value=STRING
+	| {LogicalLiteral} value=LogicalLiteralSyntax
+	| {RealLiteral} value=REAL
 	;
 
 
 // §7.2.3 - built-in constants
 
-QuestionMark:	{QuestionMark} '?';
-Self:			{Self} 'self';
-Const_E:		{Const_E} 'const_e';
-Pi:				{Pi} 'PI';
+enum BuiltinConstants:
+	  questionMark='?'
+	| self='self'
+	| const_e
+	| pi
+	;
 
