@@ -24,6 +24,7 @@ public class OutputStreamWrapper extends OutputImpl implements Output {
 	/**
 	 * {@see Output(Impl)#write(String)}
 	 */
+	@Override
 	public void write(String text) {
 		try {
 			body.write(text.getBytes());

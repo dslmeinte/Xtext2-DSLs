@@ -45,6 +45,7 @@ public class AbstractAnnotationBasedDeclarativeScopeProvider extends AbstractDec
 		final int featureId = reference.getFeatureID();
 		final Predicate<Method> nameBasedPredicate = super.getPredicate(context, reference);
 		return new Predicate<Method>() {
+			@Override
 			public boolean apply(Method method) {
 				if( method.getParameterTypes().length != 2 ) {
 					return false;
