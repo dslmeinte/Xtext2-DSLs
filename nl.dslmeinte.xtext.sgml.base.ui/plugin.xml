@@ -121,8 +121,10 @@
         </handler>
     </extension>   
 
-<!-- adding resource factories -->
-
+	<!--
+		Don't register an extension to avoid unnecessary overlap with other EMF languages.
+	-->
+	<!--
 	<extension
 		point="org.eclipse.emf.ecore.extension_parser">
 		<parser
@@ -136,15 +138,9 @@
             uriExtension="base">
         </resourceServiceProvider>
     </extension>
+    -->
 
 
-
-   <extension
-         point="org.eclipse.xtext.builder.participant">
-      <participant
-            class="nl.dslmeinte.xtext.sgml.base.ui.BaseExecutableExtensionFactory:org.eclipse.xtext.builder.IXtextBuilderParticipant">
-      </participant>
-   </extension>
 
 	<!-- Quick Outline -->
 	<extension
@@ -186,7 +182,6 @@
             class="nl.dslmeinte.xtext.sgml.base.ui.BaseExecutableExtensionFactory:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator">
       </markerResolutionGenerator>
    </extension>
-
    	<!-- Rename Refactoring -->
 	<extension point="org.eclipse.ui.handlers">
 		<handler 

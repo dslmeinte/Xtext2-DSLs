@@ -21,11 +21,12 @@ import com.google.inject.Singleton;
  * 
  * @author Meinte Boersma
  */
+@SuppressWarnings("nls")
 @Singleton
 public class BaseTokenToAttributeIdMapper extends AbstractAntlrTokenToAttributeIdMapper {
 
 	@Override
-	protected String calculateId(String tokenName, int tokenType) {
+	protected String calculateId(String tokenName, @SuppressWarnings("unused") int tokenType) {
 		if( tokenName.startsWith("'") && tokenName.endsWith("'") ) {
 			if( ( tokenName.length() > 3 ) || ( Character.isLetter(tokenName.charAt(1)) ) ) {
 				return DefaultHighlightingConfiguration.KEYWORD_ID;

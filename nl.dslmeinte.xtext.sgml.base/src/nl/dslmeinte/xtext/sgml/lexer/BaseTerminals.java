@@ -1,6 +1,6 @@
 package nl.dslmeinte.xtext.sgml.lexer;
 
-import nl.dslmeinte.xtext.util.antlr.trie.EnumBasedTrie;
+import nl.dslmeinte.xtext.antlr.trie.EnumBasedTrie;
 
 /**
  * Enumeration of all the terminals in the base grammar ({@code Base.xtext}).
@@ -10,6 +10,7 @@ import nl.dslmeinte.xtext.util.antlr.trie.EnumBasedTrie;
  * 
  * @author Meinte Boersma
  */
+@SuppressWarnings("nls")
 public enum BaseTerminals {
 
 	// TODO  add enough meta data so Base.xtext could be generated from this description (or vice versa ~ SingleSourcePrinciple)

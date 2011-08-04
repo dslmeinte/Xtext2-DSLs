@@ -8,16 +8,17 @@ import org.eclipse.xtext.nodemodel.INode;
 
 public class BaseTerminalsConverter extends AbstractDeclarativeValueConverterService {
 
+	@SuppressWarnings("static-method")
 	@ValueConverter(rule = "QuotedString")
 	public IValueConverter<String> QuotedString() {
-		return new IValueConverter<String>(){
+		return new IValueConverter<String>() {
 				@Override
 				public String toString(String value) throws ValueConverterException {
-					return "\"" + value + "\"";
+					return "\"" + value + "\""; //$NON-NLS-1$ //$NON-NLS-2$
 				}
 				@Override
-				public String toValue(String string, INode node) throws ValueConverterException {
-					return string.substring(1, string.length()-1);
+				public String toValue(String string, @SuppressWarnings("unused") INode node) throws ValueConverterException {
+					return string == null ? null : string.substring(1, string.length()-1);
 					// Note that 'node' could be used to determine which characters to escape.
 				}
 			};

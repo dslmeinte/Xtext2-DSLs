@@ -1,6 +1,6 @@
 package nl.dslmeinte.xtext.sgml.lexer;
 
-import nl.dslmeinte.xtext.util.antlr.trie.CaseInsensitiveTrie;
+import nl.dslmeinte.xtext.antlr.trie.CaseInsensitiveTrie;
 
 import com.google.inject.ImplementedBy;
 
@@ -17,6 +17,8 @@ public interface TokenFacade {
 	public abstract CaseInsensitiveTrie<Integer> nonBaseKeywordsTrie();
 
 	public abstract int map(BaseTerminals baseTerminal);
+
+	// TODO  move the following two methods to a separate interface as their use is limited to token visualization (so far)
 
 	public abstract boolean isBase(int type);
 

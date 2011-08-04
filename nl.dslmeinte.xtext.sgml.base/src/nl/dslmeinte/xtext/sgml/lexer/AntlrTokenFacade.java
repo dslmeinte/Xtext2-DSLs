@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import nl.dslmeinte.xtext.util.antlr.trie.CaseInsensitiveTrie;
-import nl.dslmeinte.xtext.util.antlr.trie.MapBasedTrie;
-import nl.dslmeinte.xtext.util.antlr.trie.TrieSupport;
+import nl.dslmeinte.xtext.antlr.trie.CaseInsensitiveTrie;
+import nl.dslmeinte.xtext.antlr.trie.MapBasedTrie;
+import nl.dslmeinte.xtext.antlr.trie.TrieSupport;
 
 import org.eclipse.xtext.parser.antlr.AntlrTokenDefProvider;
 import org.eclipse.xtext.parser.antlr.TokenTool;
@@ -30,7 +30,7 @@ public class AntlrTokenFacade implements TokenFacade {
 		for( Entry<Integer, String> entry : tokenDefProvider.getTokenDefMap().entrySet() ) {
 			String tokenDescription = entry.getValue();
 			int id = entry.getKey();
-			if( tokenDescription.startsWith("'") && tokenDescription.endsWith("'") ) {
+			if( tokenDescription.startsWith("'") && tokenDescription.endsWith("'") ) { //$NON-NLS-1$ //$NON-NLS-2$
 				String keyword = tokenDescription.substring(1, tokenDescription.length()-1);
 				keyword = Strings.convertFromJavaString(keyword, true);
 				keyword = keyword.intern();	// optimization attempt: avoid duplicate String-s
@@ -60,15 +60,6 @@ public class AntlrTokenFacade implements TokenFacade {
 		return baseTerminalsMap.get(baseTerminal).intValue();
 	}
 
-	private final CaseInsensitiveTrie<Integer> nonBaseKeywordsTrie;
-
-	@Override
-	public CaseInsensitiveTrie<Integer> nonBaseKeywordsTrie() {
-		return nonBaseKeywordsTrie;
-	}
-
-	// TODO  add a check on whether all BaseTerminals enum literals are mapped (other than through a unit test)
-
 	@Override
 	public BaseTerminals asBase(int type) {
 		for( Entry<BaseTerminals, Integer> entry : baseTerminalsMap.entrySet() ) {
@@ -83,5 +74,14 @@ public class AntlrTokenFacade implements TokenFacade {
 	public boolean isBase(int type) {
 		return baseTerminalsMap. containsValue(type);
 	}
+
+	private final CaseInsensitiveTrie<Integer> nonBaseKeywordsTrie;
+
+	@Override
+	public CaseInsensitiveTrie<Integer> nonBaseKeywordsTrie() {
+		return nonBaseKeywordsTrie;
+	}
+
+	// TODO  add a check on whether all BaseTerminals enum literals are mapped (other than through a unit test)
 
 }

@@ -1,4 +1,4 @@
-package nl.dsmeinte.xtext.sgml.lexer.ui;
+package nl.dslmeinte.xtext.sgml.lexer.ui;
 
 import nl.dslmeinte.xtext.sgml.lexer.SgmlLexer;
 import nl.dslmeinte.xtext.sgml.lexer.WeavableAntlrLexer;
