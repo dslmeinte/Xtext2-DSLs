@@ -5,28 +5,31 @@ import org.eclipse.xtext.builder.builderState.MarkerUpdaterImpl;
 import org.eclipse.xtext.ui.shared.internal.SharedModule;
 
 /**
- * Customization of {@link ClusteringModule} which also binds the
- * {@link ReadonlyIndifferentMarkerUpdater} instead of {@link MarkerUpdaterImpl}
- * : because the order in which Guice modules are allowed to bind is
- * indeterminate we can't rely on doing the binding in the UI Guice module.
+ * Customization of {@link SharedModule} which binds the
+ * {@link ReadonlyIndifferentMarkerUpdater} instead of {@link MarkerUpdaterImpl}.
  * <p>
  * Be sure to configure this class in the {@code plugin.xml} file of the
  * {@code .ui} project for your Xtext language, like so:
  * 
  * <pre>
+ *    <extension
+ *          point="org.eclipse.xtext.ui.shared.overridingGuiceModule">
+ *       <module
+ *             class="nl.dslmeinte.xtext.builder.ReadonlyIndifferentOverridingGuiceModule">
+ *       </module>
+ *    </extension>
  * </pre>
- * 
- * TODO finish code example
- * 
- * @deprecated Because of Equinox (OSGi) access restrictions in the
- *             {@code org.eclipse.xtext.builder} and
- *             {@code org.eclipse.xtext.ui.shared} plugins, it's (currently) not
- *             possible to override either {@link MarkerUpdaterImpl} and
- *             {@link SharedModule}.
+ * <p>
+ * Note that it relies on non-strict OSGi resolution (through the
+ * {@link SuppressWarnings suppressWarnings-restriction} annotation), because of
+ * Equinox (OSGi) access restrictions in the {@code org.eclipse.xtext.builder}
+ * (through an {@code x-friends} declaration) and
+ * {@code org.eclipse.xtext.ui.shared} (through an {@code x-internal}
+ * declaration) plug-ins. Therefore, make sure to <em>not</em> run this with
+ * {@code -Dosgi.resolverMode=strict}.
  * 
  * @author Meinte Boersma
  */
-@Deprecated
 @SuppressWarnings("restriction")
 public class ReadonlyIndifferentOverridingGuiceModule extends SharedModule {
 
