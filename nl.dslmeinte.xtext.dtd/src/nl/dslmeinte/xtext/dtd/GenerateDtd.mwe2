@@ -54,27 +54,26 @@ Workflow {
             fragment = exporting.QualifiedNamesFragment {}
 
             fragment = builder.BuilderIntegrationFragment {}
-            fragment = generator.GeneratorFragment {
-                generateMwe = true
-                generateJavaMain = true
-            }
+//            fragment = generator.GeneratorFragment {
+//                generateMwe = true
+//                generateJavaMain = true
+//            }
             fragment = formatting.FormatterFragment {}
             fragment = labeling.LabelProviderFragment {}
             fragment = outline.OutlineTreeProviderFragment {}
             fragment = outline.QuickOutlineFragment {}
             fragment = quickfix.QuickfixProviderFragment {}
             fragment = contentAssist.JavaBasedContentAssistFragment {}
-
             fragment = parser.antlr.XtextAntlrUiGeneratorFragment {}
-            fragment = junit.Junit4Fragment {}
-
-            fragment = types.TypesGeneratorFragment {}
-            fragment = xbase.XbaseGeneratorFragment {}
             fragment = templates.CodetemplatesGeneratorFragment {}
             fragment = refactoring.RefactorElementNameFragment {}
             fragment = compare.CompareFragment {
                  fileExtensions = file.extensions
             }
+
+//            fragment = junit.Junit4Fragment {}
+//            fragment = types.TypesGeneratorFragment {}
+//            fragment = xbase.XbaseGeneratorFragment {}
 
         }
     }
