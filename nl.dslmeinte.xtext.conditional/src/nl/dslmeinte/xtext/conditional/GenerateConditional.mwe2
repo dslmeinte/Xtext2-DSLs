@@ -5,7 +5,6 @@ import org.eclipse.xtext.generator.*
 import org.eclipse.xtext.ui.generator.*
 
 var grammarURI = "classpath:/nl/dslmeinte/xtext/conditional/Conditional.xtext"
-var file.extensions = "$conditional$"	// matches nothing?...
 var projectName = "nl.dslmeinte.xtext.conditional"
 var runtimeProject = "../${projectName}"
 
@@ -32,43 +31,16 @@ Workflow {
 		mergeManifest = false	// avoids that MWE2 launch fails (manifest for this project is already checked in correctly)
         language = {
             uri = grammarURI
-            fileExtensions = file.extensions
+            fileExtensions = "$"	// bogus extension (never matched?)
 
 			// very minimal generation!:
 
             fragment = grammarAccess.GrammarAccessFragment {}
             fragment = ecore.EcoreGeneratorFragment {}
 
-            // serializer 2.0:
-//            fragment = serializer.SerializerFragment {}
-            // the serialization component (1.0):
-            // fragment = parseTreeConstructor.ParseTreeConstructorFragment {}
-
             fragment = parser.antlr.XtextAntlrGeneratorFragment {}
             fragment = exporting.SimpleNamesFragment {}
             fragment = scoping.ImportNamespacesScopingFragment {}
-
-//            fragment = resourceFactory.ResourceFactoryFragment { fileExtensions = file.extensions }
-//            fragment = validation.JavaValidatorFragment {
-//                composedCheck = "org.eclipse.xtext.validation.ImportUriValidator"
-//                composedCheck = "org.eclipse.xtext.validation.NamesAreUniqueValidator"
-//            }
-//
-//            fragment = builder.BuilderIntegrationFragment {}
-//            fragment = formatting.FormatterFragment {}
-//            fragment = labeling.LabelProviderFragment {}
-//            fragment = outline.OutlineTreeProviderFragment {}
-//            fragment = outline.QuickOutlineFragment {}
-//            fragment = quickfix.QuickfixProviderFragment {}
-//            fragment = contentAssist.JavaBasedContentAssistFragment {}
-//            fragment = parser.antlr.XtextAntlrUiGeneratorFragment {}
-//
-//            fragment = junit.Junit4Fragment {}
-//            fragment = types.TypesGeneratorFragment {}
-//            fragment = xbase.XbaseGeneratorFragment {}
-//            fragment = templates.CodetemplatesGeneratorFragment {}
-//            fragment = refactoring.RefactorElementNameFragment {}
-//            fragment = compare.CompareFragment { fileExtensions = file.extensions }
 
         }
     }
