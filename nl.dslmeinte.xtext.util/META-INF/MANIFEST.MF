@@ -22,3 +22,4 @@ Export-Package: nl.dslmeinte.ecore.util,
  nl.dslmeinte.xtext.util.antlr,
  nl.dslmeinte.xtext.util.antlr.trie
 Bundle-Vendor: DslConsultancy.com
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
