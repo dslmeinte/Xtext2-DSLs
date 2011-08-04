@@ -1,7 +1,5 @@
 package nl.dslmeinte.xtext.sgml.dtd.test.support;
 
-import java.io.IOException;
-
 import nl.dslmeinte.xtext.sgml.lexer.BaseTerminals;
 import nl.dslmeinte.xtext.sgml.lexer.TokenFacade;
 
@@ -22,7 +20,7 @@ public abstract class LexerTestSupport {
 
 	protected Lexer getLexer() {
 		if( lexer == null ) {
-			throw new IllegalStateException( "lexer not initialized" );
+			throw new IllegalStateException( "lexer not initialized" ); //$NON-NLS-1$
 		}
 		return lexer;
 	}
@@ -60,8 +58,8 @@ public abstract class LexerTestSupport {
 		int actualType = token.getType();
 		if( tokenFacade.map(type) != actualType ) {
 			Assert.fail(
-					"expected " + type.name() + " but was: " +
-					( tokenFacade.isBase(actualType) ? tokenFacade.asBase(actualType) : ( "<" + actualType + ">" ) )
+					"expected " + type.name() + " but was: " + //$NON-NLS-1$ //$NON-NLS-2$
+					( tokenFacade.isBase(actualType) ? tokenFacade.asBase(actualType) : ( "<" + actualType + ">" ) ) //$NON-NLS-1$ //$NON-NLS-2$
 				);
 		}
 		Assert.assertEquals(tokenFacade.map(type), actualType);
@@ -85,12 +83,15 @@ public abstract class LexerTestSupport {
 		Assert.assertEquals(text, token.getText());
 	}
 
-	protected void lexe(CharStream input) throws IOException {
+	protected void lexe(CharStream input) {
 		this.lexer = createLexer(input);
 		Token token = lexer.nextToken();
 		while( token.getType() != CharStream.EOF ) {
 			if( token.getType() == 0 ) {
-				System.err.println( "encountered token of type 0 @L" + token.getLine() + ":" + token.getCharPositionInLine() );
+				System.err.printf(
+						"encountered token of type 0 @L%d:%d\n", //$NON-NLS-1$
+						token.getLine(), token.getCharPositionInLine()
+					);
 			}
 			token = lexer.nextToken();
 		}

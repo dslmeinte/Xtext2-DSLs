@@ -8,6 +8,7 @@ import nl.dslmeinte.xtext.sgml.lexer.BaseTerminals;
 import org.antlr.runtime.ANTLRStringStream;
 import org.junit.Test;
 
+@SuppressWarnings("nls")
 public class SgmlLiteralContentLexingTest extends SgmlLexerTestSupport {
 
 	public SgmlLiteralContentLexingTest() {
@@ -53,7 +54,7 @@ public class SgmlLiteralContentLexingTest extends SgmlLexerTestSupport {
 		assertHeader();
 	}
 
-	private String mkHeader() {
+	private static String mkHeader() {
 		return "<!DOCTYPE SISGML PUBLIC \"snafu.dtd\">";
 	}
 

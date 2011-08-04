@@ -1,0 +1,20 @@
+<!ENTITY amp "&#38;">
+<!ENTITY bull "&#149;">
+
+<!ELEMENT Content (Reference?, Section+)>
+
+<!ELEMENT Reference (EMPTY)>
+<!ATTLIST Reference to CDATA #REQUIRED>
+
+<!ELEMENT Section (Par*)>
+<!ATTLIST Section styleName CDATA #REQUIRED
+						condition CDATA #IMPLIED
+						name      CDATA #IMPLIED>
+
+<!ELEMENT Par ((em | bf | #PCDATA)*)>
+<!ATTLIST Par styleName CDATA #IMPLIED>
+
+<!ELEMENT em ((bf | #PCDATA)*)>
+
+<!ELEMENT bf ((em | #PCDATA)*)>
+

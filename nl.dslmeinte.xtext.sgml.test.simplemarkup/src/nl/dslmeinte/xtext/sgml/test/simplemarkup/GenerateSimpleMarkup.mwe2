@@ -37,12 +37,7 @@ Workflow {
 
             fragment = grammarAccess.GrammarAccessFragment {}
             fragment = ecore.EcoreGeneratorFragment {}
-
-            // serializer 2.0:
             fragment = serializer.SerializerFragment {}
-            // the serialization component (1.0):
-            // fragment = parseTreeConstructor.ParseTreeConstructorFragment {}
-
             fragment = resourceFactory.ResourceFactoryFragment { fileExtensions = file.extensions }
 			fragment = parser.antlr.ex.rt.AntlrGeneratorFragment {
 				options={
@@ -52,22 +47,16 @@ Workflow {
 					memoize=true
 				}
 			}
+			fragment = validation.JavaValidatorFragment {
+				composedCheck = "org.eclipse.xtext.validation.ImportUriValidator"
+				composedCheck = "org.eclipse.xtext.validation.NamesAreUniqueValidator"
+			}
 
-            fragment = validation.JavaValidatorFragment {
-                composedCheck = "org.eclipse.xtext.validation.ImportUriValidator"
-                composedCheck = "org.eclipse.xtext.validation.NamesAreUniqueValidator"
-            }
-
-            fragment = scoping.ImportNamespacesScopingFragment {}
-            fragment = exporting.QualifiedNamesFragment {}
+			fragment = scoping.ImportNamespacesScopingFragment { ignoreCase=true }
+			// overridden by binding in runtime module:
+			fragment = exporting.SimpleNamesFragment {}
 
             fragment = builder.BuilderIntegrationFragment {}
-
-            fragment = generator.GeneratorFragment {
-                generateMwe = true
-                generateJavaMain = true
-            }
-
             fragment = formatting.FormatterFragment {}
             fragment = labeling.LabelProviderFragment {}
             fragment = outline.OutlineTreeProviderFragment {}
@@ -82,14 +71,8 @@ Workflow {
 					memoize=true
 				}
 			}
-
-            fragment = junit.Junit4Fragment {}
-
-            fragment = types.TypesGeneratorFragment {}
-            fragment = xbase.XbaseGeneratorFragment {}
             fragment = templates.CodetemplatesGeneratorFragment {}
             fragment = refactoring.RefactorElementNameFragment {}
-
             fragment = compare.CompareFragment {
                  fileExtensions = file.extensions
             }

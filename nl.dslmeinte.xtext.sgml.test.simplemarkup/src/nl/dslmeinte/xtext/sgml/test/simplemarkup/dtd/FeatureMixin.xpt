@@ -1,0 +1,16 @@
+«IMPORT dtdModel»
+
+«EXTENSION nl::dslmeinte::xtext::sgml::dtd::grammarHelper»
+«EXTENSION nl::dslmeinte::xtext::dtd::util::dtdExtensions»
+
+«AROUND nl::dslmeinte::xtext::sgml::dtd::DTD2Xtext::additionalGrammarContent FOR DocumentTypeDefinition»
+// extra rule to be able to trigger validation conveniently:
+Condition: expr=QuotedString;
+«ENDAROUND»
+
+«AROUND nl::dslmeinte::xtext::sgml::dtd::DTD2Xtext::attribute FOR Attribute -»
+«IF isOptional()»(«ENDIF -»
+	'«name»' '=' «IF name == 'to'»('"'|"'") to=[Section|QUOTED_STRING] ('"'|"'")	// notice: AOP happened here«ELSEIF name == 'condition'»«name»=Condition	// notice: AOP happened here«ELSE»«name»=QuotedString«ENDIF -»
+«IF isOptional()»)?«ENDIF -»
+«ENDAROUND»
+

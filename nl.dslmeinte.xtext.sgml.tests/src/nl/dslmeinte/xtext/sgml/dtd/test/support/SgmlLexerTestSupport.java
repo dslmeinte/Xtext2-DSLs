@@ -4,10 +4,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import nl.dslmeinte.xtext.antlr.HtmlTokenVisualizer;
 import nl.dslmeinte.xtext.sgml.lexer.SgmlLexerForParsing;
 import nl.dslmeinte.xtext.sgml.lexer.TokenFacade;
-import nl.dslmeinte.xtext.util.antlr.HtmlTokenVisualizer;
-import nl.dslmeinte.xtext.util.antlr.HtmlTokenVisualizer.TokenToStyleMapper;
 
 import org.antlr.runtime.ANTLRFileStream;
 import org.antlr.runtime.CharStream;
@@ -41,19 +40,19 @@ public abstract class SgmlLexerTestSupport extends LexerTestSupport {
 
 	protected void visualize_lexing(String fileName, String sourcePath, String destinationPath) throws IOException {
 		initLexer(null);
-		HtmlTokenVisualizer visualizer = new HtmlTokenVisualizer(getLexer(), new TokenToStyleMapper() {
+		HtmlTokenVisualizer visualizer = new HtmlTokenVisualizer(getLexer(), new HtmlTokenVisualizer.TokenToStyleMapper() {
 			@Override
 			public String cssClassName(Token token) {
 				int type = token.getType();
 				if( tokenFacade.isBase(type) ) {
 					return tokenFacade.asBase(type).name();
 				}
-				return "tagKeyword";
+				return "tagKeyword"; //$NON-NLS-1$
 			}
-		}, "default-lexing-style.css");
+		}, "default-lexing-style.css"); //$NON-NLS-1$
 		CharStream input = new ANTLRFileStream(sourcePath + fileName );
-		OutputStream output = new FileOutputStream(destinationPath + fileName.substring(0, fileName.lastIndexOf('.')) + "-lexed.html");
-		visualizer.visualize(input, output, fileName + ": token visualization");
+		OutputStream output = new FileOutputStream(destinationPath + fileName.substring(0, fileName.lastIndexOf('.')) + "-lexed.html"); //$NON-NLS-1$
+		visualizer.visualize(input, output, fileName + ": token visualization"); //$NON-NLS-1$
 		output.close();
 	}
 

@@ -8,6 +8,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+@SuppressWarnings("nls")
 public class DTDManagerTest extends DTDTestSupport {
 
 	private DTDManager dtdManager;

@@ -19,12 +19,12 @@ public class AntlrTokenFacadeTest {
 		for( BaseTerminals baseTerminal : BaseTerminals.values() ) {
 			try {
 				int tokenType = tokenFacade.map(baseTerminal);
-				System.out.format( "%s -> %d\n", baseTerminal.name(), tokenType );
+				System.out.format( "%s -> %d\n", baseTerminal.name(), tokenType ); //$NON-NLS-1$
 				if( baseTerminal.isKeyword() ) {
-					System.out.format( "\t'%s'\n", baseTerminal.getKeyword() );
+					System.out.format( "\t'%s'\n", baseTerminal.getKeyword() ); //$NON-NLS-1$
 				}
 			} catch (NullPointerException e) {
-				Assert.fail( "no mapping defined for " + BaseTerminals.class.getName() + "." + baseTerminal.name() );
+				Assert.fail( "no mapping defined for " + BaseTerminals.class.getName() + "." + baseTerminal.name() ); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 		}
 	}

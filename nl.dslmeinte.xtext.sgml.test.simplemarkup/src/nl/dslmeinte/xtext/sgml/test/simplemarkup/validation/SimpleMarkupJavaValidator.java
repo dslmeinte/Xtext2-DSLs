@@ -30,9 +30,9 @@ public class SimpleMarkupJavaValidator extends AbstractSimpleMarkupJavaValidator
 			StringReader input = new StringReader(condition.getExpr());
 			IParseResult parseResult = conditionalParser.parse(input);
 			if( parseResult.getSyntaxErrors().iterator().hasNext() ) {
-				StringBuilder message = new StringBuilder("error(s) while parsing condition:");
+				StringBuilder message = new StringBuilder("error(s) while parsing condition:"); //$NON-NLS-1$
 				for( INode node : parseResult.getSyntaxErrors() ) {
-					message.append("\n\t").append(node.getSyntaxErrorMessage());
+					message.append("\n\t").append(node.getSyntaxErrorMessage()); //$NON-NLS-1$
 				}
 				error(message.toString(), SimplemarkupPackage.eINSTANCE.getCondition_Expr());
 			}

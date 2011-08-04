@@ -24,6 +24,7 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
+@SuppressWarnings({"nls", "static-method"})
 public class SimpleMarkupParserTest {
 
 	private final static Injector conditionalInjector = new ConditionalStandaloneSetup().createInjector();
@@ -64,7 +65,7 @@ public class SimpleMarkupParserTest {
 		Assert.assertNotNull(result);
 	}
 
-	private SgmlDocument load(String fileUri, ResourceSet resourceSet) {
+	private static SgmlDocument load(String fileUri, ResourceSet resourceSet) {
 		Resource resource = resourceSet.createResource(URI.createFileURI(fileUri));
 		try {
 			resource.load(Collections.emptyMap());

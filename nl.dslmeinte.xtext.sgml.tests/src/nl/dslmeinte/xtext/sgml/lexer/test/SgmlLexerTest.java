@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.junit.Assert;
 import org.junit.Test;
 
+@SuppressWarnings({"nls", "static-method"})
 public class SgmlLexerTest extends SgmlLexerTestSupport {
 
 	static {
@@ -46,7 +47,7 @@ public class SgmlLexerTest extends SgmlLexerTestSupport {
 	}
 
 	@Test
-	public void test_lexing_of_header() throws IOException {
+	public void test_lexing_of_header() {
 		lexe(new ANTLRStringStream("<!DOCTYPE SISGML PUBLIC 'simpleMarkup.dtd' [<!ENTITY myEntity SYSTEM '/foo/bar' --bla-die-blah-->]>"));
 	}
 
@@ -66,7 +67,7 @@ public class SgmlLexerTest extends SgmlLexerTestSupport {
 	}
 
 	@Test
-	public void test_lexing_of_freeform_content() throws IOException {
+	public void test_lexing_of_freeform_content() {
 		Token token;
 		initLexer(new ANTLRStringStream("some literal contents before actual content (no SGML document header)<Par></Par>"));
 		assertNextToken(literal_contents, "some literal contents before actual content (no SGML document header)");
@@ -108,9 +109,8 @@ public class SgmlLexerTest extends SgmlLexerTestSupport {
 		initLexer(new ANTLRFileStream("src/nl/dslmeinte/xtext/sgml/lexer/test/docType_with_entities.test"));
 		expectDocumentHeader();
 		assertNextNonWhitespaceToken(open_bracket);
-		for( int i = 0; i < 2; i++ ) {
-			expectEntity(i);
-		}
+		expectEntity();
+		expectEntity();
 		assertNextNonWhitespaceToken(close_bracket);
 		assertNextNonWhitespaceToken(close_tag);
 	}
@@ -125,7 +125,7 @@ public class SgmlLexerTest extends SgmlLexerTestSupport {
 		assertNextNonWhitespaceToken(double_quote);
 	}
 
-	private void expectEntity(int i) {
+	private void expectEntity() {
 		assertNextNonWhitespaceToken(open_tag);
 		assertNextNonWhitespaceToken(entity);
 		assertNextNonWhitespaceToken(identifier);

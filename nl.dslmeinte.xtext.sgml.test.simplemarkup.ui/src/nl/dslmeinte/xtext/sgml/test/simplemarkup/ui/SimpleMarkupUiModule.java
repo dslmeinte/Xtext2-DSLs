@@ -2,7 +2,7 @@ package nl.dslmeinte.xtext.sgml.test.simplemarkup.ui;
 
 import nl.dslmeinte.xtext.sgml.base.ui.syntaxcoloring.BaseTokenToAttributeIdMapper;
 import nl.dslmeinte.xtext.sgml.lexer.SgmlLexerForParsing;
-import nl.dsmeinte.xtext.sgml.base.lexer.ui.SgmlLexerForContentAssist;
+import nl.dslmeinte.xtext.sgml.lexer.ui.SgmlLexerForContentAssist;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.xtext.ui.editor.syntaxcoloring.AbstractAntlrTokenToAttributeIdMapper;
@@ -19,6 +19,7 @@ public class SimpleMarkupUiModule extends nl.dslmeinte.xtext.sgml.test.simplemar
 		super(plugin);
 	}
 
+	@Override
 	public void configureHighlightingLexer(Binder binder) {
 		binder
 			.bind(org.eclipse.xtext.parser.antlr.Lexer.class)
@@ -26,6 +27,7 @@ public class SimpleMarkupUiModule extends nl.dslmeinte.xtext.sgml.test.simplemar
 			.to(SgmlLexerForParsing.class);
 	}
 
+	@Override
 	public void configureContentAssistLexer(Binder binder) {
 		binder
 			.bind(org.eclipse.xtext.ui.editor.contentassist.antlr.internal.Lexer.class)
@@ -33,6 +35,7 @@ public class SimpleMarkupUiModule extends nl.dslmeinte.xtext.sgml.test.simplemar
 			.to(SgmlLexerForContentAssist.class);
 	}
 
+	// TODO  where has this gone?
 	public void configureTokenToAttributeIDMapper(Binder binder) {
         binder
         	.bind(AbstractAntlrTokenToAttributeIdMapper.class)

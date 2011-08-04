@@ -7,6 +7,7 @@ import nl.dslmeinte.xtext.sgml.dtd.test.support.DTDTestSupport;
 import org.eclipse.emf.ecore.EPackage;
 import org.junit.Test;
 
+@SuppressWarnings({"nls", "static-method"})
 public class DTD2EcoreTransformerTest extends DTDTestSupport {
 
 	@Test
@@ -14,7 +15,7 @@ public class DTD2EcoreTransformerTest extends DTDTestSupport {
 		doTransformation("trivial");
 	}
 
-	private void doTransformation(String modelName) {
+	private static void doTransformation(String modelName) {
 		DocumentTypeDefinition dtdDefinition = loadModel(createModelsURI(modelName + ".dtd"));
 //		EPackage ePackage = new DTD2EcoreWithSyntheticsTransformer(dtdDefinition).transform();
 		EPackage ePackage = new DTD2EcoreTransformer(dtdDefinition).transform();

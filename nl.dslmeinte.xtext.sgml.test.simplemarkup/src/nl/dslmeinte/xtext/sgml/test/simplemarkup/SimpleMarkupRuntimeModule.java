@@ -15,6 +15,7 @@ import com.google.inject.name.Names;
  */
 public class SimpleMarkupRuntimeModule extends nl.dslmeinte.xtext.sgml.test.simplemarkup.AbstractSimpleMarkupRuntimeModule {
 
+	@Override
 	public void configureRuntimeLexer(Binder binder) {
 		binder
 			.bind(org.eclipse.xtext.parser.antlr.Lexer.class)
@@ -22,10 +23,12 @@ public class SimpleMarkupRuntimeModule extends nl.dslmeinte.xtext.sgml.test.simp
 			.to(SgmlLexerForParsing.class);
 	}
 
+	@Override
 	public Class<? extends IValueConverterService> bindIValueConverterService() {
 		return BaseTerminalsConverter.class;
 	}
 
+	@Override
 	public Class<? extends IQualifiedNameProvider> bindIQualifiedNameProvider() {
 		return SimpleMarkupNameProvider.class;
 	}
