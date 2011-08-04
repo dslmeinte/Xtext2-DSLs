@@ -26,8 +26,8 @@ Export-Package: nl.dslmeinte.xtext.sgml.base,
  nl.dslmeinte.xtext.sgml.base.parser.antlr,
  nl.dslmeinte.xtext.sgml.base.parser.antlr.internal,
  nl.dslmeinte.xtext.sgml.base.scoping,
- nl.dslmeinte.xtext.sgml.base.serializer,
  nl.dslmeinte.xtext.sgml.base.services,
  nl.dslmeinte.xtext.sgml.base.validation,
  nl.dslmeinte.xtext.sgml.contenttype,
- nl.dslmeinte.xtext.sgml.lexer
+ nl.dslmeinte.xtext.sgml.lexer,
+ nl.dslmeinte.xtext.sgml.base.serializer
