@@ -48,7 +48,7 @@ public class DTDModelUtil {
 				return (Element) definition;
 			}
 		}
-		throw new IllegalArgumentException("no elements in DTD");
+		throw new IllegalArgumentException("no elements in DTD"); //$NON-NLS-1$
 	}
 
 	/**

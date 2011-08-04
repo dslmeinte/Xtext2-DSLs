@@ -18,7 +18,7 @@ Require-Bundle: nl.dslmeinte.xtext.dtd;visibility:=reexport,
  org.eclipse.compare
 Import-Package: org.apache.log4j,
  org.apache.commons.logging
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: nl.dslmeinte.xtext.dtd.ui,
  nl.dslmeinte.xtext.dtd.ui.contentassist.antlr,
  nl.dslmeinte.xtext.dtd.ui.internal

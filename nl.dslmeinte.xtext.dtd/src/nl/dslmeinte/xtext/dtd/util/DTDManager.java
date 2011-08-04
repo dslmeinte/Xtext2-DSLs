@@ -51,11 +51,11 @@ public class DTDManager {
 			EcoreUtil.resolveAll(resource);
 			dtd = (DocumentTypeDefinition) resource.getContents().get(0);
 			if( resource.getErrors().size() > 0 ) {
-				throw new IllegalArgumentException("errors while parsing DTD file");
+				throw new IllegalArgumentException("errors while parsing DTD file"); //$NON-NLS-1$
 			}
 		} catch (IOException e) {
 			System.err.println(e);
-			throw new RuntimeException("could not load DTD file", e);
+			throw new RuntimeException("could not load DTD file", e); //$NON-NLS-1$
 		}
 	}
 
