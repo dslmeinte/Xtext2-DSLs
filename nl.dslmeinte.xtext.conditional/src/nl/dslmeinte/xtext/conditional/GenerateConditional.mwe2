@@ -38,14 +38,15 @@ Workflow {
 
             fragment = grammarAccess.GrammarAccessFragment {}
             fragment = ecore.EcoreGeneratorFragment {}
-            fragment = parseTreeConstructor.ParseTreeConstructorFragment {}
+
+            // serializer 2.0:
+//            fragment = serializer.SerializerFragment {}
+            // the serialization component (1.0):
+            // fragment = parseTreeConstructor.ParseTreeConstructorFragment {}
+
             fragment = parser.antlr.XtextAntlrGeneratorFragment {}
             fragment = exporting.SimpleNamesFragment {}
             fragment = scoping.ImportNamespacesScopingFragment {}
-            fragment = generator.GeneratorFragment {
-                generateMwe = true
-                generateJavaMain = true
-            }
 
 //            fragment = resourceFactory.ResourceFactoryFragment { fileExtensions = file.extensions }
 //            fragment = validation.JavaValidatorFragment {
