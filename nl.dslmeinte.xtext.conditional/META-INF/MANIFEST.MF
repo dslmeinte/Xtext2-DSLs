@@ -4,6 +4,7 @@ Bundle-Name: Xtext Rt project for Conditional language
 Bundle-Vendor: DslConsultany.com
 Bundle-Version: 2.0.0.qualifier
 Bundle-SymbolicName: nl.dslmeinte.xtext.conditional; singleton:=true
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Export-Package: nl.dslmeinte.xtext.conditional,
  nl.dslmeinte.xtext.conditional.services,
@@ -21,8 +22,5 @@ Require-Bundle: org.eclipse.xtext;bundle-version="2.0.0",
  org.eclipse.emf.ecore,
  org.eclipse.emf.common,
  org.antlr.runtime
-Import-Package: org.apache.log4j,
- org.eclipse.xtext.xbase.lib,
- org.eclipse.xtext.xtend2.lib
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Import-Package: org.apache.log4j
 
