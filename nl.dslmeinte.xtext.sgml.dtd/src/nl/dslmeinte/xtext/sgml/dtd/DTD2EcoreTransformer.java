@@ -3,7 +3,7 @@ package nl.dslmeinte.xtext.sgml.dtd;
 import java.util.HashMap;
 import java.util.Map;
 
-import nl.dslmeinte.ecore.util.ToEcoreTransformerSupport;
+import nl.dslmeinte.ecore.ToEcoreTransformerSupport;
 import nl.dslmeinte.xtext.dtd.dtdModel.Attribute;
 import nl.dslmeinte.xtext.dtd.dtdModel.Definition;
 import nl.dslmeinte.xtext.dtd.dtdModel.DocumentTypeDefinition;

@@ -4,7 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 
-import nl.dslmeinte.xpand.util.XpandCallConfiguration;
+import nl.dslmeinte.xpand.XpandCallConfiguration;
 import nl.dslmeinte.xtext.dtd.DtdStandaloneSetup;
 import nl.dslmeinte.xtext.dtd.dtdModel.DtdModelPackage;
 import nl.dslmeinte.xtext.dtd.util.DTDManager;

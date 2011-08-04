@@ -1,7 +1,7 @@
 «IMPORT dtdModel»
 
 «EXTENSION org::eclipse::xtend::util::stdlib::io»
-«EXTENSION nl::dslmeinte::xtend::util::emfExtensions»
+«EXTENSION nl::dslmeinte::xtend::emfExtensions»
 «EXTENSION nl::dslmeinte::xtext::dtd::util::dtdExtensions»
 «EXTENSION nl::dslmeinte::xtext::sgml::dtd::grammarHelper»
 
