@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.EcorePackage;
  * 
  * @author Meinte Boersma
  */
+@SuppressWarnings("nls")
 public class DTD2EcoreTransformer extends ToEcoreTransformerSupport {
 
 	/**
@@ -90,9 +91,7 @@ public class DTD2EcoreTransformer extends ToEcoreTransformerSupport {
 
 		Expression content = element.getContent();
 
-		if( content instanceof EmptyContent ) {
-			return;
-		} else {
+		if( !(content instanceof EmptyContent) ) {
 			eClass.getESuperTypes().add(container);
 		}
 	}
