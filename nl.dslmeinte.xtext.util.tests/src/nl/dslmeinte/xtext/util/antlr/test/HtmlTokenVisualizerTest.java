@@ -11,7 +11,6 @@ import nl.dslmeinte.xtext.util.antlr.HtmlTokenVisualizer.TokenToStyleMapper;
 import org.antlr.runtime.ANTLRFileStream;
 import org.antlr.runtime.CharStream;
 import org.antlr.runtime.Token;
-import org.eclipse.xtext.parser.antlr.internal.InternalXtextLexer;
 import org.junit.Test;
 
 public class HtmlTokenVisualizerTest {
@@ -21,9 +20,10 @@ public class HtmlTokenVisualizerTest {
 		Assert.assertEquals("line1\n&nbsp;   line2", "line1\n   line2".replaceAll("\\n(\\s+)", "\n&nbsp;$1") );
 	}
 
+	@SuppressWarnings("restriction")
 	@Test
 	public void test_lexe_Xtext_grammar_def() throws IOException {
-		HtmlTokenVisualizer visualizer = new HtmlTokenVisualizer(new InternalXtextLexer(), new TokenToStyleMapper() {
+		HtmlTokenVisualizer visualizer = new HtmlTokenVisualizer(new org.eclipse.xtext.parser.antlr.internal.InternalXtextLexer(), new TokenToStyleMapper() {
 			@Override
 			public String cssClassName(Token token) {
 				return "tokenType" + token.getType();
