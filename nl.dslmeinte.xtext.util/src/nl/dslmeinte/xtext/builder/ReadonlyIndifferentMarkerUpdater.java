@@ -47,6 +47,7 @@ public class ReadonlyIndifferentMarkerUpdater extends MarkerUpdaterImpl {
 
 	private final Logger log = Logger.getLogger(getClass());
 
+	@Override
 	public void updateMarker(ResourceSet resourceSet, ImmutableList<Delta> resourceDescriptionDeltas,
 			IProgressMonitor monitor) {
 		SubMonitor subMonitor = SubMonitor.convert(monitor, Messages.MarkerUpdaterImpl_ValidateResources,

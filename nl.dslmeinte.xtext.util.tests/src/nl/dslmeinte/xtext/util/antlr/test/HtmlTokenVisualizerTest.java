@@ -13,6 +13,7 @@ import org.antlr.runtime.CharStream;
 import org.antlr.runtime.Token;
 import org.junit.Test;
 
+@SuppressWarnings({ "nls", "static-method" })
 public class HtmlTokenVisualizerTest {
 
 	@Test

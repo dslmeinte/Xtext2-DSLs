@@ -60,7 +60,7 @@ public final class XpandCaller {
 		try {
 			facade.evaluate(definitionName, targetObject, parameters);
 		} catch( Throwable throwable) {
-			throw new RuntimeException( "exception thrown during evaluation of Xpand template " + definitionName, throwable );
+			throw new RuntimeException( "exception thrown during evaluation of Xpand template " + definitionName, throwable ); //$NON-NLS-1$
 		}
 		/*
 		 * Unfortunately, the catch is never hit in the case of

@@ -57,7 +57,7 @@ public class StatisticCharStream implements CharStream {
 
 	public static String status() {
 		return String.format(
-				"#lookahead-calls=%d, ∑lookahead=%d, <lookahead>=%f",
+				"#lookahead-calls=%d, ∑lookahead=%d, <lookahead>=%f", //$NON-NLS-1$
 				lookaheadCalls, sumLookaheadCalls,
 				((double) sumLookaheadCalls/lookaheadCalls)
 			);

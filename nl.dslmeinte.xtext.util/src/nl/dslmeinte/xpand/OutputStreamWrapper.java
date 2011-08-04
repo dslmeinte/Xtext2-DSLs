@@ -29,7 +29,7 @@ public class OutputStreamWrapper extends OutputImpl implements Output {
 		try {
 			body.write(text.getBytes());
 		} catch (IOException e) {
-			throw new RuntimeException( "Couldn't write to wrapped " + OutputStream.class.getSimpleName() + " instance.", e );
+			throw new RuntimeException( "Couldn't write to wrapped " + OutputStream.class.getSimpleName() + " instance.", e ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 	}
 
@@ -37,8 +37,8 @@ public class OutputStreamWrapper extends OutputImpl implements Output {
 	 * {@see Output(Impl)#openFile(String, String)}
 	 */
 	@Override
-	public void openFile(String path, String outletName) {
-		throw new UnsupportedOperationException( getClass().getName() + " can only be used for non-file templates." );
+	public void openFile(@SuppressWarnings("unused") String path, @SuppressWarnings("unused") String outletName) {
+		throw new UnsupportedOperationException( getClass().getName() + " can only be used for non-file templates." ); //$NON-NLS-1$
 	}
 
 }

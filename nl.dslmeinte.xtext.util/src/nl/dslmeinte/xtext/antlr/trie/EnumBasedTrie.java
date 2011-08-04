@@ -44,7 +44,7 @@ public class EnumBasedTrie<T extends Enum<T>> extends TrieSupport<T> {
 	 * words. (Util method.)
 	 */
 	public static String escapeFromJava(String key) {
-		if( key.endsWith("_") ) {
+		if( key.endsWith("_") ) { //$NON-NLS-1$
 			key = key.substring(0, key.length() - 1);
 		}
 

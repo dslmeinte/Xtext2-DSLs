@@ -31,7 +31,7 @@ abstract public class TrieSupport<T> implements CaseInsensitiveTrie<T> {
 
 	protected void register(String key, T t) {
 		if( !isWord(key) ) {
-			throw new IllegalArgumentException( "'" + key + "' is not a word so can't be registered with a character-based trie" );
+			throw new IllegalArgumentException( "'" + key + "' is not a word so can't be registered with a character-based trie" ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		Node<T> currentNode = root;
 		for( int i = 0; i < key.length(); i++ ) {

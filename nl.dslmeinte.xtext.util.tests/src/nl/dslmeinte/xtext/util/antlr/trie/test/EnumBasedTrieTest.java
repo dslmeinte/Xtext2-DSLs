@@ -8,6 +8,7 @@ import org.antlr.runtime.CharStream;
 import org.junit.Assert;
 import org.junit.Test;
 
+@SuppressWarnings("nls")
 public class EnumBasedTrieTest {
 
 	private enum SimpleKeywords {

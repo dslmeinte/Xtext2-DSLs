@@ -129,8 +129,8 @@ public class AbstractAnnotationBasedDeclarativeScopeProvider extends AbstractDec
 
 	}
 
-	private String strategyWarning(Method method) {
-		return String.format( "method %s complies to name-based declarative strategy while using annotation-based declarative strategy", method.getName() );
+	private static String strategyWarning(Method method) {
+		return String.format( "method %s complies to name-based declarative strategy while using annotation-based declarative strategy", method.getName() ); //$NON-NLS-1$
 	}
 
 }

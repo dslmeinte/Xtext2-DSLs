@@ -45,10 +45,10 @@ public class XpandCallConfiguration {
 	 */
 	public XpandCallConfiguration withEmfRegistry() {
 		if( emfMetaModelsPresent() ) {
-			logger.warn( "configuring 'withEmfRegistry' but a Emf(Registry)MetaModel is already registered" );
+			logger.warn( "configuring 'withEmfRegistry' but a Emf(Registry)MetaModel is already registered" ); //$NON-NLS-1$
 		}
 		if( withEmfRegistry ) {
-			logger.info("'withEmfRegistry' already configured");
+			logger.info("'withEmfRegistry' already configured"); //$NON-NLS-1$
 		}
 		withEmfRegistry = true;
 		return this;
@@ -70,7 +70,7 @@ public class XpandCallConfiguration {
 	 */
 	public XpandCallConfiguration register(MetaModel metaModel) {
 		if( metaModel instanceof EmfRegistryMetaModel && withEmfRegistry ) {
-			logger.warn( "registering an Emf(Registry)MetaModel but 'withEmfRegistry' is already configured" );
+			logger.warn( "registering an Emf(Registry)MetaModel but 'withEmfRegistry' is already configured" ); //$NON-NLS-1$
 		}
 		metaModels.add(metaModel);
 		return this;
@@ -82,11 +82,11 @@ public class XpandCallConfiguration {
 	 * Configures an {@link OutputStream} for the template evaluation result to
 	 * end up in.
 	 */
-	public XpandCallConfiguration to(OutputStream output) {
+	public XpandCallConfiguration to(OutputStream newOutput) {
 		if( this.output != null ) {
-			logger.info( "destination ('to') already set" );
+			logger.info( "destination ('to') already set" ); //$NON-NLS-1$
 		}
-		this.output = output;
+		this.output = newOutput;
 		return this;
 	}
 
@@ -95,11 +95,11 @@ public class XpandCallConfiguration {
 	/**
 	 * Configures the definition to call through its fully qualified name.
 	 */
-	public XpandCallConfiguration call(String definitionName) {
+	public XpandCallConfiguration call(String newDefinitionName) {
 		if( this.definitionName != null ) {
-			logger.info( "definition name ('call') already set" );
+			logger.info( "definition name ('call') already set" ); //$NON-NLS-1$
 		}
-		this.definitionName = definitionName;
+		this.definitionName = newDefinitionName;
 		return this;
 	}
 
@@ -110,7 +110,7 @@ public class XpandCallConfiguration {
 	 */
 	public XpandCallConfiguration on(Object object) {
 		if( targetObject != null ) {
-			logger.info( "target object ('on') already set" );
+			logger.info( "target object ('on') already set" ); //$NON-NLS-1$
 		}
 		this.targetObject = object;
 		return this;
@@ -121,11 +121,11 @@ public class XpandCallConfiguration {
 	/**
 	 * Configures the (optional) parameter {@link Object}s.
 	 */
-	public XpandCallConfiguration with(Object...parameters) {
+	public XpandCallConfiguration with(Object...newParameters) {
 		if( this.parameters.length > 0 ) {
-			logger.info( "parameters ('with') already set" );
+			logger.info( "parameters ('with') already set" ); //$NON-NLS-1$
 		}
-		this.parameters = parameters;
+		this.parameters = newParameters;
 		return this;
 	}
 
@@ -144,7 +144,7 @@ public class XpandCallConfiguration {
 	 */
 	public void evaluate() {
 		if( output == null ) {
-			throw new IllegalStateException("output ('to') must be set");
+			throw new IllegalStateException("output ('to') must be set"); //$NON-NLS-1$
 		}
 		final OutputStreamWrapper out = new OutputStreamWrapper(output);
 
@@ -154,7 +154,7 @@ public class XpandCallConfiguration {
 			context.registerMetaModel(new EmfRegistryMetaModel());
 		} else {
 			if( metaModels.size() == 0 ) {
-				logger.warn( "no meta models registered: registering JavaBeansMetaModel as default" );
+				logger.warn( "no meta models registered: registering JavaBeansMetaModel as default" ); //$NON-NLS-1$
 				context.registerMetaModel(new JavaBeansMetaModel());
 			} else {
 			    for( MetaModel mm : metaModels ) {
@@ -170,16 +170,16 @@ public class XpandCallConfiguration {
 		XpandFacade facade = XpandFacade.create(context);
 
 	    if( definitionName == null ) {
-	    	throw new IllegalStateException("definition name ('call') must be set");
+	    	throw new IllegalStateException("definition name ('call') must be set"); //$NON-NLS-1$
 	    }
 	    if( targetObject == null ) {
-	    	logger.warn( "target object ('on') isn't set (calling Xpand template with Void target)" );
+	    	logger.warn( "target object ('on') isn't set (calling Xpand template with Void target)" ); //$NON-NLS-1$
 	    }
 
 	    try {
 			facade.evaluate(definitionName, targetObject, parameters);
 		} catch( Throwable throwable) {
-			throw new RuntimeException( "exception thrown during evaluation of Xpand template " + definitionName, throwable );
+			throw new RuntimeException( "exception thrown during evaluation of Xpand template " + definitionName, throwable ); //$NON-NLS-1$
 		}
 		/*
 		 * Unfortunately, the catch is never hit in the case of

@@ -39,7 +39,7 @@ public final class XtendCaller {
 		// acquire global variables of the current execution context:
 		@SuppressWarnings( "unchecked" )
 		Map<String, Variable> actualGlobalVars =
-			(Map<String, Variable>) getPrivateField( getPrivateField(facade, "ctx"), "globalVars" );
+			(Map<String, Variable>) getPrivateField( getPrivateField(facade, "ctx"), "globalVars" ); //$NON-NLS-1$ //$NON-NLS-2$
 		// inject programmatically passed ones into it:
 		actualGlobalVars.putAll(globalVarsToInject);
 
@@ -57,8 +57,8 @@ public final class XtendCaller {
 			return field.get(obj);
 		} catch (Exception e) {
 			throw new RuntimeException(
-					"couldn't obtain (value of) private field "
-					+ obj.getClass().getName() + "#" + fieldName,
+					"couldn't obtain (value of) private field " //$NON-NLS-1$
+					+ obj.getClass().getName() + "#" + fieldName, //$NON-NLS-1$
 					e
 				);
 		}

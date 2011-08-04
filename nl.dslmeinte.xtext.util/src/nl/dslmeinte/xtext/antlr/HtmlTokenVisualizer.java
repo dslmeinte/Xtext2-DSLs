@@ -22,6 +22,7 @@ import org.antlr.runtime.Token;
  * 
  * @author Meinte Boersma
  */
+@SuppressWarnings("nls")
 public class HtmlTokenVisualizer {
 
 	/**
@@ -89,7 +90,7 @@ public class HtmlTokenVisualizer {
 		output.flush();
 	}
 
-	private String escapeHtml(String text) {
+	private static String escapeHtml(String text) {
 		text = text.replaceAll("&", "&amp;");
 		text = text.replaceAll("<", "&lt;");
 		text = text.replaceAll(">", "&gt;");
@@ -122,7 +123,7 @@ public class HtmlTokenVisualizer {
 		output.flush();
 	}
 
-	private void htmlFooter(OutputStream outputStream) {
+	private static void htmlFooter(OutputStream outputStream) {
 		PrintWriter output = new PrintWriter(outputStream);
 
 		output.println();
