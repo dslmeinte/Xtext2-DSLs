@@ -1,4 +1,4 @@
-package nl.dslmeinte.xtext.util.antlr;
+package nl.dslmeinte.xtext.antlr;
 
 import java.io.OutputStream;
 import java.io.PrintWriter;

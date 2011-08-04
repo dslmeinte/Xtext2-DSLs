@@ -3,8 +3,8 @@ package nl.dslmeinte.xtext.util.antlr.trie.test;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import nl.dslmeinte.xtext.util.antlr.trie.CaseInsensitiveTrie;
-import nl.dslmeinte.xtext.util.antlr.trie.StringBasedTrie;
+import nl.dslmeinte.xtext.antlr.trie.CaseInsensitiveTrie;
+import nl.dslmeinte.xtext.antlr.trie.StringBasedTrie;
 
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CharStream;

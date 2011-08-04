@@ -1,4 +1,4 @@
-package nl.dslmeinte.xpand.util;
+package nl.dslmeinte.xpand;
 
 import java.io.IOException;
 import java.io.OutputStream;

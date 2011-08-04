@@ -1,4 +1,4 @@
-package nl.dslmeinte.xtend.util;
+package nl.dslmeinte.xtend;
 
 import java.lang.reflect.Field;
 import java.util.Collections;

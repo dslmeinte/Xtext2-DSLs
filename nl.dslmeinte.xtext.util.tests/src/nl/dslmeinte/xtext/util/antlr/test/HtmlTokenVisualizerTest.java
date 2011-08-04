@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import junit.framework.Assert;
-import nl.dslmeinte.xtext.util.antlr.HtmlTokenVisualizer;
-import nl.dslmeinte.xtext.util.antlr.HtmlTokenVisualizer.TokenToStyleMapper;
+import nl.dslmeinte.xtext.antlr.HtmlTokenVisualizer;
+import nl.dslmeinte.xtext.antlr.HtmlTokenVisualizer.TokenToStyleMapper;
 
 import org.antlr.runtime.ANTLRFileStream;
 import org.antlr.runtime.CharStream;

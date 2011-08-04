@@ -1,4 +1,4 @@
-package nl.dslmeinte.xpand.util;
+package nl.dslmeinte.xpand;
 
 import java.io.OutputStream;
 import java.util.ArrayList;

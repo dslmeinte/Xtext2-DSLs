@@ -1,4 +1,4 @@
 // the file name of the Resource this EObject resides in, without extension:
 String fileNameWithoutExtension(emf::EObject this) :
-	JAVA nl.dslmeinte.xtend.util.EmfExtensions.fileNameWithoutExtension(org.eclipse.emf.ecore.EObject);
+	JAVA nl.dslmeinte.xtend.EmfExtensions.fileNameWithoutExtension(org.eclipse.emf.ecore.EObject);
 

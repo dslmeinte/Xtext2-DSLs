@@ -1,4 +1,4 @@
-package nl.dslmeinte.xtext.util.antlr.trie;
+package nl.dslmeinte.xtext.antlr.trie;
 
 import org.antlr.runtime.CharStream;
 

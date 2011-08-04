@@ -1,4 +1,4 @@
-package nl.dslmeinte.ecore.util;
+package nl.dslmeinte.ecore;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
