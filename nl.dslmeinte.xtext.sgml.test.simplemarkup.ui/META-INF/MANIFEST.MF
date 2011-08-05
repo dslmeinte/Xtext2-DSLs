@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Xtext UI project for SimpleMarkup language
 Bundle-Vendor: DslConsultancy.com
-Bundle-Version: 2.0.0.qualifider
+Bundle-Version: 2.0.0.qualifier
 Bundle-SymbolicName: nl.dslmeinte.xtext.sgml.test.simplemarkup.ui; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: nl.dslmeinte.xtext.sgml.test.simplemarkup;visibility:=reexport,

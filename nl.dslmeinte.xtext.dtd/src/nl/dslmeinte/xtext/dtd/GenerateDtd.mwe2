@@ -35,29 +35,14 @@ Workflow {
 
             fragment = grammarAccess.GrammarAccessFragment {}
             fragment = ecore.EcoreGeneratorFragment {}
-
-            // serializer 2.0:
             fragment = serializer.SerializerFragment {}
-            
-            // the serialization component (1.0):
-            // fragment = parseTreeConstructor.ParseTreeConstructorFragment {}
-
             fragment = resourceFactory.ResourceFactoryFragment { fileExtensions = file.extensions }
             fragment = parser.antlr.XtextAntlrGeneratorFragment {}
-
-            fragment = validation.JavaValidatorFragment {
-                composedCheck = "org.eclipse.xtext.validation.ImportUriValidator"
-                composedCheck = "org.eclipse.xtext.validation.NamesAreUniqueValidator"
-            }
-
+            fragment = validation.JavaValidatorFragment {}
             fragment = scoping.ImportNamespacesScopingFragment {}
             fragment = exporting.QualifiedNamesFragment {}
 
             fragment = builder.BuilderIntegrationFragment {}
-//            fragment = generator.GeneratorFragment {
-//                generateMwe = true
-//                generateJavaMain = true
-//            }
             fragment = formatting.FormatterFragment {}
             fragment = labeling.LabelProviderFragment {}
             fragment = outline.OutlineTreeProviderFragment {}
@@ -70,11 +55,6 @@ Workflow {
             fragment = compare.CompareFragment {
                  fileExtensions = file.extensions
             }
-
-//            fragment = junit.Junit4Fragment {}
-//            fragment = types.TypesGeneratorFragment {}
-//            fragment = xbase.XbaseGeneratorFragment {}
-
         }
     }
 }

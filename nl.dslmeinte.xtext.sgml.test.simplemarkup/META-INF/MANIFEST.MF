@@ -31,6 +31,5 @@ Export-Package: nl.dslmeinte.xtext.sgml.test.simplemarkup,
  nl.dslmeinte.xtext.sgml.test.simplemarkup.parser.antlr,
  nl.dslmeinte.xtext.sgml.test.simplemarkup.parser.antlr.internal,
  nl.dslmeinte.xtext.sgml.test.simplemarkup.validation,
- nl.dslmeinte.xtext.sgml.test.simplemarkup.parser.antlr.lexer,
- nl.dslmeinte.xtext.sgml.test.simplemarkup.parseTreeConstruction
+ nl.dslmeinte.xtext.sgml.test.simplemarkup.parser.antlr.lexer
 

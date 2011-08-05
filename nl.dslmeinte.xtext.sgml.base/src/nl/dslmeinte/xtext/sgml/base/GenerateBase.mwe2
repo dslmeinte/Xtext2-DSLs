@@ -35,7 +35,6 @@ Workflow {
             fragment = grammarAccess.GrammarAccessFragment {}
             fragment = ecore.EcoreGeneratorFragment {}
             fragment = serializer.SerializerFragment {}
-
             fragment = parser.antlr.XtextAntlrGeneratorFragment {}
             fragment = validation.JavaValidatorFragment {
                 composedCheck = "org.eclipse.xtext.validation.ImportUriValidator"
