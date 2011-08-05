@@ -3,6 +3,7 @@
 	<name>nl.dslmeinte.xtext.sgml.base.ui</name>
 	<comment></comment>
 	<projects>
+		<project>nl.dslmeinte.xtext.sgml.base</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

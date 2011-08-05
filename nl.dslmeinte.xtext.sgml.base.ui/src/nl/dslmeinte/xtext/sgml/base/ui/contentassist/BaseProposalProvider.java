@@ -55,7 +55,8 @@ public class BaseProposalProvider extends AbstractBaseProposalProvider {
 			StyledString displayString = getStyledDisplayString(objectOrProxy, candidate.getQualifiedName().toString(),name);
 			Image image = getImage(objectOrProxy);
 			ICompletionProposal result = createCompletionProposal("&" + name + ";", displayString, image, context); //$NON-NLS-1$ //$NON-NLS-2$
-			getPriorityHelper().adjustCrossReferencePriority(result, context.getPrefix());			
+			// getPriorityHelper().adjustCrossReferencePriority(result, context.getPrefix());
+			//		(don't bump priority, as we could have many entity references and they're not that important)
 			acceptor.accept(result);
 		}
 	}

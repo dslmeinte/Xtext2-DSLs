@@ -3,6 +3,7 @@
 	<name>nl.dslmeinte.xtext.sgml.base</name>
 	<comment></comment>
 	<projects>
+		<project>nl.dslmeinte.xtext.util</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

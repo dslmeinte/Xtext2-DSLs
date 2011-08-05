@@ -5,7 +5,7 @@
 
   <extension point="org.eclipse.emf.ecore.generated_package">
     <package 
-       uri = "http://dslmeinte.nl/Xtext/sgml/dtd/test/simpleMarkup" 
+       uri = "http://dslmeinte.nl/Xtext/sgml/test/simpleMarkup" 
        class = "nl.dslmeinte.xtext.sgml.test.simplemarkup.simplemarkup.SimplemarkupPackage"
        genModel = "nl/dslmeinte/xtext/sgml/test/simplemarkup/SimpleMarkup.genmodel" /> 
 	
