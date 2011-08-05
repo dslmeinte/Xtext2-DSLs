@@ -8,8 +8,8 @@ import java.lang.reflect.Field;
 
 import nl.dslmeinte.xtext.conditional.ConditionalStandaloneSetup;
 import nl.dslmeinte.xtext.conditional.conditional.ConditionalPackage;
-import nl.dslmeinte.xtext.sgml.dtd.test.support.SgmlLexerTestSupport;
 import nl.dslmeinte.xtext.sgml.lexer.SgmlLexerForParsing;
+import nl.dslmeinte.xtext.sgml.lexer.test.support.SgmlLexerTestSupport;
 import nl.dslmeinte.xtext.sgml.test.simplemarkup.SimpleMarkupStandaloneSetup;
 
 import org.antlr.runtime.ANTLRFileStream;

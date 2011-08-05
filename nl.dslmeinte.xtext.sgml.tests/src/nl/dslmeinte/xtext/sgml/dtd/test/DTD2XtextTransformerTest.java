@@ -1,7 +1,6 @@
 package nl.dslmeinte.xtext.sgml.dtd.test;
 
 import nl.dslmeinte.xtext.sgml.dtd.DTD2XtextTransformer;
-import nl.dslmeinte.xtext.sgml.dtd.test.support.DTDTestSupport;
 
 import org.junit.Test;
 

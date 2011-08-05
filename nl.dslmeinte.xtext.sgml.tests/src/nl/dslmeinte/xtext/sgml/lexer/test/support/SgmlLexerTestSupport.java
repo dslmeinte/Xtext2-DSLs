@@ -1,4 +1,4 @@
-package nl.dslmeinte.xtext.sgml.dtd.test.support;
+package nl.dslmeinte.xtext.sgml.lexer.test.support;
 
 import java.io.FileOutputStream;
 import java.io.IOException;

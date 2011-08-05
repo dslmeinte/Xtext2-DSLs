@@ -2,7 +2,6 @@ package nl.dslmeinte.xtext.sgml.dtd.test;
 
 import nl.dslmeinte.xtext.dtd.dtdModel.DocumentTypeDefinition;
 import nl.dslmeinte.xtext.sgml.dtd.DTD2EcoreTransformer;
-import nl.dslmeinte.xtext.sgml.dtd.test.support.DTDTestSupport;
 
 import org.eclipse.emf.ecore.EPackage;
 import org.junit.Test;

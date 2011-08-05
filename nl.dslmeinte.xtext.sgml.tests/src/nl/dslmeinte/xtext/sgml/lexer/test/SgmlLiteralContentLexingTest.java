@@ -2,8 +2,8 @@ package nl.dslmeinte.xtext.sgml.lexer.test;
 
 import static nl.dslmeinte.xtext.sgml.lexer.BaseTerminals.*;
 import nl.dslmeinte.xtext.sgml.base.BaseStandaloneSetup;
-import nl.dslmeinte.xtext.sgml.dtd.test.support.SgmlLexerTestSupport;
 import nl.dslmeinte.xtext.sgml.lexer.BaseTerminals;
+import nl.dslmeinte.xtext.sgml.lexer.test.support.SgmlLexerTestSupport;
 
 import org.antlr.runtime.ANTLRStringStream;
 import org.junit.Test;
