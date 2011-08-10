@@ -1,6 +1,7 @@
 package nl.dslmeinte.xtext.grammar;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.xtext.Assignment;
 import org.eclipse.xtext.Keyword;
 import org.eclipse.xtext.ParserRule;
 import org.eclipse.xtext.RuleCall;
@@ -19,6 +20,9 @@ public class XtextPrinter {
 	private final static Printer printer = new Printer();
 
 	public static String toString(EObject object) {
+		if( object == null ) {
+			return "null"; // $NON-NLS-1$
+		}
 		return printer.doSwitch(object);
 	}
 
@@ -51,8 +55,13 @@ public class XtextPrinter {
 			return object.getName();
 		}
 
+		@Override
+		public String caseAssignment(Assignment object) {
+			return "((" + object.getFeature() + cardinalityDisplay(object.getOperator()) + "=" + "))" + cardinalityDisplay(object.getCardinality());
+		}
+
 		/**
-		 * Use the default.
+		 * Use the default for everything else.
 		 */
 		@Override
 		public String defaultCase(EObject object) {
