@@ -24,6 +24,7 @@ import com.google.inject.Singleton;
 @Singleton
 public class AntlrTokenFacade implements TokenFacade {
 
+	// TODO  Refactor, together with TokenProvider
 	@Inject
 	public AntlrTokenFacade(AntlrTokenDefProvider tokenDefProvider) {
 		final Map<String, Integer> nonBaseKeywordsMap = new HashMap<String, Integer>();
