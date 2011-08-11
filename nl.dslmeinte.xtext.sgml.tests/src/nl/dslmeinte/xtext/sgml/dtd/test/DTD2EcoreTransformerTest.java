@@ -7,7 +7,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.junit.Ignore;
 import org.junit.Test;
 
-@SuppressWarnings({"nls", "static-method"})
+@SuppressWarnings({"nls"})
 public class DTD2EcoreTransformerTest extends DTDTestSupport {
 
 	@Test @Ignore("Ecore transformation yields models with not-wellformed EClass names")

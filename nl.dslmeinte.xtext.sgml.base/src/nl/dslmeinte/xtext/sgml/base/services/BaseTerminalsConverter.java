@@ -8,7 +8,6 @@ import org.eclipse.xtext.nodemodel.INode;
 
 public class BaseTerminalsConverter extends AbstractDeclarativeValueConverterService {
 
-	@SuppressWarnings("static-method")
 	@ValueConverter(rule = "QuotedString")
 	public IValueConverter<String> QuotedString() {
 		return new IValueConverter<String>() {

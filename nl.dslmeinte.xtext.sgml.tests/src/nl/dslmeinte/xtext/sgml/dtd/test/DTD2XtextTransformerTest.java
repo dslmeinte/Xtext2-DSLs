@@ -5,7 +5,7 @@ import nl.dslmeinte.xtext.sgml.dtd.DTD2XtextTransformer;
 import org.junit.Test;
 
 @Deprecated
-@SuppressWarnings({"nls", "static-method"})
+@SuppressWarnings({"nls"})
 public class DTD2XtextTransformerTest extends DTDTestSupport {
 
 	@Test

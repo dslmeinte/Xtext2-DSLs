@@ -19,7 +19,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.junit.Assert;
 import org.junit.Test;
 
-@SuppressWarnings({"nls", "static-method"})
+@SuppressWarnings({"nls"})
 public class SgmlLexerTest extends SgmlLexerTestSupport {
 
 	static {
