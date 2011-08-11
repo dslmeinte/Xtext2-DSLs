@@ -16,6 +16,8 @@ import org.eclipse.emf.ecore.EPackage;
  * Transforms a {@code .dtd} file into an Xtext grammar which is compatible with
  * the custom (but generic) SGML lexer.
  * 
+ * TODO  document usage
+ * 
  * @deprecated This class has to be re-based on Xtend2.
  * 
  * @author Meinte Boersma
