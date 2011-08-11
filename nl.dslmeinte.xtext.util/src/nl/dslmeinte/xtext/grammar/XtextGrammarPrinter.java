@@ -11,11 +11,11 @@ import org.eclipse.xtext.util.XtextSwitch;
 
 /**
  * Util class which prints more useful information on Xtext grammar elements
- * than the {@link AbstractElementImpl#toString()} implementation.
+ * than the {@link AbstractElementImpl#toString()} implementation does.
  * 
  * @author Meinte Boersma
  */
-public class XtextPrinter {
+public class XtextGrammarPrinter {
 
 	private final static Printer printer = new Printer();
 
@@ -23,10 +23,13 @@ public class XtextPrinter {
 		if( object == null ) {
 			return "null"; // $NON-NLS-1$
 		}
+		// TODO  add check that object is an instance of an EClass in the XtexPackage
 		return printer.doSwitch(object);
 	}
 
 	private static class Printer extends XtextSwitch<String>  {
+
+		// TODO  add cases as you find the need for them
 
 		@Override
 		public String caseRuleCall(RuleCall object) {
@@ -61,11 +64,13 @@ public class XtextPrinter {
 		}
 
 		/**
-		 * Use the default for everything else.
+		 * Use the default for everything else, adding {@code " default!"} to
+		 * the {@link String} returned to provide some incentive to add the
+		 * case.
 		 */
 		@Override
 		public String defaultCase(EObject object) {
-			return object.toString();
+			return object.toString() + " default!";
 		}
 
 		/**
