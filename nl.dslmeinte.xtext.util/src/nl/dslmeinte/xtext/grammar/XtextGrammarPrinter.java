@@ -34,7 +34,7 @@ public class XtextGrammarPrinter {
 		@Override
 		public String caseRuleCall(RuleCall object) {
 			String inner = doSwitch(object.getRule());
-			if( inner.contains(" ") ) {
+			if( inner.contains(" ") || inner.contains("=") ) {
 				inner = "(" + inner + ")";
 			}
 			return inner + cardinalityDisplay(object.getCardinality());
@@ -60,7 +60,7 @@ public class XtextGrammarPrinter {
 
 		@Override
 		public String caseAssignment(Assignment object) {
-			return "((" + object.getFeature() + cardinalityDisplay(object.getOperator()) + "=" + "))" + cardinalityDisplay(object.getCardinality());
+			return cardinalityDisplay(object.getOperator()) + object.getFeature() + cardinalityDisplay(object.getCardinality());
 		}
 
 		/**
