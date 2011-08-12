@@ -7,10 +7,9 @@ import java.util.Map.Entry;
 import nl.dslmeinte.xtext.antlr.trie.CaseInsensitiveTrie;
 import nl.dslmeinte.xtext.antlr.trie.MapBasedTrie;
 import nl.dslmeinte.xtext.antlr.trie.TrieSupport;
+import nl.dslmeinte.xtext.sgml.lexer.SgmlTokenHelper.TokenType;
 
 import org.eclipse.xtext.parser.antlr.AntlrTokenDefProvider;
-import org.eclipse.xtext.parser.antlr.TokenTool;
-import org.eclipse.xtext.util.Strings;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -24,34 +23,30 @@ import com.google.inject.Singleton;
 @Singleton
 public class AntlrTokenFacade implements TokenFacade {
 
-	// TODO  Refactor, together with TokenProvider
 	@Inject
-	public AntlrTokenFacade(AntlrTokenDefProvider tokenDefProvider) {
+	public AntlrTokenFacade(SgmlTokenHelper tokenHelper) {
 		final Map<String, Integer> nonBaseKeywordsMap = new HashMap<String, Integer>();
-		for( Entry<Integer, String> entry : tokenDefProvider.getTokenDefMap().entrySet() ) {
-			String tokenDescription = entry.getValue();
-			int id = entry.getKey();
-			if( tokenDescription.startsWith("'") && tokenDescription.endsWith("'") ) { //$NON-NLS-1$ //$NON-NLS-2$
-				String keyword = tokenDescription.substring(1, tokenDescription.length()-1);
-				keyword = Strings.convertFromJavaString(keyword, true);
-				keyword = keyword.intern();	// optimization attempt: avoid duplicate String-s
-				BaseTerminals baseTerminal = BaseTerminals.fromKeyword(keyword);
-				if( baseTerminal == null ) {
-					if( TrieSupport.isWord(keyword) ) {
-						nonBaseKeywordsMap.put(keyword, id);
-					}
-				} else {
-					baseTerminalsMap.put(baseTerminal, id);
-				}
-			} else if( TokenTool.isLexerRule(tokenDescription) ) {
-				String ruleName = TokenTool.getLexerRuleName(tokenDescription);
-				BaseTerminals baseTerminal = BaseTerminals.fromName(ruleName);
-				if( baseTerminal != null ) {
-					baseTerminalsMap.put(baseTerminal, id);
-				}
+		for( TokenType tokenType : tokenHelper.getKeywordTokens() ) {
+			String keyword = tokenType.getDescription();
+			BaseTerminals baseTerminal = BaseTerminals.fromKeyword(keyword);
+			if( baseTerminal == null && TrieSupport.isWord(keyword) ) {
+				nonBaseKeywordsMap.put(keyword, tokenType.getId());
+			} else {
+				baseTerminalsMap.put(baseTerminal, tokenType.getId());
+			}
+		}
+		for( TokenType tokenType : tokenHelper.getLexerRuleNames() ) {
+			BaseTerminals baseTerminal = BaseTerminals.fromName(tokenType.getDescription());
+			if( baseTerminal != null ) {
+				baseTerminalsMap.put(baseTerminal, tokenType.getId());
 			}
 		}
 		nonBaseKeywordsTrie = MapBasedTrie.of(nonBaseKeywordsMap);
+		for( BaseTerminals baseTerminal : BaseTerminals.values() ) {
+			if( !baseTerminalsMap.containsKey(baseTerminal) ) {
+				throw new IllegalArgumentException("BaseTerminals('" + baseTerminal.name() + "') not mapped" );
+			}
+		}
 	}
 
 	private final Map<BaseTerminals, Integer> baseTerminalsMap = new HashMap<BaseTerminals, Integer>();
@@ -82,7 +77,5 @@ public class AntlrTokenFacade implements TokenFacade {
 	public CaseInsensitiveTrie<Integer> nonBaseKeywordsTrie() {
 		return nonBaseKeywordsTrie;
 	}
-
-	// TODO  add a check on whether all BaseTerminals enum literals are mapped (other than through a unit test)
 
 }
