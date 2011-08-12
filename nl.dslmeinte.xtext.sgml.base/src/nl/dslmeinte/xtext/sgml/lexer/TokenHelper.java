@@ -18,13 +18,15 @@ import com.google.inject.Singleton;
  * @author Meinte Boersma
  */
 @Singleton
-public class SgmlTokenHelper {
+public class TokenHelper {
 
 	/**
 	 * Initializes the singleton.
 	 */
 	@Inject
-	public SgmlTokenHelper(AntlrTokenDefProvider tokenDefProvider) {
+	public TokenHelper(AntlrTokenDefProvider tokenDefProvider) {
+		final List<TokenType> keywords = new ArrayList<TokenType>();
+		final List<TokenType> lexerRuleNames = new ArrayList<TokenType>();
 		for( Entry<Integer, String> entry : tokenDefProvider.getTokenDefMap().entrySet() ) {
 			String tokenDescription = entry.getValue();
 			int id = entry.getKey();
@@ -36,7 +38,7 @@ public class SgmlTokenHelper {
 				 * Note that the set of keywords in not very large.
 				 */
 				keyword = keyword.intern();
-				keywordTokens.add(new TokenType(keyword, id));
+				keywords.add(new TokenType(keyword, id));
 				continue;
 			}
 			if( TokenTool.isLexerRule(tokenDescription) ) {
@@ -45,16 +47,29 @@ public class SgmlTokenHelper {
 				continue;
 			}
 		}
+		this.keywords = Collections.unmodifiableList(keywords);
+		this.lexerRuleNames = Collections.unmodifiableList(lexerRuleNames);
 	}
 
-	private final List<TokenType> keywordTokens = new ArrayList<TokenType>();
+	private final List<TokenType> keywords;
 
 	/**
 	 * @return A list of all the keywords in the grammar, i.e. all token types
 	 *         which are a fixed string (as opposed to a terminal rule).
 	 */
-	public List<TokenType> getKeywordTokens() {
-		return Collections.unmodifiableList(keywordTokens);
+	public List<TokenType> getKeywords() {
+		return keywords;
+	}
+
+	private final List<TokenType> lexerRuleNames;
+
+	/**
+	 * @return A list of the names of all the lexer rule (typically a terminal
+	 *         rule) in the grammar, with the (upper-cased) lexer rule name for
+	 *         a description.
+	 */
+	public List<TokenType> getLexerRuleNames() {
+		return lexerRuleNames;
 	}
 
 	/**
@@ -64,8 +79,8 @@ public class SgmlTokenHelper {
 	 * @author Meinte Boersma
 	 */
 	public static class TokenType {
-		private String description;
-		private int id;
+		private final String description;
+		private final int id;
 		public TokenType(String description, int id) {
 			this.description = description;
 			this.id = id;
@@ -77,17 +92,5 @@ public class SgmlTokenHelper {
 			return id;
 		}
 	}
-
-	private final List<TokenType> lexerRuleNames = new ArrayList<TokenType>();
-
-	/**
-	 * @return A list of all the lexer rule (typically a terminal rule) in the
-	 *         grammar, with the (upper-cased) lexer rule name for a
-	 *         description.
-	 */
-	public List<TokenType> getLexerRuleNames() {
-		return lexerRuleNames;
-	}
-
 
 }

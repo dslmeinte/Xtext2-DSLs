@@ -7,7 +7,7 @@ import java.util.Map.Entry;
 import nl.dslmeinte.xtext.antlr.trie.CaseInsensitiveTrie;
 import nl.dslmeinte.xtext.antlr.trie.MapBasedTrie;
 import nl.dslmeinte.xtext.antlr.trie.TrieSupport;
-import nl.dslmeinte.xtext.sgml.lexer.SgmlTokenHelper.TokenType;
+import nl.dslmeinte.xtext.sgml.lexer.TokenHelper.TokenType;
 
 import org.eclipse.xtext.parser.antlr.AntlrTokenDefProvider;
 
@@ -24,9 +24,9 @@ import com.google.inject.Singleton;
 public class AntlrTokenFacade implements TokenFacade {
 
 	@Inject
-	public AntlrTokenFacade(SgmlTokenHelper tokenHelper) {
+	public AntlrTokenFacade(TokenHelper tokenHelper) {
 		final Map<String, Integer> nonBaseKeywordsMap = new HashMap<String, Integer>();
-		for( TokenType tokenType : tokenHelper.getKeywordTokens() ) {
+		for( TokenType tokenType : tokenHelper.getKeywords() ) {
 			String keyword = tokenType.getDescription();
 			BaseTerminals baseTerminal = BaseTerminals.fromKeyword(keyword);
 			if( baseTerminal == null && TrieSupport.isWord(keyword) ) {
