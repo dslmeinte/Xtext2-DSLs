@@ -1,11 +1,14 @@
 package nl.dslmeinte.xtext.grammar;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.xtext.AbstractMetamodelDeclaration;
 import org.eclipse.xtext.Assignment;
+import org.eclipse.xtext.CrossReference;
 import org.eclipse.xtext.Keyword;
 import org.eclipse.xtext.ParserRule;
 import org.eclipse.xtext.RuleCall;
 import org.eclipse.xtext.TerminalRule;
+import org.eclipse.xtext.TypeRef;
 import org.eclipse.xtext.impl.AbstractElementImpl;
 import org.eclipse.xtext.util.XtextSwitch;
 
@@ -32,12 +35,18 @@ public class XtextGrammarPrinter {
 		// TODO  add cases as you find the need for them
 
 		@Override
-		public String caseRuleCall(RuleCall object) {
-			String inner = doSwitch(object.getRule());
-			if( inner.contains(" ") || inner.contains("=") ) {
-				inner = "(" + inner + ")";
-			}
-			return inner + cardinalityDisplay(object.getCardinality());
+		public String caseAssignment(Assignment object) {
+			return cardinalityDisplay(object.getOperator()) + object.getFeature() + cardinalityDisplay(object.getCardinality());
+		}
+
+		@Override
+		public String caseCrossReference(CrossReference object) {
+			return "[" + toString(object.getType()) + "|" + doSwitch(object.getTerminal()) + "]" + cardinalityDisplay(object.getCardinality());
+		}
+
+		@Override
+		public String caseKeyword(Keyword object) {
+			return "'" + object.getValue() + "'" + cardinalityDisplay(object.getCardinality());
 		}
 
 		@Override
@@ -46,8 +55,12 @@ public class XtextGrammarPrinter {
 		}
 
 		@Override
-		public String caseKeyword(Keyword object) {
-			return "'" + object.getValue() + "'" + cardinalityDisplay(object.getCardinality());
+		public String caseRuleCall(RuleCall object) {
+			String inner = doSwitch(object.getRule());
+			if( inner.contains(" ") || inner.contains("=") ) {
+				inner = "(" + inner + ")";
+			}
+			return inner + cardinalityDisplay(object.getCardinality());
 		}
 
 		/**
@@ -56,11 +69,6 @@ public class XtextGrammarPrinter {
 		@Override
 		public String caseTerminalRule(TerminalRule object) {
 			return object.getName();
-		}
-
-		@Override
-		public String caseAssignment(Assignment object) {
-			return cardinalityDisplay(object.getOperator()) + object.getFeature() + cardinalityDisplay(object.getCardinality());
 		}
 
 		/**
@@ -78,6 +86,11 @@ public class XtextGrammarPrinter {
 		 */
 		private String cardinalityDisplay(String cardinality) {
 			return( cardinality == null ? "" : cardinality );
+		}
+
+		private String toString(TypeRef typeRef) {
+			AbstractMetamodelDeclaration metaModel = typeRef.getMetamodel();
+			return ( metaModel.getAlias() == null ? "" : (metaModel.getAlias() + "::") ) + typeRef.getClassifier().getName();
 		}
 
 	}
