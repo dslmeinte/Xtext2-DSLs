@@ -8,9 +8,10 @@ import org.eclipse.xtext.resource.IReferenceDescription;
 import org.eclipse.xtext.util.IAcceptor;
 
 /**
- * Implementation of {@link IDefaultResourceDescriptionStrategy} for the which
+ * Implementation of {@link IDefaultResourceDescriptionStrategy} which exports
  * nothing from any resource is indexed(/exported). This effectively disables
- * all cross-referencing across file boundary.
+ * all cross-referencing across file boundary among a few other aspects which
+ * rely on the names of exported objects, like unique names validation.
  * 
  * @author Meinte Boersma
  */
