@@ -10,6 +10,7 @@ import org.eclipse.xtext.Assignment;
 import org.eclipse.xtext.RuleCall;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.scoping.IScope;
+import org.eclipse.xtext.ui.editor.contentassist.ConfigurableCompletionProposal;
 import org.eclipse.xtext.ui.editor.contentassist.ContentAssistContext;
 import org.eclipse.xtext.ui.editor.contentassist.ICompletionProposalAcceptor;
 
@@ -45,11 +46,15 @@ public class BaseProposalProvider extends AbstractBaseProposalProvider {
 			EObject objectOrProxy = candidate.getEObjectOrProxy();
 			StyledString displayString = getStyledDisplayString(objectOrProxy, candidate.getQualifiedName().toString(),name);
 			Image image = getImage(objectOrProxy);
-		    // FIXME  if we change the prefix of a context, we have to modify the replacement region as well!
-			//	(otherwise, we'll end up replacing more than just the initiating token...)
-			ICompletionProposal result = createCompletionProposal("&" + name + ";", displayString, image, changePrefix(context, "&")); //$NON-NLS-1$ //$NON-NLS-2$
+
+			String oldPrefix = context.getPrefix();
+			ContentAssistContext newContext = changePrefix(context, "&"); //$NON-NLS-1$
+			ICompletionProposal result = createCompletionProposal("&" + name + ";", displayString, image, newContext); //$NON-NLS-1$ //$NON-NLS-2$
+			// correct replacement offset so it doesn't start right at the beginning of the preceding token:
+			((ConfigurableCompletionProposal) result).setReplacementOffset(context.getOffset() - ( oldPrefix.endsWith("&") ? 1 : 0 ) ); //$NON-NLS-1$
 			// getPriorityHelper().adjustCrossReferencePriority(result, context.getPrefix());
 			//		(don't bump priority, as we could have many entity references and they're not that important)
+
 			acceptor.accept(result);
 		}
     }
