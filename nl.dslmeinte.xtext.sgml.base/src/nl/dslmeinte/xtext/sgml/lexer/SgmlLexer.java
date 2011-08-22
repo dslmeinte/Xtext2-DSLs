@@ -428,11 +428,14 @@ public class SgmlLexer {
 		throw nvae;
 	}
 
-	private static boolean isWhitespace(int ch) {
+	/**
+	 * Override this to restrict (or expand) the notion of whitespace.
+	 */
+	protected boolean isWhitespace(int ch) {
 		return Character.isWhitespace(ch);
 	}
 
-	private boolean handledWhitespace(int ch) {
+	protected boolean handledWhitespace(int ch) {
 		if( isWhitespace(ch) ) {
 			setType(whitespace);
 			consume();
