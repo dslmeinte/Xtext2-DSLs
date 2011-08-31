@@ -1,6 +1,7 @@
 package nl.dslmeinte.xtext.sgml.base.ui.contentassist;
 
 import nl.dslmeinte.xtext.sgml.base.base.BasePackage;
+import nl.dslmeinte.xtext.sgml.base.base.Entity;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
@@ -8,6 +9,7 @@ import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.xtext.Assignment;
 import org.eclipse.xtext.RuleCall;
+import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.ui.editor.contentassist.ConfigurableCompletionProposal;
@@ -17,6 +19,7 @@ import org.eclipse.xtext.ui.editor.contentassist.ICompletionProposalAcceptor;
 /**
  * Implementation/customization of content assist.
  */
+@SuppressWarnings("nls")	// (only "technical" String-s)
 public class BaseProposalProvider extends AbstractBaseProposalProvider {
 
 	/**
@@ -48,10 +51,10 @@ public class BaseProposalProvider extends AbstractBaseProposalProvider {
 			Image image = getImage(objectOrProxy);
 
 			String oldPrefix = context.getPrefix();
-			ContentAssistContext newContext = changePrefix(context, "&"); //$NON-NLS-1$
-			ICompletionProposal result = createCompletionProposal("&" + name + ";", displayString, image, newContext); //$NON-NLS-1$ //$NON-NLS-2$
+			ContentAssistContext newContext = changePrefix(context, "&");
+			ICompletionProposal result = createCompletionProposal("&" + name + ";", displayString, image, newContext);
 			// correct replacement offset so it doesn't start right at the beginning of the preceding token:
-			((ConfigurableCompletionProposal) result).setReplacementOffset(context.getOffset() - ( oldPrefix.endsWith("&") ? 1 : 0 ) ); //$NON-NLS-1$
+			((ConfigurableCompletionProposal) result).setReplacementOffset(context.getOffset() - ( oldPrefix.endsWith("&") ? 1 : 0 ) );
 			// getPriorityHelper().adjustCrossReferencePriority(result, context.getPrefix());
 			//		(don't bump priority, as we could have many entity references and they're not that important)
 
@@ -65,5 +68,42 @@ public class BaseProposalProvider extends AbstractBaseProposalProvider {
     protected ContentAssistContext changePrefix(ContentAssistContext context, String prefix) {
     	return context.copy().setPrefix(prefix).toContext();
     }
+
+	/**
+	 * Provides tag completion for a {@link Entity}.
+	 */
+	@Override
+    public void complete_Entity(EObject model, RuleCall ruleCall, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+    	super.complete_Entity(model, ruleCall, context, acceptor);
+    	proposeEntity(model, context, acceptor);
+    }
+
+    /**
+     * Provides tag completion for a {@link Entity} which is already partially started.
+     */
+    @Override
+    public void completeEntity_Path(EObject model, Assignment assignment,
+    		ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+    	// TODO  document scenario!
+    	INode previousSibling = context.getLastCompleteNode().getPreviousSibling();
+    	if( previousSibling != null ) {
+    		String prefix = previousSibling.getText() + ((Entity) model).getName();
+    		if( "!ENTITY".startsWith(prefix) ) {
+    	    	proposeEntity(model, context, acceptor);
+    		}
+    	}
+    	super.completeEntity_Path(model, assignment, context, acceptor);
+    }
+
+	/**
+	 * Proposes the replacement "{@code <!ENTITY SYSTEM "">}" as "{@code !ENTITY}
+	 * " and places the cursor one space after the {@code !ENTITY} keyword.
+	 */
+	private void proposeEntity(EObject model, ContentAssistContext context,
+			ICompletionProposalAcceptor acceptor) {
+		ICompletionProposal completionProposal = createCompletionProposal("<!ENTITY  SYSTEM \"\">", new StyledString("!ENTITY"), getImage(model), getPriorityHelper().getDefaultPriority(), context.getPrefix(), context);
+		((ConfigurableCompletionProposal) completionProposal).setCursorPosition("<!ENTITY ".length());
+		acceptor.accept(completionProposal);
+	}
 
 }
