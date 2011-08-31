@@ -9,6 +9,12 @@ import org.eclipse.xtext.generator.IFileSystemAccess
 import nl.dslmeinte.xtext.dtd.dtdModel.*
 import nl.dslmeinte.xtext.dtd.util.DTDModelUtil2
 
+/**
+ * Transforms a {@link DocumentTypeDefinition} into an SGML-style Xtext grammar,
+ * as part of an Xtext build participant.
+ * 
+ * @author Meinte Boersma
+ */
 class DtdGenerator implements IGenerator {
 	
 	override doGenerate(Resource resource, IFileSystemAccess fsa) {
