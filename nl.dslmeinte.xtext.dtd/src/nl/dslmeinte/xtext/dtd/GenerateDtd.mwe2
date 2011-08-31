@@ -55,6 +55,12 @@ Workflow {
             fragment = compare.CompareFragment {
                  fileExtensions = file.extensions
             }
+
+            // generator API
+            fragment = generator.GeneratorFragment {
+                generateMwe = false
+                generateJavaMain = false
+            }
         }
     }
 }

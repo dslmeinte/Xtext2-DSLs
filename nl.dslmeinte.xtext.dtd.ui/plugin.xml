@@ -224,4 +224,11 @@
     </provider>
   </extension>
 
+   <extension
+         point="org.eclipse.xtext.builder.participant">
+      <participant
+            class="nl.dslmeinte.xtext.dtd.ui.DtdExecutableExtensionFactory:org.eclipse.xtext.builder.IXtextBuilderParticipant">
+      </participant>
+   </extension>
+
 </plugin>

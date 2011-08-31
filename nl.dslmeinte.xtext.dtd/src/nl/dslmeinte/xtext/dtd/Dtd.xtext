@@ -5,7 +5,7 @@
  * (c) 2011 Meinte Boersma (http://www.dslconsultancy.com/)
  */
 
-grammar nl.dslmeinte.xtext.dtd.Dtd hidden(WS, COMMENT)
+grammar nl.dslmeinte.xtext.dtd.Dtd with org.eclipse.xtext.common.Terminals hidden(WS, COMMENT)
 
 import "http://www.eclipse.org/emf/2002/Ecore"	// required for defining terminal rules
 
@@ -68,17 +68,6 @@ enum AttributeCardinality:
 	| implied='#IMPLIED'
 	;
 
+
 terminal COMMENT	: '<!--' -> '-->';
-
-// convenience super type for implemented a call stack:
-//Rule:
-//	Element | Expression;
-
-// copied from org.eclipse.xtext.common.Terminals:
-terminal ID		: '^'?('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')*;
-terminal STRING	:
-			'"' ( '\\' ('b'|'t'|'n'|'f'|'r'|'"'|"'"|'\\') | !('\\'|'"') )* '"' |
-			"'" ( '\\' ('b'|'t'|'n'|'f'|'r'|'"'|"'"|'\\') | !('\\'|"'") )* "'"
-		;
-terminal WS		: (' '|'\t'|'\r'|'\n')+;
 
