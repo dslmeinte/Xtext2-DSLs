@@ -1,0 +1,337 @@
+grammar nl.dslmeinte.xtext.examples.DynamicScreenDsl with org.eclipse.xtext.common.Terminals
+
+generate dynamicScreenDsl 'http://www.dslmeinte.nl/xtext/examples/DynamicScreenDsl'
+
+import "http://www.dslmeinte.nl/xtext/examples/DataModelDsl" as data
+
+
+/*
+ * An instance of this DSL describes a screen with a lot of custom
+ * dynamism (and structure) on it. The dynamism supported in the
+ * language are:
+ * 
+ *  - fields are visible, mandatory (required), readonly or not
+ *      depending on the values of other fields
+ *  - selection list (of enums) are restricted depending on the
+ *      values of other fields
+ *
+ * Aspects and features still TODO (roughly in order of priority):
+ *
+ *  1) add paths relative to data stores for non-enum selection lists
+ *  2) sample population of fields (especially useful for data stores @1)
+ */
+
+
+/*
+ * +-----------------------------+
+ * | Infrastructure and generics |
+ * +-----------------------------+
+ */
+
+DynamicScreen:
+    'dynamic-screen'
+        label=Label
+        'data-import' '=' importURI=STRING
+        'view-class' '=' viewClass=[data::Entity]
+        ( declarations += Declaration )*
+        ( groups += FieldGroup )+
+    ;
+
+Label:
+    en=STRING ( '[' 'nl:' nl=STRING ']' )?
+    ;
+
+PathTail:
+    '/'
+        field=[data::Field]
+        ( '(' asEntity=[data::Entity] ')' )?
+        ( tail=PathTail )?
+    ;
+    /* scoping:
+     * if asEntity is present, then:
+     *  1) the type of element must be an entity,
+     *  2) asEntity must be a proper sub entity of the type of element.
+     */
+
+/*
+DataStorePathHead:
+    '[' dataStore=[DataStore] ']' tail=PathTail
+    ;
+*/
+
+
+/*
+ * +--------------+
+ * | Declarations |
+ * +--------------+
+ */
+
+// TODO  give aliases, enumeration list definitions and conditions their own segment ('aliases:', &c)
+//          as soon as the current format turns out to be unwieldy (saves some filtering as well)
+
+Declaration:
+    ExternalVariable | EnumList | DataStore
+    ;
+
+ExternalVariable:
+    'external-var' path=PathTail 'as' name=ID
+        // alias to path inside declared view class
+        // (may only be static and not be present on the screen)
+    ;
+
+EnumList:
+    'define' name=ID 'as'
+    '('
+        ( literals += [data::EnumLiteral] )+
+    ')'
+    'of' ^enum=[data::Enumeration]
+    ;
+    /* scoping:
+     * all literals must be a member of that resolved data::Enumeration
+     */
+
+DataStore:
+    'data-store' name=ID
+        'of-type' class=[data::Entity]
+        ( multi ?= 'is-multi-valued' )?
+    ;
+
+
+/*
+ * +------------------+
+ * | Screen structure |
+ * +------------------+
+ */
+
+GroupElement:
+    Field | FieldGroup
+    ;
+
+Field:
+    name=ID label=Label
+        path=PathTail
+        ( attributes += Attribute )*
+    ;
+
+FieldGroup:
+	{FieldGroup}
+    'group' ( label=Label )?
+        ( 'with' ^with=PathTail )?
+    '{'
+        ( elements += GroupElement )*
+    '}'
+        ( attributes += Attribute )*
+    ;
+    /* semantics:
+     * The paths inside (anywhere) within this group are considered relative
+     *  to the 'with' path (which itself may be relative to some group instead
+     *  of the declared view class). Note that the semantics of Field.path
+     *  also change to be relative.
+     * The attributes declared at group-level can be overridden at the field-level.
+     */
+    /* validations:
+     * For top-level groups, a label is required.
+     */
+
+
+/*
+ * +------------------+
+ * | Field attributes |
+ * +------------------+
+ */
+
+Attribute:
+    NormalAttribute | EnumFieldAttribute
+    ;
+
+EnumFieldAttribute:
+    RestrictionAttribute | RestrictionGroupAttribute
+    ;
+
+NormalAttribute:
+    classExpr=AttributeClassExpression ('if' clause=BExpression)?
+    ;
+    /* semantics:
+     * 'if' means 'if and only if' (i.e., 'iff').
+     */
+
+AttributeClassExpression:
+    classes += AttributeClass ( '+' classes += AttributeClass )*
+    ;
+
+enum AttributeClass:
+      display
+    | required
+    | readonly
+    | calculated
+    | doubleAsterisk    // note: this is a VOA02-specific concept of requiredness
+    ;
+
+RestrictionAttribute:
+    'restrict-to'
+        literals=EnumLiteralsCollection
+        'if' clause=BExpression
+    ;
+    /* validation:
+     * Can only be used if the (enclosing) field has a data::Enumeration as type.
+     * scoping:
+     * The literals must be owned by the Enumeration type of the (enclosing) field.
+     * semantics:
+     * If the clause expression evaluates to true, the possible values for the (enclosing)
+     * Enumeration field should be restricted to the given list.
+     * TODO  what to do with overlap in the clauses? evaluation in order?
+     */
+
+RestrictionGroupAttribute:
+    {RestrictionGroupAttribute}     // make sure an object is created even with no rules, to trigger the validation on enum type
+    'restrict-to-group'
+    '<'
+        (  rules += RestrictionRule )+
+    '>'
+    ;
+
+RestrictionRule:
+    literals=EnumLiteralsCollection 'if' clause=BExpression
+    ;
+    /* scoping:
+     * Same as (and already taken of by scoping implementation) for RestrictionAttribute.literals
+     */
+
+Restriction:	// (convenience super type)
+	RestrictionAttribute | RestrictionGroupAttribute
+	;
+
+
+/*
+ * +------------+
+ * | References |
+ * +------------+
+ */
+
+ReferenceTarget:
+    Field | ExternalVariable
+    ;
+
+Reference:
+    ref=[ReferenceTarget]
+    ;
+
+/*
+ * This dummy type rule is needed because of the 'pull features up' transformation
+ * of the Ecore models generated from Xtext grammars. Without this, the Ecore ends up
+ * with the following elements:
+ *
+ * Declaration: name(ID)
+ * ReferenceTarget: name(ID) (, path)
+ * ExternalVariable -> Declaration, ReferenceTarget
+ *
+ * This would lead to duplicate generation of a field 'ALIAS__NAME' in DynamismDslPackage.
+ */
+DummyForExternalVariable:
+    Declaration | ReferenceTarget
+    ;
+
+
+/*
+ * +---------------------+
+ * | Boolean expressions |
+ * +---------------------+
+ *
+ * Note: in the following, a solitary 'B' within a camel-cased word
+ * always serves as an abbreviation of 'Boolean'.
+ *
+ * TODO   rewrite expression grammar to conform with Best Practices (for now: leave as is...)
+ */
+
+// boolean expression tree-building:
+
+BExpression:
+    BOrExpression
+    ;
+
+BOrExpression returns BExpression:
+    BAndExpression ({OrOperation.left=current} ('or'|'|') right=BAndExpression)*
+    ;
+
+BAndExpression returns BExpression:
+    NegationExpression ({AndOperation.left=current} ('and'|'&') right=NegationExpression)*
+    ;
+
+NegationExpression returns BExpression:
+    TerminalBExpression | ({NegationExpression} ('not'|'!') expr=NegationExpression);
+
+TerminalBExpression returns BExpression:
+      AtomicReferringBExpression
+    | '(' BExpression ')'
+    ;
+
+AtomicReferringBExpression:
+    BComparison | EnumComparison | StringValueComparison | PresenceCheck
+    ;
+
+BComparison:
+    {BComparison}
+    ref=Reference
+    ( 'is' bLiteral=BLiteral )?
+    ;
+
+EnumComparison:
+    SingleEnumComparison | MultiEnumComparison
+    ;
+
+SingleEnumComparison:
+    ref=Reference '=' eLiteral=[data::EnumLiteral]
+    ;
+
+MultiEnumComparison:
+    ref=Reference membership=EnumMembership eLiterals=EnumLiteralsCollection
+    ;
+
+StringValueComparison:
+    ref=Reference
+    'equals' targetValue=STRING
+    ;
+
+PresenceCheck:
+    ref=Reference
+    'is-present'
+    ;
+
+enum BLiteral:
+    true | false 
+    ;
+    /*
+     * 'true' must be first literal, because that'll be the default value
+     * which is used when the optional 'is'-part is not present.
+     */
+
+
+// enum-related constructs:
+
+enum EnumMembership:
+      isIn='is-one-of'
+    | isNotIn='is-not-one-of'
+    ;
+
+EnumLiteralsCollection:
+    DirectEnumLiteralsCollection | EnumListReference;
+
+DirectEnumLiteralsCollection:
+    {DirectEnumLiteralsCollection}  // make sure an object is created even if there are no literals, to trigger the validation on enum type
+    '(' ( literals += [data::EnumLiteral] )* ')'
+    ;
+    /* scoping:
+     * literals must be owned by the data::Enumeration pointed to by the
+     *  resolution of the (field|alias).path of the containing AtomicReferringBExpression
+     * validation:
+     * Empty lists are allowed but flagged with a warning.
+     */
+
+EnumListReference:
+    ref=[EnumList]
+    ;
+    /* scoping:
+     * ref.enum must equal the data::Enumeration resolved to by (field|alias).path
+     *  of the containing AtomicReferringBExpression
+     */
+

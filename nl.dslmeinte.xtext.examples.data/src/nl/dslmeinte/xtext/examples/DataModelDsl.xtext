@@ -1,0 +1,166 @@
+grammar nl.dslmeinte.xtext.examples.DataModelDsl with org.eclipse.xtext.common.Terminals
+
+generate dataModelDsl "http://www.dslmeinte.nl/xtext/examples/DataModelDsl"
+
+
+/*
+ * DSL for a textual definition of a data model which is slightly less
+ * aenemic than usual. The prime client for this DSL is the dynamic screen
+ * DSL.
+ *
+ * TODO's:
+ *  1) [must-have] introduce notion of containment
+ *  2) [must-have] bidirectional associativity/navigability/opposite-ness
+ *  3) [should-have] packaging and modularization across multiple files
+ *  4) [coould-have] importing of primitive types instead of local definition
+ */
+
+
+/**
+ * The root model element, comprised of one primitive types section
+ * and the definition of any number of compound types.
+ */
+DataModel:
+    primitives=PrimitiveTypes
+    ( compoundTypes += CompoundType )*
+    ;
+
+/**
+ * Convenience meta type
+ * (not actually referenced from anywhere in the grammar def.).
+ */
+Type:
+    CompoundType | PrimitiveType
+    ;
+
+CompoundType:
+    DataType | Enumeration | Entity
+    ;
+
+/**
+ * A block of primitive type definitions.
+ */
+PrimitiveTypes:
+    {PrimitiveTypes}
+    'primitive-types'
+    '{'
+        ( primitiveTypes += PrimitiveType )*
+    '}'
+    ;
+
+enum MetaPrimitiveType:
+    string | int | number | boolean
+    ;
+
+/**
+ * Definition for a primitive type which has a name and
+ * either has a realization type (to connect it with e.g. Java primitive types)
+ * or extends an existing primitive type -in which case the realization type is
+ * that of the super type.
+ */
+PrimitiveType:
+    name=ID
+        (
+            ( 'extends' superType=[PrimitiveType] )
+          |
+            ( '->' realizationType=MetaPrimitiveType )?
+        )
+    ;
+    /*
+     * Nice challenge: the user experience would be better if 
+     * "foo extends bar -> string" is _syntactically_ valid but
+     * not semantically, by means of an explicit validation
+     * (with a meaningful error message).
+     * However, since MetaPrimitiveType is an enumeration, its
+     * value is always set, with the default being the first literal
+     * of the enumeration. Hence, we cannot distinguish between
+     * "foo extends bar -> string" (invalid) and "foo extends bar" (valid).
+     * We could add an "invalid" enum literal, whose usage then
+     * has to be prevented using another validation (or more validations),
+     * but currently, I'm too lazy for that ;)
+     */
+
+/**
+ * Definition of a data type complete with its constituent fields,
+ * constraints and function.
+ */
+DataType:
+    'datatype' name=ID
+    '{'
+        ( fields += Field )*
+        ( constraints += Constraint )*
+        ( functions += Function )*
+    '}'
+    ;
+
+Field :
+    ( modifier=Modifier )? name=ID ':' type=[Type]
+    ;
+    /*
+     * validation: if type refers to a PrimitiveType, then modifier != repeated
+     * scoping: if the Field resides inside a DataType, then type must be a PrimitiveType;
+     * 
+     * Note that this definition might seem a bit contrived, but that's
+     * because, from a parsing viewpoint, splitting this definition up
+     * (into a SimpleField and ComplexField, e.g.) causes the grammar
+     * to be ambiguous.
+     */
+
+enum Modifier:
+    optional | required | repeated
+    ;
+
+Enumeration:
+    'enum' name=ID
+    '{'
+        ( literals += EnumLiteral )*
+    '}'
+    ;
+
+EnumLiteral:
+    name=ID
+    ;
+
+Entity:
+    ( transient?='transient'? & abstract?='abstract'? ) 'entity' name=ID
+        ( 'extends' superType=[Entity] )?
+            // scoping (TODO): can only be an Entity that isn't a sub entity of this entity itself
+    '{'
+        ( fields += Field )*
+        ( constraints += Constraint )*
+        ( functions += Function )*
+    '}'
+    ;
+
+Constraint:
+    'constraint' name=ID 'uses' ( slots += Usage )+
+    ;
+
+Usage:
+    field=[Field]
+        // scoping: can only be a field of this compound type
+    ;
+
+Function:
+    'function' name=ID ':' returnType=[Type]
+        (
+            '('
+                ( arguments += Argument )+
+            ')'
+        )?
+    ;
+
+Argument:
+    type=[Type] name=ID
+    ;
+
+
+// convenience super types;
+SimpleType:
+    DataType | PrimitiveType | Enumeration
+    ;
+
+Feature:    // a Constraint is not considered a feature here
+    Field | Function
+    ;
+

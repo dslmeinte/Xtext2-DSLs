@@ -1,0 +1,109 @@
+body {
+  font-family: "Verdana", sans-serif;
+  font-size: 11px;
+}
+
+form {
+  padding: 0px;
+  margin: 0px;
+}
+
+a:link {
+  color: #ccc;
+}
+
+a:visited {
+  color: #ccc;
+}
+
+.header p {
+	font-size: 20px;
+	font-weight: bold;
+}
+
+
+/* screen */
+
+.screen {
+  width: 100%; 
+}
+
+.screen .title {
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 2px;
+  color: #113388;
+  font-weight: bold;
+  font-family: "Verdana", sans-serif;
+  font-size: 17px;
+}
+
+.screen .body p {
+  margin-top: 5px;
+  padding: 3px;
+  text-align: center;
+}
+
+
+/* onecolumn */
+
+.onecolumn {
+  clear: both;
+}
+
+.onecolumn .title {
+  font-weight:bold;
+  clear: both;
+}
+
+.onecolumn .itemtitle {
+  font-weight:bold;
+  margin-left: 182px;
+}
+
+.onecolumn .field {
+  clear: both;
+}
+
+.onecolumn .field .label {
+  padding-left:10px;
+  padding-right:5px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  width:147px;
+  _width:162px;
+  float: left;
+}
+
+.onecolumn .field .required {
+  float: left;
+  width: 20px;
+  height: 10px;
+}
+
+.onecolumn .field .value {
+  float: left;
+  padding-bottom: 1px;
+  padding-top: 1px;
+}
+
+.onecolumn .field .value .inputText {
+  width: 150px;
+}
+.onecolumn .field .value .inputNumber {
+  width: 120px;
+}
+.onecolumn .field .value .inputAmount {
+  width: 100px;
+}
+.onecolumn .field .value .inputDate {
+  width: 80px;
+}
+.onecolumn .field .value .inputSelect {
+  width: 150px;
+}
+.onecolumn .field .value .inputPercentage {
+  width: 60px;
+}
+
