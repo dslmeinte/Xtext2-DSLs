@@ -1,0 +1,52 @@
+schema family
+	namespace "http://marc.grol.nl/family"
+
+import "common.xsdr" as common
+
+element family -> Family
+
+complex-type Family {
+  father -> GrownUp
+  mother -> GrownUp
+  children -> Child[0..*]
+}
+
+abstract complex-type Person {
+  name -> common:ShortString
+  birthDate -> date
+  gender -> Gender
+}
+
+simple-type Gender [string]:
+  enumeration { "M" "F" }
+
+complex-type GrownUp extends Person {
+  employment -> Employment[0..1]
+  required @identificationNumber -> positiveInteger
+}
+
+complex-type Employment {
+  employerName -> common:ShortString
+}
+
+complex-type Child extends Person {
+  education -> Education[0..1]
+}
+
+complex-type Education {
+  schoolName -> string
+  educationType -> EducationType
+  grade -> SchoolGrade
+}
+
+simple-type SchoolGrade [nonNegativeInteger] : range=1..8
+
+simple-type EducationType [string] : enumeration { "KinderGarden" "ElementarySchool" "HighSchool" "University" }
+
+simple-type N11_3Type [decimal] : pattern=/-?\d{1,11}.\d{3}/
+
+
+complex-type UnterType extends common:UeberType {
+	name -> string
+}
+

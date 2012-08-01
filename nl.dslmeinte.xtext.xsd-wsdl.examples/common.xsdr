@@ -1,0 +1,10 @@
+schema
+	common
+	namespace "http://marc.grol.nl/family/common"
+
+simple-type ShortString [string] : maxLength=32
+
+abstract complex-type UeberType {
+	
+}
+

@@ -1,0 +1,27 @@
+wsdl StockQuote
+	namespace: "http://example.com/stockquote/definitions"
+
+xsd-import "stockQuote.xsdr" as xsd1
+
+messages:
+	GetLastTradePriceInput {
+		body -> TradePriceRequest
+	}
+	GetLastTradePriceOutput {
+		body -> TradePrice
+	}
+
+portTypes:
+	StockQuotePortType {
+		operation GetLastTradePrice : GetLastTradePriceInput -> GetLastTradePriceOutput
+	}
+
+bindings:
+	StockQuoteSoapBinding binds StockQuotePortType using soap (document)
+
+services:
+	StockQuoteService {
+		documentation "My first service"
+		port StockQuotePort binds StockQuoteSoapBinding on "http://example.com/stockquote"
+	}
+

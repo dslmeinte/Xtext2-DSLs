@@ -1,0 +1,11 @@
+schema stockQuotes
+	namespace "http://example.com/stockquote/schemas"
+
+complex-type TradePriceRequest {
+	tickerSymbol -> string 
+}
+
+complex-type TradePrice {
+	price -> decimal
+}
+
