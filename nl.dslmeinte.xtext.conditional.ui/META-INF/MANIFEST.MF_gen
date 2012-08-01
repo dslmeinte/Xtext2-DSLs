@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: nl.dslmeinte.xtext.conditional.ui
+Bundle-SymbolicName: nl.dslmeinte.xtext.conditional.ui; singleton:=true
+Bundle-Version: 0.0.1
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.eclipse.xtext.ui,
+ org.eclipse.xtext.ui.shared,
+ org.eclipse.ui.editors,
+ org.eclipse.ui
+Bundle-Activator: nl.dslmeinte.xtext.conditional.ui.internal.ConditionalActivator

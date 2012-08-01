@@ -1,0 +1,223 @@
+grammar nl.dslmeinte.xtext.xsd.XsdLanguage with org.eclipse.xtext.common.Terminals
+
+generate xsdLanguage "http://www.dslmeinte.nl/xtext/xsd/XsdLanguage"
+
+
+// root:
+Schema:
+    "schema" name=ID                // name is mainly used for file generation
+        "namespace" nsURI=STRING    // URI
+    ( imports += Import )*
+    ( definitions += TopLevelDefinition )*
+    ;
+
+Import:
+    "import" importURI=STRING "as" nsPrefix=ID
+    ;
+
+TopLevelDefinition:
+    TopLevelType | TopLevelElement
+    ;
+
+TopLevelType:
+    TopLevelSimpleType | TopLevelComplexType
+    ;
+
+TopLevelElement:
+    "element" name=ID
+        (
+            ( "->" typeRef=NamedTypeReference )
+          | ( ":" embeddedTypeDef=EmbeddedType )
+        )
+    ;
+
+
+/*
+ * +--------------+
+ * | simple types |
+ * +--------------+
+ */
+
+TopLevelSimpleType:
+    "simple-type" name=ID ( restriction=Restriction )? ( documentation=Documentation )?
+    ;
+
+Restriction:
+    "[" typeRef=NonComplexTypeReference "]"
+    ":"
+      ( facets += Facet )+
+    ;
+
+Facet:
+    EnumerationFacet | MaxLengthFacet | PatternFacet | RangeFacet | LengthFacet
+    ;
+
+EnumerationFacet:
+    "enumeration"
+    "{"
+      ( literals += EnumerationLiteral )+
+    "}"
+    ;
+
+EnumerationLiteral:
+    value=(ID|STRING) ( "::" annotation=STRING )?
+    ;
+
+MaxLengthFacet:
+    "maxLength" "=" maxLength=INT
+    ;
+    // validation: typeRef must resolve to the built-in string type
+
+PatternFacet:
+    "pattern" "=" pattern=PATTERN_STRING
+    ;
+
+terminal PATTERN_STRING : 
+  '/' ( ( '\\' '/' ) | ( !( '/' ) ) )* '/';
+
+RangeFacet:
+    "range" "=" lower=INT ".." upper=INT
+    ;
+
+LengthFacet:
+    "length" "=" length=INT
+    ;
+
+Documentation:
+    "::" text=STRING
+    ;
+
+
+/*
+ * +---------------+
+ * | complex types |
+ * +---------------+
+ */
+
+TopLevelComplexType:
+    ( abstract ?= "abstract" )?
+    "complex-type" name=ID
+    ( "extends" extends=TopLevelComplexTypeReference )?
+    "{"
+        ( properties += Property )*
+    "}"
+    (
+        "documentation:" documentation=STRING
+    )?
+    ;
+
+Property:
+    Element | Attribute;
+
+Element:
+    name=ID
+        (
+            ( "->" typeRef=NamedTypeReference )
+          | ( ":" embeddedTypeDef=EmbeddedType )
+        )
+    ( multiplicity=Multiplicity )?
+    ;
+
+Attribute:
+    ( required?="required" )? "@" name=ID "->" typeRef=NonComplexTypeReference
+    ;
+
+Multiplicity:
+    {Multiplicity}  // make sure this element always gets created
+    "[" ( lower=INT ".." ) ( upper=INT | unbounded?="*" ) "]"
+    ;
+    // no Multiplicity (i.e., multiplicity=null) means: [1], i.e. required
+
+
+/*
+ * +------------------+
+ * | type referencing |
+ * +------------------+
+ */
+
+NamedTypeReference:
+    TopLevelTypeReference | BuiltinTypeReference;
+
+NonComplexTypeReference:
+    TopLevelSimpleTypeReference | BuiltinTypeReference;
+
+BuiltinTypeReference:
+    builtin=BuiltinType;
+
+TopLevelTypeReference:
+    DirectTopLevelTypeReference | ImportedTopLevelTypeReference;
+
+TopLevelComplexTypeReference:
+    DirectTopLevelComplexTypeReference | ImportedTopLevelComplexTypeReference;
+
+TopLevelSimpleTypeReference:
+    DirectTopLevelSimpleTypeReference | ImportedTopLevelSimpleTypeReference;
+
+DirectTopLevelTypeReference:        ref=[TopLevelType];
+DirectTopLevelSimpleTypeReference:  ref=[TopLevelSimpleType];
+DirectTopLevelComplexTypeReference: ref=[TopLevelComplexType];
+
+ImportedTopLevelTypeReference:          ^import=[Import|ID] ":" ref=[TopLevelType];
+ImportedTopLevelSimpleTypeReference:    ^import=[Import|ID] ":" ref=[TopLevelSimpleType];
+ImportedTopLevelComplexTypeReference:   ^import=[Import|ID] ":" ref=[TopLevelComplexType];
+
+ImportedReference:  // only used to have the common super type in the generated Ecore model
+    ImportedTopLevelTypeReference | ImportedTopLevelSimpleTypeReference | ImportedTopLevelComplexTypeReference;
+
+
+/*
+ * +----------------+
+ * | embedded types |
+ * +----------------+
+ */
+
+EmbeddedType:
+    EmbeddedComplexType | EmbeddedSimpleType
+    ;
+
+EmbeddedComplexType:
+    {EmbeddedComplexType}
+    "complex-type"
+    ( "extends" extends=TopLevelComplexTypeReference )?
+    "{"
+        ( properties += Property )*
+    "}"
+    ;
+
+EmbeddedSimpleType:
+    "simple-type" restriction=Restriction ( documentation=Documentation )?
+    ;
+
+ComplexType:    // only used to have the common super type in the generated Ecore model
+    TopLevelComplexType | EmbeddedComplexType
+    ;
+
+SimpleType: // only used to have the common super type in the generated Ecore model
+    TopLevelSimpleType | EmbeddedSimpleType
+    ;
+
+
+/*
+ * +---------------+
+ * | miscellaneous |
+ * +---------------+
+ */
+
+// definitions of types built into XSD:
+enum BuiltinType:
+      duration
+    | dateTime
+    | time
+    | date
+    | string
+    | decimal
+    | integer
+    | positiveInteger
+    | nonNegativeInteger
+    | token
+    | base64Binary
+    ;
+
+// overwrite terminal ID rule to allow hyphens inside IDs:
+terminal ID : '^'? ( 'a'..'z'|'A'..'Z' ) ( 'a'..'z'|'A'..'Z'|'_'|'-'|'0'..'9' )* ;
+

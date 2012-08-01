@@ -1,0 +1,80 @@
+module nl.dslmeinte.xtext.xsd.GenerateXsdLanguage
+
+import org.eclipse.emf.mwe.utils.*
+import org.eclipse.xtext.generator.*
+import org.eclipse.xtext.ui.generator.*
+
+var grammarURI = "classpath:/nl/dslmeinte/xtext/xsd/XsdLanguage.xtext"
+var file.extensions = "xsdr"
+var projectName = "nl.dslmeinte.xtext.xsd"
+var runtimeProject = "../${projectName}"
+
+Workflow {
+
+    bean = StandaloneSetup {
+            scanClassPath = true
+            platformUri = "${runtimeProject}/.."
+        }
+    
+        component = DirectoryCleaner {
+            directory = "${runtimeProject}/src-gen"
+        }
+    
+        component = DirectoryCleaner {
+            directory = "${runtimeProject}.ui/src-gen"
+        }
+    
+        component = Generator {
+
+            pathRtProject = runtimeProject
+            pathUiProject = "${runtimeProject}.ui"
+            pathTestProject = "${runtimeProject}.tests"
+            projectNameRt = projectName
+            projectNameUi = "${projectName}.ui"
+
+            language = {
+                uri = grammarURI
+                fileExtensions = file.extensions
+
+                fragment = ecore.EcoreGeneratorFragment {}
+                fragment = grammarAccess.GrammarAccessFragment {}
+                fragment = parser.antlr.XtextAntlrGeneratorFragment {}
+                fragment = resourceFactory.ResourceFactoryFragment { fileExtensions = file.extensions }
+
+                fragment = exporting.SimpleNamesFragment {}
+                fragment = scoping.ImportURIScopingFragment { generateStub = false }
+                fragment = validation.JavaValidatorFragment {
+                    composedCheck = "org.eclipse.xtext.validation.ImportUriValidator"
+                    composedCheck = "org.eclipse.xtext.validation.NamesAreUniqueValidator"
+                }
+
+                fragment = serializer.SerializerFragment { generateStub = false }
+
+                fragment = builder.BuilderIntegrationFragment {}
+                fragment = generator.GeneratorFragment {
+                    generateMwe = false
+                    generateJavaMain = false
+                }
+
+                fragment = parser.antlr.XtextAntlrUiGeneratorFragment {}
+                fragment = formatting.FormatterFragment {}
+                fragment = labeling.LabelProviderFragment {}
+                fragment = outline.OutlineTreeProviderFragment {}
+                fragment = outline.QuickOutlineFragment {}
+                fragment = quickfix.QuickfixProviderFragment {}
+                fragment = contentAssist.JavaBasedContentAssistFragment {}
+                fragment = refactoring.RefactorElementNameFragment {}
+                fragment = templates.CodetemplatesGeneratorFragment {}
+
+                fragment = compare.CompareFragment {
+                     fileExtensions = file.extensions
+                }
+
+                fragment = junit.Junit4Fragment {}
+
+            }
+
+        }
+
+}
+

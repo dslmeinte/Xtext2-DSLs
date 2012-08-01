@@ -1,0 +1,4 @@
+- customize exporting so each .dmd and .dsd file really is self-contained (no "spilling" of globally available short/unqualified names)
+- fix remaining bugs w.r.t. scoping execution
+- provide test .dmd and .dsd files (as unit tests?)
+- implement custom outlining (to get rid of <unnamed>)?
