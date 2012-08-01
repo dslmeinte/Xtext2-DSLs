@@ -45,7 +45,7 @@ Workflow {
                 fragment = scoping.ImportURIScopingFragment { generateStub = false }
                 fragment = validation.JavaValidatorFragment {
                     composedCheck = "org.eclipse.xtext.validation.ImportUriValidator"
-                    composedCheck = "org.eclipse.xtext.validation.NamesAreUniqueValidator"
+//                    composedCheck = "org.eclipse.xtext.validation.NamesAreUniqueValidator"
                 }
 
                 fragment = serializer.SerializerFragment { generateStub = false }
