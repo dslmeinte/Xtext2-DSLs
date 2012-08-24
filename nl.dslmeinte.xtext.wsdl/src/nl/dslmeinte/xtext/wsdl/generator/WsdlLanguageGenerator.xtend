@@ -24,7 +24,7 @@ class WsdlLanguageGenerator implements IGenerator {
 	
 	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
 		val model = resource.contents.head as Definitions
-		fsa.generateFile(model.name, model.wsdlFile)
+		fsa.generateFile(model.name + ".wsdl", model.wsdlFile)
 	}
 
 	@Inject extension WsdlExtensions
