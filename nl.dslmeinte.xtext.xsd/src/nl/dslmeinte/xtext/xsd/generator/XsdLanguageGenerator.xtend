@@ -46,92 +46,92 @@ class XsdLanguageGenerator implements IGenerator {
 		'''
 		<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 		<xs:schema
-		  xmlns:tns="ÇnsURIÈ"
-		  targetNamespace="ÇnsURIÈ"
+		  xmlns:tns="Â«nsURIÂ»"
+		  targetNamespace="Â«nsURIÂ»"
 		  xmlns:xs="http://www.w3.org/2001/XMLSchema"
-		ÇFOR it : it.importsÈ
-		  xmlns:ÇnsPrefixÈ="ÇresolveImport.nsURIÈ"
-		ÇENDFORÈ
-		ÇIF it.imports.size > 0 È  elementFormDefault="unqualified"ÇENDIFÈ
+		Â«FOR it : it.importsÂ»
+		  xmlns:Â«nsPrefixÂ»="Â«resolveImport.nsURIÂ»"
+		Â«ENDFORÂ»
+		Â«IF it.imports.size > 0 Â»  elementFormDefault="unqualified"Â«ENDIFÂ»
 		>
 
-			ÇinnerÈ
+			Â«innerÂ»
 
 		</xs:schema>
 		'''
 
 	def private inner(Schema it)
 		'''
-		ÇFOR it : it.importsÈ
-			Çimport_È
-		ÇENDFORÈ
-		ÇFOR it : it.definitionsÈ
-			ÇdefinitionÈ
-		ÇENDFORÈ
+		Â«FOR it : it.importsÂ»
+			Â«import_Â»
+		Â«ENDFORÂ»
+		Â«FOR it : it.definitionsÂ»
+			Â«definitionÂ»
+		Â«ENDFORÂ»
 		'''
 
 	def private import_(Import it)
 		'''
-		  <xs:import namespace="ÇresolveImport.nsURIÈ" schemaLocation="ÇresolveImport.nameÈ.xsd" />
+		  <xs:import namespace="Â«resolveImport.nsURIÂ»" schemaLocation="Â«resolveImport.nameÂ».xsd" />
 		'''
 
 	def private dispatch definition(TopLevelElement it)
 		'''
-		<xs:element name="ÇnameÈ"ÇIF typeRef != nullÈ type="ÇtypeRef.typeRefÈ" />ÇELSEÈ>
-			ÇembeddedTypeDef.definitionÈ
+		<xs:element name="Â«nameÂ»"Â«IF typeRef != nullÂ» type="Â«typeRef.typeRefÂ»" />Â«ELSEÂ»>
+			Â«embeddedTypeDef.definitionÂ»
 		</xs:element>
-		ÇENDIFÈ
+		Â«ENDIFÂ»
 		'''
 
 	def private dispatch definition(TopLevelComplexType it)
 		'''
-		ÇIF documentation != nullÈ  <!-- ÇdocumentationÈ -->ÇENDIFÈ
-		<xs:complexType name="ÇnameÈ"ÇIF ^abstractÈ abstract="true"ÇENDIFÈ>
-			ÇinnerDefinitionÈ
+		Â«IF documentation != nullÂ»  <!-- Â«documentationÂ» -->Â«ENDIFÂ»
+		<xs:complexType name="Â«nameÂ»"Â«IF ^abstractÂ» abstract="true"Â«ENDIFÂ»>
+			Â«innerDefinitionÂ»
 		</xs:complexType>
 		'''
 
 	def private dispatch definition(EmbeddedComplexType it)
 		'''
 		<xs:complexType>
-			ÇinnerDefinitionÈ
+			Â«innerDefinitionÂ»
 		</xs:complexType>
 		'''
 
 	def private dispatch definition(TopLevelSimpleType it)
 		'''
-		<xs:simpleType name="ÇnameÈ">
-			Çdocumentation.documentationÈ
-			ÇinnerDefinitionÈ
+		<xs:simpleType name="Â«nameÂ»">
+			Â«documentation.documentationÂ»
+			Â«innerDefinitionÂ»
 		</xs:simpleType>
 		'''
 
 	def private dispatch definition(EmbeddedSimpleType it)
 		'''
 		<xs:simpleType>
-			Çdocumentation.documentationÈ
-			ÇinnerDefinitionÈ
+			Â«documentation.documentationÂ»
+			Â«innerDefinitionÂ»
 		</xs:simpleType>
 		'''
 
 	def private dispatch innerDefinition(ComplexType it)
 		'''
-		ÇIF ^extends != nullÈ
+		Â«IF ^extends != nullÂ»
 			<xs:complexContent>
-			<xs:extension base="Ç^extends.typeRefÈ">
-		ÇENDIFÈ
+			<xs:extension base="Â«^extends.typeRefÂ»">
+		Â«ENDIFÂ»
 			<xs:sequence>
-			ÇFOR property : properties.filter(typeof(Element))È
-				Çproperty.propertyÈ
-			ÇENDFORÈ
+			Â«FOR property : properties.filter(typeof(Element))Â»
+				Â«property.propertyÂ»
+			Â«ENDFORÂ»
 			</xs:sequence>
-		ÇFOR property : properties.filter(typeof(Attribute))È
-			Çproperty.propertyÈ
-		ÇENDFORÈ
-		ÇIF ^extends != nullÈ
+		Â«FOR property : properties.filter(typeof(Attribute))Â»
+			Â«property.propertyÂ»
+		Â«ENDFORÂ»
+		Â«IF ^extends != nullÂ»
 		      </xs:extension>
 		    </xs:complexContent>
-		ÇENDIFÈ
+		Â«ENDIFÂ»
 		'''
 		
 	def private dispatch innerDefinition(SimpleType it) {
@@ -140,61 +140,61 @@ class XsdLanguageGenerator implements IGenerator {
 
 	def private restriction(Restriction it)
 		'''
-	    <xs:restriction base="ÇtypeRef.typeRefÈ">
-	    	ÇFOR facet : facetsÈ
-	    		Çfacet.restrictionVariantÈ
-	    	ÇENDFORÈ
+	    <xs:restriction base="Â«typeRef.typeRefÂ»">
+	    	Â«FOR facet : facetsÂ»
+	    		Â«facet.restrictionVariantÂ»
+	    	Â«ENDFORÂ»
 	    </xs:restriction>
 		'''
 
 	def private dispatch restrictionVariant(EnumerationFacet it)
 		'''
-		ÇFOR literal : literalsÈ
-			<xs:enumeration value="Çliteral.valueÈ"Çliteral.annotation?.documentationÈ>
+		Â«FOR literal : literalsÂ»
+			<xs:enumeration value="Â«literal.valueÂ»"Â«literal.annotation?.documentationÂ»>
 			</xs:enumeration>
-		ÇENDFORÈ
+		Â«ENDFORÂ»
 		'''
 
 	def private dispatch restrictionVariant(MaxLengthFacet it)
-		'''<xs:maxLength value="ÇmaxLengthÈ" />'''
+		'''<xs:maxLength value="Â«maxLengthÂ»" />'''
 
 	def private dispatch restrictionVariant(PatternFacet it)
-		'''<xs:pattern value="ÇpatternÈ" />'''
+		'''<xs:pattern value="Â«patternÂ»" />'''
 
 	def private dispatch restrictionVariant(RangeFacet it)
 		'''
-		<xs:minInclusive value="ÇlowerÈ" />
-		<xs:maxInclusive value="ÇupperÈ" />
+		<xs:minInclusive value="Â«lowerÂ»" />
+		<xs:maxInclusive value="Â«upperÂ»" />
 		'''
 		
 	def private dispatch restrictionVariant(LengthFacet it)
-		'''<xs:length value="ÇlengthÈ" />'''
+		'''<xs:length value="Â«lengthÂ»" />'''
 
 	def private dispatch property(Element it)
 		'''
-		<xs:element name="ÇnameÈ"Çmultiplicity.multiplicityÈÇIF typeRef != nullÈ type="ÇtypeRef.typeRefÈ" />
-		ÇELSEÈ>
-			ÇembeddedTypeDef.definitionÈ
+		<xs:element name="Â«nameÂ»"Â«multiplicity.multiplicityÂ»Â«IF typeRef != nullÂ» type="Â«typeRef.typeRefÂ»" />
+		Â«ELSEÂ»>
+			Â«embeddedTypeDef.definitionÂ»
 		</xs:element>
-		ÇENDIFÈ
+		Â«ENDIFÂ»
 		'''
 
 	def private dispatch property(Attribute it)
-		'''<xs:attribute name="ÇnameÈ" type="ÇtypeRef.typeRefÈ" ÇIF requiredÈuse="required"ÇENDIFÈ/>'''
+		'''<xs:attribute name="Â«nameÂ»" type="Â«typeRef.typeRefÂ»" Â«IF requiredÂ»use="required"Â«ENDIFÂ»/>'''
 
 	def private dispatch multiplicity(Multiplicity it)
-		''' minOccurs="ÇlowerÈ" maxOccurs="ÇIF unboundedÈunboundedÇELSEÈÇupperÈÇENDIFÈ" '''
+		''' minOccurs="Â«lowerÂ»" maxOccurs="Â«IF unboundedÂ»unboundedÂ«ELSEÂ»Â«upperÂ»Â«ENDIFÂ»" '''
 	def private dispatch multiplicity(Void it)
 		''''''
 		// Note: a bit of hack to be able to do away with ugly 'if != null' checks
 
-	def private dispatch typeRef(BuiltinTypeReference it)					'''xs:ÇbuiltinÈ'''
-	def private dispatch typeRef(DirectTopLevelTypeReference it)			'''tns:Çref.nameÈ'''
-	def private dispatch typeRef(DirectTopLevelSimpleTypeReference it)		'''tns:Çref.nameÈ'''
-	def private dispatch typeRef(DirectTopLevelComplexTypeReference it)		'''tns:Çref.nameÈ'''
-	def private dispatch typeRef(ImportedTopLevelTypeReference it)			'''Ç^import.nsPrefixÈ:Çref.nameÈ'''
-	def private dispatch typeRef(ImportedTopLevelSimpleTypeReference it)	'''Ç^import.nsPrefixÈ:Çref.nameÈ'''
-	def private dispatch typeRef(ImportedTopLevelComplexTypeReference it)	'''Ç^import.nsPrefixÈ:Çref.nameÈ'''
+	def private dispatch typeRef(BuiltinTypeReference it)					'''xs:Â«builtinÂ»'''
+	def private dispatch typeRef(DirectTopLevelTypeReference it)			'''tns:Â«ref.nameÂ»'''
+	def private dispatch typeRef(DirectTopLevelSimpleTypeReference it)		'''tns:Â«ref.nameÂ»'''
+	def private dispatch typeRef(DirectTopLevelComplexTypeReference it)		'''tns:Â«ref.nameÂ»'''
+	def private dispatch typeRef(ImportedTopLevelTypeReference it)			'''Â«^import.nsPrefixÂ»:Â«ref.nameÂ»'''
+	def private dispatch typeRef(ImportedTopLevelSimpleTypeReference it)	'''Â«^import.nsPrefixÂ»:Â«ref.nameÂ»'''
+	def private dispatch typeRef(ImportedTopLevelComplexTypeReference it)	'''Â«^import.nsPrefixÂ»:Â«ref.nameÂ»'''
 	// TODO  introduce convenience types to simplify generation
 
 	def private dispatch documentation(Documentation it)	{ text.documentation }
@@ -202,7 +202,7 @@ class XsdLanguageGenerator implements IGenerator {
 	def private dispatch documentation(String str)
 		'''
 		<xs:annotation>
-			<xs:documentation>ÇthisÈ</xs:documentation>
+			<xs:documentation>Â«thisÂ»</xs:documentation>
 		</xs:annotation>
 		'''
 
