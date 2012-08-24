@@ -10,7 +10,7 @@ class XsdLanguageXtendValidator extends AbstractXsdLanguageJavaValidator {
 
 	@Inject extension XsdExtensions
 
-	private XsdLanguagePackage ePackage = XsdLanguagePackage::eINSTANCE
+	val ePackage = XsdLanguagePackage::eINSTANCE
 
 
 	@Check

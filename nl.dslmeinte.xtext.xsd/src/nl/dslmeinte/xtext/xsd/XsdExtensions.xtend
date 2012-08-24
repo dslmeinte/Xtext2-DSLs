@@ -67,11 +67,11 @@ class XsdExtensions {
 	/**
 	 * Resolves the given schema import.
 	 */
-	def resolveImport (Import importElt) {
+	def resolveImport(Import importElt) {
 		resolveImport(importElt.eResource, importElt.importURI)
 	}
 
-	def resolveImport (Resource resource, String uri) {
+	def resolveImport(Resource resource, String uri) {
 		val importResource = EcoreUtil2::getResource(resource, uri)
 		importResource.contents.head as Schema
 	}
@@ -84,7 +84,7 @@ class XsdExtensions {
 	 * @param prefix
 	 *            - the name space prefix
 	 */
-	def schema (EObject eObject, String prefix) {
+	def schema(EObject eObject, String prefix) {
 		val thisSchema = EcoreUtil::getRootContainer(eObject) as Schema
 		for( Import importElt : thisSchema.getImports() ) {
 			if( importElt.nsPrefix == prefix ) {

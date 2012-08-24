@@ -3,9 +3,8 @@ grammar nl.dslmeinte.xtext.xsd.XsdLanguage with org.eclipse.xtext.common.Termina
 generate xsdLanguage "http://www.dslmeinte.nl/xtext/xsd/XsdLanguage"
 
 
-// root:
 Schema:
-    "schema" name=ID                // name is mainly used for file generation
+    "schema" name=ID                // name is mainly used for file generation (not for referencing)
         "namespace" nsURI=STRING    // URI
     ( imports += Import )*
     ( definitions += TopLevelDefinition )*

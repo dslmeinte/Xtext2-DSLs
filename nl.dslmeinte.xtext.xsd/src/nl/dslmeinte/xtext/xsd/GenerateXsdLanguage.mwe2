@@ -15,15 +15,15 @@ Workflow {
             scanClassPath = true
             platformUri = "${runtimeProject}/.."
         }
-    
+
         component = DirectoryCleaner {
-            directory = "${runtimeProject}/src-gen"
+            directory = "${runtimeProject}/src-gen/nl"
         }
     
         component = DirectoryCleaner {
-            directory = "${runtimeProject}.ui/src-gen"
+            directory = "${runtimeProject}.ui/src-gen/nl"
         }
-    
+
         component = Generator {
 
             pathRtProject = runtimeProject
