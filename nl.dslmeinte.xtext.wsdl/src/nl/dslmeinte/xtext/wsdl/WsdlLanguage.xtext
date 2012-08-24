@@ -1,0 +1,134 @@
+grammar nl.dslmeinte.xtext.wsdl.WsdlLanguage with org.eclipse.xtext.common.Terminals
+
+import "http://www.dslmeinte.nl/xtext/xsd/XsdLanguage" as xsdr
+
+generate wsdlLanguage "http://www.dslmeinte.nl/xtext/wsdl/WsdlLanguage"
+
+
+/*
+ * Grammar for a Web Service Definition Language.
+ *
+ * Currently, it still follows the WSDL specification quite literally,
+ * not raising the level of abstraction and basically only providing
+ * some syntactic above anything else.
+ * Beyond that, it (somewhat) mimics the possibilities offered by the
+ * Eclipse WTP WSDL Wizard.
+ */
+
+
+Definitions:
+    "wsdl" name=ID "namespace:" nsUri=STRING
+        xsdImport=XsdImport
+        ( "messages:" 
+            ( messages += Message )*
+        )?
+        ( "portTypes:"
+            ( portTypes += PortType )*
+        )?
+        ( "bindings:"
+            ( bindings += Binding )*
+        )?
+        ( "services:"
+            ( services += Service )*
+        )?
+    ;
+    /*
+     * Note: optionality is currently for convenience only.
+     * In the future, it may be useful for modularization/composition through importing.
+     */
+
+XsdImport:
+    "xsd-import" importURI=STRING "as" nsPrefix=ID
+    ;
+    /*
+     * As an alternative to a full (and currently, single) XSD import,
+     * consider creating a (similar) sub-DSL with the same intent and
+     * expressiveness.
+     */
+
+
+Message:    // semantically: payload definitions
+    name=ID "{"
+        ( parts += Part )*
+    "}"
+    ;
+
+Part:
+    name=ID "->" def=[xsdr::TopLevelDefinition]
+    ;
+    // scoping: all Representation.definitions of imported XSDr
+
+
+PortType:
+    name=ID "{"
+        ( operations += Operation )*
+    "}"
+    ;
+
+Operation:
+      OneWayOperation
+    | RequestResponseOperation
+    | SolicitResponseOperation
+    | NotificationOperation
+    ;
+
+OneWayOperation:
+    "operation" name=ID
+        ":" input=[Message]
+    ;
+
+RequestResponseOperation:
+    "operation" name=ID
+        ":" input=[Message] "->" output=[Message]
+    ;
+
+SolicitResponseOperation:
+    "operation" name=ID
+        ":" input=[Message] "<-" output=[Message]
+    ;
+
+NotificationOperation:
+    "operation" name=ID
+        ":" "->" output=[Message]
+    ;
+
+// TODO  add fault functionality
+
+
+Binding:
+    name=ID "binds" type=[PortType] "using" transport=Transport
+    ;
+
+Transport:
+    SoapTransport | HttpTransport
+    ;
+
+SoapTransport:
+    "soap" "(" type=SoapType ")"
+    ;
+
+enum SoapType:
+    document | rpc
+    ;
+
+HttpTransport:
+    "http" "-" type=HttpType
+    ;
+
+enum HttpType:
+    get | put
+    ;
+
+
+Service:
+    name=ID
+    "{"
+        ( "documentation" documentation=STRING )?
+        ( ports += Port )*
+    "}"
+    ;
+
+Port:
+    "port" name=ID "binds" binding=[Binding] "on" location=STRING   // URI
+    ;
+

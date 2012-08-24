@@ -1,0 +1,82 @@
+module nl.dslmeinte.xtext.wsdl.GenerateWsdlLanguage
+
+import org.eclipse.emf.mwe.utils.*
+import org.eclipse.xtext.generator.*
+import org.eclipse.xtext.ui.generator.*
+
+var grammarURI = "classpath:/nl/dslmeinte/xtext/wsdl/WsdlLanguage.xtext"
+var file.extensions = "wsdlr"
+var projectName = "nl.dslmeinte.xtext.wsdl"
+var runtimeProject = "../${projectName}"
+
+Workflow {
+
+    bean = StandaloneSetup {
+            scanClassPath = true
+            platformUri = "${runtimeProject}/.."
+            registerGeneratedEPackage = "nl.dslmeinte.xtext.xsd.xsdLanguage.XsdLanguagePackage"
+            registerGenModelFile = "platform:/resource/nl.dslmeinte.xtext.xsd/src-gen/nl/dslmeinte/xtext/xsd/XsdLanguage.genmodel"
+        }
+
+        component = DirectoryCleaner {
+            directory = "${runtimeProject}/src-gen/nl"
+        }
+    
+        component = DirectoryCleaner {
+            directory = "${runtimeProject}.ui/src-gen/nl"
+        }
+
+        component = Generator {
+
+            pathRtProject = runtimeProject
+            pathUiProject = "${runtimeProject}.ui"
+            pathTestProject = "${runtimeProject}.tests"
+            projectNameRt = projectName
+            projectNameUi = "${projectName}.ui"
+
+            language = {
+                uri = grammarURI
+                fileExtensions = file.extensions
+
+                fragment = ecore.EcoreGeneratorFragment {}
+                fragment = grammarAccess.GrammarAccessFragment {}
+                fragment = parser.antlr.XtextAntlrGeneratorFragment {}
+                fragment = resourceFactory.ResourceFactoryFragment { fileExtensions = file.extensions }
+
+				fragment = scoping.ImportNamespacesScopingFragment { generateStub = false }
+				fragment = exporting.QualifiedNamesFragment {}
+                fragment = validation.JavaValidatorFragment {
+                    composedCheck = "org.eclipse.xtext.validation.ImportUriValidator"
+                    composedCheck = "org.eclipse.xtext.validation.NamesAreUniqueValidator"
+                }
+
+                fragment = serializer.SerializerFragment { generateStub = false }
+
+                fragment = builder.BuilderIntegrationFragment {}
+                fragment = generator.GeneratorFragment {
+                    generateMwe = false
+                    generateJavaMain = false
+                }
+
+                fragment = parser.antlr.XtextAntlrUiGeneratorFragment {}
+                fragment = formatting.FormatterFragment {}
+                fragment = labeling.LabelProviderFragment {}
+                fragment = outline.OutlineTreeProviderFragment {}
+                fragment = outline.QuickOutlineFragment {}
+                fragment = quickfix.QuickfixProviderFragment {}
+                fragment = contentAssist.JavaBasedContentAssistFragment {}
+                fragment = refactoring.RefactorElementNameFragment {}
+                fragment = templates.CodetemplatesGeneratorFragment {}
+
+                fragment = compare.CompareFragment {
+                     fileExtensions = file.extensions
+                }
+
+                fragment = junit.Junit4Fragment {}
+
+            }
+
+        }
+
+}
+

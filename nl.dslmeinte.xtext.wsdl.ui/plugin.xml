@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<plugin>
+
+    <extension
+            point="org.eclipse.ui.editors">
+        <editor
+            class="nl.dslmeinte.xtext.wsdl.ui.WsdlLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.XtextEditor"
+            contributorClass="org.eclipse.ui.editors.text.TextEditorActionContributor"
+            default="true"
+            extensions="wsdlr"
+            id="nl.dslmeinte.xtext.wsdl.WsdlLanguage"
+            name="WsdlLanguage Editor">
+        </editor>
+    </extension>
+    <extension
+        point="org.eclipse.ui.handlers">
+        <handler
+            class="nl.dslmeinte.xtext.wsdl.ui.WsdlLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.hyperlinking.OpenDeclarationHandler"
+            commandId="org.eclipse.xtext.ui.editor.hyperlinking.OpenDeclaration">
+            <activeWhen>
+                <reference
+                    definitionId="nl.dslmeinte.xtext.wsdl.WsdlLanguage.Editor.opened">
+                </reference>
+            </activeWhen>
+        </handler>
+        <handler
+            class="nl.dslmeinte.xtext.wsdl.ui.WsdlLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.handler.ValidateActionHandler"
+            commandId="nl.dslmeinte.xtext.wsdl.WsdlLanguage.validate">
+         <activeWhen>
+            <reference
+                    definitionId="nl.dslmeinte.xtext.wsdl.WsdlLanguage.Editor.opened">
+            </reference>
+         </activeWhen>
+      </handler>
+    </extension>
+    <extension point="org.eclipse.core.expressions.definitions">
+        <definition id="nl.dslmeinte.xtext.wsdl.WsdlLanguage.Editor.opened">
+            <and>
+                <reference definitionId="isActiveEditorAnInstanceOfXtextEditor"/>
+                <with variable="activeEditor">
+                    <test property="org.eclipse.xtext.ui.editor.XtextEditor.languageName" 
+                        value="nl.dslmeinte.xtext.wsdl.WsdlLanguage" 
+                        forcePluginActivation="true"/>
+                </with>        
+            </and>
+        </definition>
+    </extension>
+    <extension
+            point="org.eclipse.ui.preferencePages">
+        <page
+            class="nl.dslmeinte.xtext.wsdl.ui.WsdlLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage"
+            id="nl.dslmeinte.xtext.wsdl.WsdlLanguage"
+            name="WsdlLanguage">
+            <keywordReference id="nl.dslmeinte.xtext.wsdl.ui.keyword_WsdlLanguage"/>
+        </page>
+        <page
+            category="nl.dslmeinte.xtext.wsdl.WsdlLanguage"
+            class="nl.dslmeinte.xtext.wsdl.ui.WsdlLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.syntaxcoloring.SyntaxColoringPreferencePage"
+            id="nl.dslmeinte.xtext.wsdl.WsdlLanguage.coloring"
+            name="Syntax Coloring">
+            <keywordReference id="nl.dslmeinte.xtext.wsdl.ui.keyword_WsdlLanguage"/>
+        </page>
+        <page
+            category="nl.dslmeinte.xtext.wsdl.WsdlLanguage"
+            class="nl.dslmeinte.xtext.wsdl.ui.WsdlLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.templates.XtextTemplatePreferencePage"
+            id="nl.dslmeinte.xtext.wsdl.WsdlLanguage.templates"
+            name="Templates">
+            <keywordReference id="nl.dslmeinte.xtext.wsdl.ui.keyword_WsdlLanguage"/>
+        </page>
+    </extension>
+    <extension
+            point="org.eclipse.ui.propertyPages">
+        <page
+            class="nl.dslmeinte.xtext.wsdl.ui.WsdlLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage"
+            id="nl.dslmeinte.xtext.wsdl.WsdlLanguage"
+            name="WsdlLanguage">
+            <keywordReference id="nl.dslmeinte.xtext.wsdl.ui.keyword_WsdlLanguage"/>
+            <enabledWhen>
+	            <adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+	        <filter name="projectNature" value="org.eclipse.xtext.ui.shared.xtextNature"/>
+        </page>
+    </extension>
+    <extension
+        point="org.eclipse.ui.keywords">
+        <keyword
+            id="nl.dslmeinte.xtext.wsdl.ui.keyword_WsdlLanguage"
+            label="WsdlLanguage"/>
+    </extension>
+    <extension
+         point="org.eclipse.ui.commands">
+      <command
+            description="Trigger expensive validation"
+            id="nl.dslmeinte.xtext.wsdl.WsdlLanguage.validate"
+            name="Validate">
+      </command>
+    </extension>
+    <extension point="org.eclipse.ui.menus">
+        <menuContribution
+            locationURI="popup:#TextEditorContext?after=group.edit">
+             <command
+                 commandId="nl.dslmeinte.xtext.wsdl.WsdlLanguage.validate"
+                 style="push"
+                 tooltip="Trigger expensive validation">
+            <visibleWhen checkEnabled="false">
+                <reference
+                    definitionId="nl.dslmeinte.xtext.wsdl.WsdlLanguage.Editor.opened">
+                </reference>
+            </visibleWhen>
+         </command>  
+         </menuContribution>
+    </extension>
+    <extension point="org.eclipse.ui.menus">
+		<menuContribution locationURI="popup:#TextEditorContext?endof=group.find">
+			<command commandId="org.eclipse.xtext.ui.editor.FindReferences">
+				<visibleWhen checkEnabled="false">
+                	<reference definitionId="nl.dslmeinte.xtext.wsdl.WsdlLanguage.Editor.opened">
+                	</reference>
+            	</visibleWhen>
+			</command>
+		</menuContribution>
+	</extension>
+	<extension point="org.eclipse.ui.handlers">
+	    <handler
+            class="nl.dslmeinte.xtext.wsdl.ui.WsdlLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.findrefs.FindReferencesHandler"
+            commandId="org.eclipse.xtext.ui.editor.FindReferences">
+            <activeWhen>
+                <reference
+                    definitionId="nl.dslmeinte.xtext.wsdl.WsdlLanguage.Editor.opened">
+                </reference>
+            </activeWhen>
+        </handler>
+    </extension>   
+
+<!-- adding resource factories -->
+
+	<extension
+		point="org.eclipse.emf.ecore.extension_parser">
+		<parser
+			class="nl.dslmeinte.xtext.wsdl.ui.WsdlLanguageExecutableExtensionFactory:org.eclipse.xtext.resource.IResourceFactory"
+			type="wsdlr">
+		</parser>
+	</extension>
+	<extension point="org.eclipse.xtext.extension_resourceServiceProvider">
+        <resourceServiceProvider
+            class="nl.dslmeinte.xtext.wsdl.ui.WsdlLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.resource.IResourceUIServiceProvider"
+            uriExtension="wsdlr">
+        </resourceServiceProvider>
+    </extension>
+
+
+    <!-- marker definitions for nl.dslmeinte.xtext.wsdl.WsdlLanguage -->
+    <extension
+            id="wsdllanguage.check.fast"
+            name="WsdlLanguage Problem"
+            point="org.eclipse.core.resources.markers">
+        <super type="org.eclipse.xtext.ui.check.fast"/>
+        <persistent value="true"/>
+    </extension>
+    <extension
+            id="wsdllanguage.check.normal"
+            name="WsdlLanguage Problem"
+            point="org.eclipse.core.resources.markers">
+        <super type="org.eclipse.xtext.ui.check.normal"/>
+        <persistent value="true"/>
+    </extension>
+    <extension
+            id="wsdllanguage.check.expensive"
+            name="WsdlLanguage Problem"
+            point="org.eclipse.core.resources.markers">
+        <super type="org.eclipse.xtext.ui.check.expensive"/>
+        <persistent value="true"/>
+    </extension>
+
+   <extension
+         point="org.eclipse.xtext.builder.participant">
+      <participant
+            class="nl.dslmeinte.xtext.wsdl.ui.WsdlLanguageExecutableExtensionFactory:org.eclipse.xtext.builder.IXtextBuilderParticipant">
+      </participant>
+   </extension>
+   <extension
+            point="org.eclipse.ui.preferencePages">
+        <page
+            category="nl.dslmeinte.xtext.wsdl.WsdlLanguage"
+            class="nl.dslmeinte.xtext.wsdl.ui.WsdlLanguageExecutableExtensionFactory:org.eclipse.xtext.builder.preferences.BuilderPreferencePage"
+            id="nl.dslmeinte.xtext.wsdl.WsdlLanguage.compiler.preferencePage"
+            name="Compiler">
+            <keywordReference id="nl.dslmeinte.xtext.wsdl.ui.keyword_WsdlLanguage"/>
+        </page>
+    </extension>
+    <extension
+            point="org.eclipse.ui.propertyPages">
+        <page
+            category="nl.dslmeinte.xtext.wsdl.WsdlLanguage"
+            class="nl.dslmeinte.xtext.wsdl.ui.WsdlLanguageExecutableExtensionFactory:org.eclipse.xtext.builder.preferences.BuilderPreferencePage"
+            id="nl.dslmeinte.xtext.wsdl.WsdlLanguage.compiler.propertyPage"
+            name="Compiler">
+            <keywordReference id="nl.dslmeinte.xtext.wsdl.ui.keyword_WsdlLanguage"/>
+            <enabledWhen>
+	            <adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+	        <filter name="projectNature" value="org.eclipse.xtext.ui.shared.xtextNature"/>
+        </page>
+    </extension>
+
+	<!-- Quick Outline -->
+	<extension
+		point="org.eclipse.ui.handlers">
+		<handler 
+			class="nl.dslmeinte.xtext.wsdl.ui.WsdlLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.outline.quickoutline.ShowQuickOutlineActionHandler"
+			commandId="org.eclipse.xtext.ui.editor.outline.QuickOutline">
+			<activeWhen>
+				<reference
+					definitionId="nl.dslmeinte.xtext.wsdl.WsdlLanguage.Editor.opened">
+				</reference>
+			</activeWhen>
+		</handler>
+	</extension>
+	<extension
+		point="org.eclipse.ui.commands">
+		<command
+			description="Open the quick outline."
+			id="org.eclipse.xtext.ui.editor.outline.QuickOutline"
+			name="Quick Outline">
+		</command>
+	</extension>
+	<extension point="org.eclipse.ui.menus">
+		<menuContribution
+			locationURI="popup:#TextEditorContext?after=group.open">
+			<command commandId="org.eclipse.xtext.ui.editor.outline.QuickOutline"
+				style="push"
+				tooltip="Open Quick Outline">
+				<visibleWhen checkEnabled="false">
+					<reference definitionId="nl.dslmeinte.xtext.wsdl.WsdlLanguage.Editor.opened"/>
+				</visibleWhen>
+			</command>
+		</menuContribution>
+	</extension>
+    <!-- quickfix marker resolution generator for nl.dslmeinte.xtext.wsdl.WsdlLanguage -->
+    <extension
+            point="org.eclipse.ui.ide.markerResolution">
+        <markerResolutionGenerator
+            class="nl.dslmeinte.xtext.wsdl.ui.WsdlLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator"
+            markerType="nl.dslmeinte.xtext.wsdl.ui.wsdllanguage.check.fast">
+            <attribute
+                name="FIXABLE_KEY"
+                value="true">
+            </attribute>
+        </markerResolutionGenerator>
+        <markerResolutionGenerator
+            class="nl.dslmeinte.xtext.wsdl.ui.WsdlLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator"
+            markerType="nl.dslmeinte.xtext.wsdl.ui.wsdllanguage.check.normal">
+            <attribute
+                name="FIXABLE_KEY"
+                value="true">
+            </attribute>
+        </markerResolutionGenerator>
+        <markerResolutionGenerator
+            class="nl.dslmeinte.xtext.wsdl.ui.WsdlLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator"
+            markerType="nl.dslmeinte.xtext.wsdl.ui.wsdllanguage.check.expensive">
+            <attribute
+                name="FIXABLE_KEY"
+                value="true">
+            </attribute>
+        </markerResolutionGenerator>
+    </extension>
+   	<!-- Rename Refactoring -->
+	<extension point="org.eclipse.ui.handlers">
+		<handler 
+			class="nl.dslmeinte.xtext.wsdl.ui.WsdlLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.refactoring.ui.IRenameElementHandler"
+			commandId="org.eclipse.xtext.ui.refactoring.RenameElement">
+			<activeWhen>
+				<reference
+					definitionId="nl.dslmeinte.xtext.wsdl.WsdlLanguage.Editor.opened">
+				</reference>
+			</activeWhen>
+		</handler>
+	</extension>
+    <extension point="org.eclipse.ui.menus">
+         <menuContribution
+            locationURI="popup:#TextEditorContext?after=group.edit">
+         <command commandId="org.eclipse.xtext.ui.refactoring.RenameElement"
+               style="push">
+            <visibleWhen checkEnabled="false">
+               <reference
+                     definitionId="nl.dslmeinte.xtext.wsdl.WsdlLanguage.Editor.opened">
+               </reference>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+   </extension>
+   <extension point="org.eclipse.ui.preferencePages">
+	    <page
+	        category="nl.dslmeinte.xtext.wsdl.WsdlLanguage"
+	        class="nl.dslmeinte.xtext.wsdl.ui.WsdlLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.refactoring.ui.RefactoringPreferencePage"
+	        id="nl.dslmeinte.xtext.wsdl.WsdlLanguage.refactoring"
+	        name="Refactoring">
+	        <keywordReference id="nl.dslmeinte.xtext.wsdl.ui.keyword_WsdlLanguage"/>
+	    </page>
+	</extension>
+
+  <extension point="org.eclipse.compare.contentViewers">
+    <viewer id="nl.dslmeinte.xtext.wsdl.WsdlLanguage.compare.contentViewers"
+            class="nl.dslmeinte.xtext.wsdl.ui.WsdlLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.compare.InjectableViewerCreator"
+            extensions="wsdlr">
+    </viewer>
+  </extension>
+  <extension point="org.eclipse.compare.contentMergeViewers">
+    <viewer id="nl.dslmeinte.xtext.wsdl.WsdlLanguage.compare.contentMergeViewers"
+            class="nl.dslmeinte.xtext.wsdl.ui.WsdlLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.compare.InjectableViewerCreator"
+            extensions="wsdlr" label="WsdlLanguage Compare">
+     </viewer>
+  </extension>
+  <extension point="org.eclipse.ui.editors.documentProviders">
+    <provider id="nl.dslmeinte.xtext.wsdl.WsdlLanguage.editors.documentProviders"
+            class="nl.dslmeinte.xtext.wsdl.ui.WsdlLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.model.XtextDocumentProvider"
+            extensions="wsdlr">
+    </provider>
+  </extension>
+
+</plugin>

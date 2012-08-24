@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<plugin>
+
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package 
+       uri = "http://www.dslmeinte.nl/xtext/wsdl/WsdlLanguage" 
+       class = "nl.dslmeinte.xtext.wsdl.wsdlLanguage.WsdlLanguagePackage"
+       genModel = "nl/dslmeinte/xtext/wsdl/WsdlLanguage.genmodel" /> 
+	
+  </extension>
+
+
+
+
+</plugin>
