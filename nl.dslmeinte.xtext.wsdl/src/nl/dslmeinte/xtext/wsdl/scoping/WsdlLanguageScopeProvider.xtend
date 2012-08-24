@@ -6,7 +6,7 @@ import nl.dslmeinte.xtext.wsdl.wsdlLanguage.XsdImport
 import nl.dslmeinte.xtext.xsd.XsdExtensions
 import nl.dslmeinte.xtext.xsd.xsdLanguage.Schema
 import org.eclipse.emf.ecore.EReference
-import org.eclipse.emf.mwe2.language.scoping.QualifiedNameProvider
+import org.eclipse.xtext.naming.IQualifiedNameConverter
 import org.eclipse.xtext.scoping.IScope
 import org.eclipse.xtext.scoping.Scopes
 import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider
@@ -14,12 +14,13 @@ import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider
 class WsdlLanguageScopeProvider extends AbstractDeclarativeScopeProvider {
 
 	@Inject extension XsdExtensions
-	@Inject QualifiedNameProvider qualifiedNameProvider
+	@Inject extension IQualifiedNameConverter
 
 	def IScope scope_Part_def(Definitions document, EReference ref) {
+		val resolution = resolve(document.xsdImport)
 		Scopes::scopeFor(
-			resolve(document.xsdImport).definitions,
-			[qualifiedNameProvider.getFullyQualifiedName(it)],
+			resolution.definitions,
+			[name.toQualifiedName],
 			IScope::NULLSCOPE
 		)
 	}
@@ -27,7 +28,5 @@ class WsdlLanguageScopeProvider extends AbstractDeclarativeScopeProvider {
 	def private Schema resolve(XsdImport xsdImport) {
 		resolveImport(xsdImport.eResource, xsdImport.importURI)
 	}
-
-	// TODO  we could use IResourceScopeCache here to do some (automatically evicted) caching...
 
 }
