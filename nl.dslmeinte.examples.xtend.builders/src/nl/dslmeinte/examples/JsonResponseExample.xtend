@@ -3,6 +3,9 @@ package nl.dslmeinte.examples
 import com.google.inject.Inject
 import nl.dslmeinte.examples.xtend.builders.json.JsonBuilder
 
+/**
+ * @author Meinte Boersma (c) 2012
+ */
 class JsonResponseExample {
 
 	@Inject extension JsonBuilder

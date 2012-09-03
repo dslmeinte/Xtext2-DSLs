@@ -4,6 +4,9 @@ import java.util.List
 import java.util.Map
 import org.eclipse.xtend.lib.Data
 
+// (c) 2012 Meinte Boersma
+
+
 /**
  * Any HTML element.
  */
