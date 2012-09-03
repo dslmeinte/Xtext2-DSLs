@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Builders
+Bundle-SymbolicName: nl.dslmeinte.examples.xtend.builders
+Bundle-Version: 1.0.0.qualifier
+Export-Package: nl.dslmeinte.examples.xtend.builders.dom
+Import-Package: com.google.inject;version="1.4.0",
+ org.json
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
