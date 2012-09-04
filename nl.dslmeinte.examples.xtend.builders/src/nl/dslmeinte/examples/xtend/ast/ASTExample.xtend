@@ -11,12 +11,12 @@ class Eval {
 
 	def static void main(String...args) { new Eval().run() }	// run inside an instance instead of statically so we can operator overloading (and use extensions)
 
-	def evaluate(Map<String, Integer> env, Expression exp) { 
+	def evaluate(Map<String, Integer> it, Expression exp) { 
 		switch exp {
-			Variable:	(env.get(exp.name) as Integer).intValue
 			Number:		exp.value
-			Multiply:	evaluate(env, exp.x) * evaluate(env, exp.y)
-			Add:		evaluate(env, exp.x) + evaluate(env, exp.y)
+			Variable:	get(exp.name)
+			Add:		evaluate(exp.x) + evaluate(exp.y)
+			Multiply:	evaluate(exp.x) * evaluate(exp.y)
 		}
 	}
 
@@ -41,12 +41,13 @@ abstract class Expression {}
 	int value
 }
 
-@Data class Add extends Expression {
+@Data abstract class Binary extends Expression {
 	Expression x
 	Expression y
 }
 
-@Data class Multiply extends Add {}
+@Data class Add extends Binary {}
+@Data class Multiply extends Binary {}
 
 @Data class Variable extends Expression {
 	String name
