@@ -1,7 +1,6 @@
 package nl.dslmeinte.examples.xtend.ast
 
 import java.util.Map
-import org.eclipse.xtext.xbase.lib.Pair
 
 /**
  * Simple AST building and evaluation; see: https://gist.github.com/2934374
@@ -21,8 +20,6 @@ class Eval {
 		}
 	}
 
-	def operator_doubleArrow(String key, Integer value) { new Pair(key, value) }	// for convenient map construction
-
 	// for convenient AST construction:
 	def $(String varName)	{ new Variable(varName) }
 	def $(int value)		{ new Number(value) }
@@ -30,7 +27,7 @@ class Eval {
 	def operator_multiply(Expression left, Expression right)	{ new Multiply(left, right) }
 
 	def run() {
-		val env = newHashMap("a" => 3, "b" => 4, "c" => 5)
+		val env = newHashMap("a" -> 3, "b" -> 4, "c" -> 5)
 		val expressionTree = $('a') + $(2) * $('b')
 		println(evaluate(env, expressionTree))
 	}
@@ -41,17 +38,17 @@ class Eval {
 abstract class Expression {}
 
 @Data class Number extends Expression {
-	@Property int value
+	int value
 }
 
 @Data class Add extends Expression {
-	@Property Expression x
-	@Property Expression y
+	Expression x
+	Expression y
 }
 
 @Data class Multiply extends Add {}
 
 @Data class Variable extends Expression {
-	@Property String name
+	String name
 }
 

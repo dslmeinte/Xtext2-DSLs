@@ -15,7 +15,7 @@ class JsonBuilder {
 	 * Creates a {@link JSONObject} from the given key-value
 	 * {@link Pair pairs}.
 	 */
-	def object(Pair<String, Object>...keyValuePairs) {
+	def object(Pair<String, ?>...keyValuePairs) {
 		new JSONObject() => [
 			keyValuePairs.forEach[ p | it.put(p.key, p.value) ]
 		]
