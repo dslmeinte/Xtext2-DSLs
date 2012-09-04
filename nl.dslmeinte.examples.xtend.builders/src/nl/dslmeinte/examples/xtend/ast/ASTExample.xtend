@@ -1,6 +1,7 @@
 package nl.dslmeinte.examples.xtend.ast
 
 import java.util.Map
+import org.eclipse.xtext.xbase.lib.Pair
 
 /**
  * Simple AST building and evaluation; see: https://gist.github.com/2934374
@@ -9,32 +10,38 @@ import java.util.Map
  */
 class Eval {
 
-	def static int evaluate(Map<String, Integer> env, Expression exp) { 
+	def static void main(String...args) { new Eval().run() }	// run inside an instance instead of statically so we can operator overloading (and use extensions)
+
+	def evaluate(Map<String, Integer> env, Expression exp) { 
 		switch exp {
 			Variable:	(env.get(exp.name) as Integer).intValue
-			Number:		exp.^val
+			Number:		exp.value
 			Multiply:	evaluate(env, exp.x) * evaluate(env, exp.y)
 			Add:		evaluate(env, exp.x) + evaluate(env, exp.y)
-			default:	0
 		}
 	}
 
-	def static void main(String...args) {
-		val env = <String, Integer>newHashMap
-		env.put("a", 3)
-		env.put("b", 4)
-		env.put("c", 5)
+	def operator_doubleArrow(String key, Integer value) { new Pair(key, value) }	// for convenient map construction
 
-		val expressionTree = new Add(new Variable("a"), new Multiply(new Number(2), new Variable("b")))
+	// for convenient AST construction:
+	def $(String varName)	{ new Variable(varName) }
+	def $(int value)		{ new Number(value) }
+	def operator_plus(Expression left, Expression right)		{ new Add(left, right) }
+	def operator_multiply(Expression left, Expression right)	{ new Multiply(left, right) }
+
+	def run() {
+		val env = newHashMap("a" => 3, "b" => 4, "c" => 5)
+		val expressionTree = $('a') + $(2) * $('b')
 		println(evaluate(env, expressionTree))
 	}
 
 }
 
+
 abstract class Expression {}
 
 @Data class Number extends Expression {
-	@Property int ^val
+	@Property int value
 }
 
 @Data class Add extends Expression {
