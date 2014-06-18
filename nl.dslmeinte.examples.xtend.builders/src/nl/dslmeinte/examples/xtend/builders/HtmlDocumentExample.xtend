@@ -1,4 +1,4 @@
-package nl.dslmeinte.examples
+package nl.dslmeinte.examples.xtend.builders
 
 import com.google.inject.Inject
 import nl.dslmeinte.examples.xtend.builders.dom.DomBuilder
