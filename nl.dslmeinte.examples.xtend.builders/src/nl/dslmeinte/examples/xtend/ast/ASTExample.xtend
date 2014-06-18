@@ -5,11 +5,11 @@ import java.util.Map
 /**
  * Simple AST building and evaluation; see: https://gist.github.com/2934374
  * 
- * @author Meinte Boersma (c) 2012
+ * @author Meinte Boersma (c) 2012-2014
  */
-class Eval {
+class EvalWithObjects {
 
-	def static void main(String...args) { new Eval().run() }	// run inside an instance instead of statically so we can operator overloading (and use extensions)
+	def static void main(String...args) { new EvalWithObjects().run() }	// run inside an instance instead of statically so we can operator overloading (and use extensions)
 
 	def int evaluate(Map<String, Integer> it, Expression exp) { 
 		switch exp {

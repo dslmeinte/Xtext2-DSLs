@@ -1,18 +1,20 @@
-package nl.dslmeinte.examples.xtendmixed.ast
+package nl.dslmeinte.examples.xtend.ast
+
+import java.util.Map
 
 /**
  * Simple AST building and evaluation; see: https://gist.github.com/2934374
  * 
- * @author Meinte Boersma (c) 2012
+ * @author Meinte Boersma (c) 2012-2014
  */
-class Eval {
+class EvalWithoutObjects {
 
-	def static void main(String...args) { new Eval().run() }
+	def static void main(String...args) { new EvalWithoutObjects().run() }
 		// run inside an instance instead of statically so we can do operator overloading (and use extensions)
 
 	// for convenient AST construction:
-	def Expr $(String varName)				{ [ get(varName) ] }
-	def Expr $(int value)					{ [ value ] }
+	def Expr $(String varName)							{ [ get(varName) ] }
+	def Expr $(int value)								{ [ value ] }
 	def Expr operator_plus(Expr left, Expr right)		{ [ left.eval(it) + right.eval(it) ] }
 	def Expr operator_multiply(Expr left, Expr right)	{ [ left.eval(it) * right.eval(it) ] }
 
@@ -26,6 +28,12 @@ class Eval {
 	def run() {
 		println( ( $('a') + $(2) * $('b') ).eval( newHashMap("a" -> 3, "b" -> 4, "c" -> 5) ) )
 	}
+
+}
+
+interface Expr {
+
+	def int eval(Map<String, Integer> env)
 
 }
 
