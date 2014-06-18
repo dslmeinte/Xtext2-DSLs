@@ -1,5 +1,7 @@
 package nl.dslmeinte.examples.xtend.builders.dom
 
+import org.eclipse.xtext.xbase.lib.Procedures$Procedure1
+
 /**
  * Abstract base class for the generated {@link DomBuilder},
  * providing the necessary extension functions for the basic
@@ -10,7 +12,7 @@ package nl.dslmeinte.examples.xtend.builders.dom
 abstract class BaseDomBuilder {
 
 	/**
-	 * Builds a {@link TextElement} with the given text, appending it
+	 * Builds a {@link Text} with the given text, appending it
 	 * to a {@link CompositeElement}.
 	 */
 	def void $(CompositeElement container, CharSequence text) {

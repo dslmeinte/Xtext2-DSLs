@@ -56,7 +56,7 @@ class DomElementLiteral {
 	 * @returns The name (which is not guaranteed to start on an uppercase character) of the container element.
 	 */
 	def containerElementName() {
-		if( containerElementType != null ) containerElementType.simpleName else containerElementLiteral.elementName
+		if( containerElementType !== null ) containerElementType.simpleName else containerElementLiteral.elementName
 	}
 
 }

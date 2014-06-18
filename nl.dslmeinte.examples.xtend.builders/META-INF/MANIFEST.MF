@@ -4,6 +4,8 @@ Bundle-Name: Builders
 Bundle-SymbolicName: nl.dslmeinte.examples.xtend.builders
 Bundle-Version: 1.0.0.qualifier
 Export-Package: nl.dslmeinte.examples.xtend.builders.dom
-Import-Package: com.google.inject;version="1.4.0",
- org.json
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Import-Package: com.google.inject;version="1.4.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Require-Bundle: com.google.guava,
+ org.eclipse.xtend.lib,
+ org.eclipse.xtext.xbase.lib

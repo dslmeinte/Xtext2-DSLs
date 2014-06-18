@@ -11,7 +11,7 @@ class Eval {
 
 	def static void main(String...args) { new Eval().run() }	// run inside an instance instead of statically so we can operator overloading (and use extensions)
 
-	def evaluate(Map<String, Integer> it, Expression exp) { 
+	def int evaluate(Map<String, Integer> it, Expression exp) { 
 		switch exp {
 			Number:		exp.value
 			Variable:	get(exp.name)
