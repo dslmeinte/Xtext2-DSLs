@@ -1,6 +1,7 @@
 package nl.dslmeinte.examples.xtend.ast
 
 import java.util.Map
+import org.junit.Test
 
 /**
  * Simple AST building and evaluation; see: https://gist.github.com/2934374
@@ -8,8 +9,6 @@ import java.util.Map
  * @author Meinte Boersma (c) 2012-2014
  */
 class EvalWithObjects {
-
-	def static void main(String...args) { new EvalWithObjects().run() }	// run inside an instance instead of statically so we can operator overloading (and use extensions)
 
 	def int evaluate(Map<String, Integer> it, Expression exp) { 
 		switch exp {
@@ -21,12 +20,13 @@ class EvalWithObjects {
 	}
 
 	// for convenient AST construction:
-	def $(String varName)	{ new Variable(varName) }
-	def $(int value)		{ new Number(value) }
-	def operator_plus(Expression left, Expression right)		{ new Add(left, right) }
-	def operator_multiply(Expression left, Expression right)	{ new Multiply(left, right) }
+	def $(String varName)						{ new Variable(varName) }
+	def $(int value)							{ new Number(value) }
+	def +(Expression left, Expression right)	{ new Add(left, right) }
+	def *(Expression left, Expression right)	{ new Multiply(left, right) }
 
-	def run() {
+	@Test
+	def void run() {
 		val env = newHashMap("a" -> 3, "b" -> 4, "c" -> 5)
 		val expressionTree = $('a') + $(2) * $('b')
 		println(evaluate(env, expressionTree))
