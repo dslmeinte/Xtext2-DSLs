@@ -3,7 +3,10 @@ package nl.dslmeinte.examples.xtend.objectalgebras
 import org.junit.Test
 
 /*
- * TODO  ref to blog post and Tijs' video
+ * This is the source code for the blog post
+ * http://dslmeinte.wordpress.com/2014/06/18/object-algebras-in-xtend/
+ * inspired by Tijs van der Storm's presentation during Joy of Coding 2014:
+ * http://www.infoq.com/presentations/object-algebras
  */
 
 /*
@@ -12,7 +15,7 @@ import org.junit.Test
 
 interface ExpAlg<E> {
   def E lit(int n)
-  def E +(E lhs, E rhs)
+  def E +(E lhs, E rhs)		// note that Xtend >= 2.6 allows this syntax for overloading
 }
 
 
@@ -25,22 +28,20 @@ interface IPrint {
 }
 
 class PrintExp implements ExpAlg<IPrint> {
-  override IPrint +(IPrint lhs, IPrint rhs) { new PrintAdd(lhs, rhs) }
+  override IPrint +(IPrint lhs, IPrint rhs) { new PrintAdd(lhs, rhs) }	// again: nice syntax for overloading
   override IPrint lit(int n) { new PrintLit(n) }
 }
 
-@Data
+@Data	// causes this class to be treated as Value Object
 class PrintAdd implements IPrint {
-  @Property IPrint lhs
-  @Property IPrint rhs
-  
-  override String print() { '''«lhs.print» + «rhs.print»''' }
+  IPrint lhs
+  IPrint rhs
+  override String print() { '''«lhs.print» + «rhs.print»''' }	// use of templating
 }
 
 @Data
 class PrintLit implements IPrint {
-  @Property int value
-
+  int value
   override String print() { value.toString }
 }
 
@@ -59,16 +60,14 @@ class EvalExp implements ExpAlg<IEval> {
 
 @Data
 class EvalAdd implements IEval {
-  @Property IEval lhs
-  @Property IEval rhs
-  
+  IEval lhs
+  IEval rhs
   override int eval() { lhs.eval + rhs.eval }
 }
 
 @Data
 class EvalLit implements IEval {
-  @Property int value
-
+  int value
   override int eval() { value }
 }
 
@@ -79,8 +78,14 @@ class EvalLit implements IEval {
 class Example1 {
 
   def <E> makeExp(extension ExpAlg<E> a) { lit(1) + lit(2) }
+  	/*
+  	 * Two observations:
+  	 *   1. We need to make the makeExp function generic to get things to compile.
+  	 *   2. By using the extension keyword, we don't need to use the "a." prefix everywhere.
+  	 * 		Together with the overloading of + this makes for very nice syntax.
+  	 */
 
-  @Test
+  @Test		// (use a JUnit annotation to easily run this)
   def void baseMain() {
     val x1 = makeExp(new PrintExp)
     println(x1.print)
@@ -110,9 +115,8 @@ class PrintExpMul extends PrintExp implements MulAlg<IPrint> {
 
 @Data
 class PrintMul implements IPrint {
-  @Property IPrint lhs
-  @Property IPrint rhs
-  
+  IPrint lhs
+  IPrint rhs
   override String print() { '''«lhs.print» * «rhs.print»''' }
 }
 
@@ -126,9 +130,8 @@ class EvalExpMul extends EvalExp implements MulAlg<IEval> {
 
 @Data
 class EvalMul implements IEval {
-  @Property IEval lhs
-  @Property IEval rhs
-  
+  IEval lhs
+  IEval rhs
   override int eval() { lhs.eval * rhs.eval }
 }
 
