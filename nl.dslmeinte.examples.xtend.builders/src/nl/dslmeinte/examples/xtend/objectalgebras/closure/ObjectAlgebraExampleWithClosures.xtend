@@ -1,4 +1,4 @@
-package nl.dslmeinte.examples.xtend.objectalgebras
+package nl.dslmeinte.examples.xtend.objectalgebras.closure
 
 import org.junit.Test
 
@@ -28,22 +28,16 @@ interface IPrint {
 }
 
 class PrintExp implements ExpAlg<IPrint> {
-  override IPrint +(IPrint lhs, IPrint rhs) { new PrintAdd(lhs, rhs) }	// again: nice syntax for overloading
-  override IPrint lit(int n) { new PrintLit(n) }
+  override IPrint +(IPrint lhs, IPrint rhs)	{ [| '''«lhs.print» + «rhs.print»''' ] }	// again: nice syntax for overloading
+  override IPrint lit(int n)				{ [| n.toString ] }
 }
+/*
+ * Use closures to implement the interface (IPrint in this case),
+ * capturing the parameters (lhs, rhs, n) as finals within the inner scope.
+ * Note that we have to make explicit that the closures have no arguments
+ * (nothing before |) in order to comply with the interface definition.
+ */
 
-@Data	// causes this class to be treated as Value Object
-class PrintAdd implements IPrint {
-  IPrint lhs
-  IPrint rhs
-  override String print() { '''«lhs.print» + «rhs.print»''' }	// use of templating
-}
-
-@Data
-class PrintLit implements IPrint {
-  int value
-  override String print() { value.toString }
-}
 
 /*
  * Evaluation of expressions
@@ -54,21 +48,8 @@ interface IEval {
 }
 
 class EvalExp implements ExpAlg<IEval> {
-  override IEval +(IEval lhs, IEval rhs) { new EvalAdd(lhs, rhs) }
-  override IEval lit(int n) { new EvalLit(n) }
-}
-
-@Data
-class EvalAdd implements IEval {
-  IEval lhs
-  IEval rhs
-  override int eval() { lhs.eval + rhs.eval }
-}
-
-@Data
-class EvalLit implements IEval {
-  int value
-  override int eval() { value }
+  override IEval +(IEval lhs, IEval rhs)	{ [| lhs.eval + rhs.eval ] }
+  override IEval lit(int n)					{ [| n ] }
 }
 
 /*
@@ -110,14 +91,7 @@ interface MulAlg<E> extends ExpAlg<E> {
  */
 
 class PrintExpMul extends PrintExp implements MulAlg<IPrint> {
-  override IPrint *(IPrint lhs, IPrint rhs) { new PrintMul(lhs, rhs) }
-}
-
-@Data
-class PrintMul implements IPrint {
-  IPrint lhs
-  IPrint rhs
-  override String print() { '''«lhs.print» * «rhs.print»''' }
+  override IPrint *(IPrint lhs, IPrint rhs)	{ [| '''«lhs.print» * «rhs.print»''' ] }
 }
 
 /*
@@ -125,14 +99,7 @@ class PrintMul implements IPrint {
  */
 
 class EvalExpMul extends EvalExp implements MulAlg<IEval> {
-  override IEval *(IEval lhs, IEval rhs) { new EvalMul(lhs, rhs) }
-}
-
-@Data
-class EvalMul implements IEval {
-  IEval lhs
-  IEval rhs
-  override int eval() { lhs.eval * rhs.eval }
+  override IEval *(IEval lhs, IEval rhs)	{ [| lhs.eval * rhs.eval ] }
 }
 
 /* Using the extended code */
