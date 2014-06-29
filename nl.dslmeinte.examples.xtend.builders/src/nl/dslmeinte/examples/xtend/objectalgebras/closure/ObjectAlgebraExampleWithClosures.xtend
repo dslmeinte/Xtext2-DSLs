@@ -138,8 +138,8 @@ class Description {
 class DescribeAlg implements MulAlg<IExpose> {
 
 	override lit(int n)						{ [| new Description('lit(-eral)', newHashMap('n' -> n)) ] }
+	override +(IExpose lhs, IExpose rhs)	{ [| new Description('addition/+', newHashMap('lhs' -> lhs.describe, 'rhs' -> rhs.describe)) ] }
 	override *(IExpose lhs, IExpose rhs)	{ [| new Description('multiplication/*', newHashMap('lhs' -> lhs.describe, 'rhs' -> rhs.describe)) ] }
-	override +(IExpose lhs, IExpose rhs)	{ [| new Description('addition/*', newHashMap('lhs' -> lhs.describe, 'rhs' -> rhs.describe)) ] }
 
 }
 
