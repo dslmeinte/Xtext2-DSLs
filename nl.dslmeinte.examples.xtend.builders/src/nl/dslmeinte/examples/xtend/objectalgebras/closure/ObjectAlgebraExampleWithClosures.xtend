@@ -1,5 +1,6 @@
 package nl.dslmeinte.examples.xtend.objectalgebras.closure
 
+import java.util.Map
 import org.junit.Test
 
 /*
@@ -115,6 +116,38 @@ class Example2 {
 
     val x2 = makeMulExp(new EvalExpMul)
     println(x2.eval)
+  }
+
+}
+
+
+/*
+ * Expose structure, even when using closures
+ */
+
+interface IExpose {
+	def Description describe()
+}
+
+@Data
+class Description {
+	String name
+	Map<String, Object> properties
+}
+
+class DescribeAlg implements MulAlg<IExpose> {
+
+	override lit(int n)						{ [| new Description('lit(-eral)', newHashMap('n' -> n)) ] }
+	override *(IExpose lhs, IExpose rhs)	{ [| new Description('multiplication/*', newHashMap('lhs' -> lhs.describe, 'rhs' -> rhs.describe)) ] }
+	override +(IExpose lhs, IExpose rhs)	{ [| new Description('addition/*', newHashMap('lhs' -> lhs.describe, 'rhs' -> rhs.describe)) ] }
+
+}
+
+class Example3 extends Example2 {
+
+  @Test
+  def void describeMain() {
+    println(makeMulExp(new DescribeAlg).describe)
   }
 
 }
