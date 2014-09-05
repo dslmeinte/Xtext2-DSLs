@@ -9,4 +9,8 @@ model/
 *.jar
 build.properties
 plugin.*
-src/nl/dslmeinte/xtext/ambiguity
+
+src/nl/dslmeinte/xtext/ambiguity/**
+!src/nl/dslmeinte/xtext/ambiguity/*.mwe2
+!src/nl/dslmeinte/xtext/ambiguity/*.xtext
+

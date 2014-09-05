@@ -1,0 +1,51 @@
+grammar nl.dslmeinte.xtext.ambiguity.MyPL with org.eclipse.xtext.common.Terminals
+
+generate myPL "http://www.dslmeinte.nl/xtext/ambiguity/MyPL"
+
+
+// general stuff:
+
+Program:
+	elements += (Class | Statement)*
+	;
+
+Class:
+	'class' name=ID '{'
+		features+=Feature*
+	'}'
+	;
+
+Feature:
+	Class | Attribute;
+
+Attribute:
+	name=ID ':' type=STRING
+	;
+
+
+// expression sub language
+
+Expression:
+	IntegerLiteral
+	;
+
+IntegerLiteral:
+	int=INT
+	;
+
+
+// our reworked grammar:
+
+Variable:		varName=ID;
+FirstHeadType:	Class | Variable;
+Head:			first=[FirstHeadType] tail=FeatureRefTail?;
+FeatureRefTail: '.' feature=[Feature] tail=FeatureRefTail?;
+
+Statement:
+	Head (
+	({VariableDeclaration.typeRef=current} variable=Variable ':=' (value=Expression)?) |
+	({Assignment.lhs=current} ':=' value=Expression))
+	;
+
+
+
