@@ -1,0 +1,48 @@
+grammar nl.dslmeinte.multilevel.ExampleDsl with org.eclipse.xtext.common.Terminals
+
+generate exampleDsl "http://www.dslmeinte.nl/multilevel/ExampleDsl"
+
+Model:
+	elements+=(Entity | EntityInstance | MarkdownDialects)*;
+
+Entity:
+	'entity' name=ID '{'
+		features+=Feature*
+	'}';
+
+Feature: Attribute | Reference;
+
+Attribute: name=ID ':' dataType=DataType;
+
+enum DataType:
+	  string
+	| integer
+	;
+
+Reference: name=ID '->' entity=[Entity];
+
+
+EntityInstance:
+	'instance-of' entity=[Entity] '{'
+		values+=FeatureValue*
+	'}';
+
+FeatureValue: feature=[Feature] '=' value=Literal;
+	/*
+	 * scoping: feature must be one of parent(EntityInstance).entity.features
+	 * validation: type(value) must match type of feature; every feature may only receive one value
+	 */
+
+Literal:			AttributeLiteral | EntityInstance;
+AttributeLiteral:	StringLiteral | IntegerLiteral;
+StringLiteral:		string=STRING;
+IntegerLiteral:		integer=INT;
+
+
+MarkdownDialects:
+	'markdown-dialect' '{'
+		  ('name' '=' name=STRING)
+		& ('author' '=' authorName=STRING)
+	'}'
+	;
+

@@ -1,11 +1,11 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: nl.dslmeinte.xtext.ambiguity.ui
+Bundle-Name: nl.dslmeinte.multilevel.ui
 Bundle-Vendor: DSL Consultancy
 Bundle-Version: 1.0.0.qualifier
-Bundle-SymbolicName: nl.dslmeinte.xtext.ambiguity.ui; singleton:=true
+Bundle-SymbolicName: nl.dslmeinte.multilevel.ui; singleton:=true
 Bundle-ActivationPolicy: lazy
-Require-Bundle: nl.dslmeinte.xtext.ambiguity;visibility:=reexport,
+Require-Bundle: nl.dslmeinte.multilevel;visibility:=reexport,
  org.eclipse.xtext.ui,
  org.eclipse.ui.editors;bundle-version="3.5.0",
  org.eclipse.ui.ide;bundle-version="3.5.0",
@@ -19,8 +19,8 @@ Require-Bundle: nl.dslmeinte.xtext.ambiguity;visibility:=reexport,
 Import-Package: org.apache.log4j,
  org.eclipse.xtext.xbase.lib
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Export-Package: nl.dslmeinte.xtext.ambiguity.ui.quickfix,
- nl.dslmeinte.xtext.ambiguity.ui.contentassist,
- nl.dslmeinte.xtext.ambiguity.ui.contentassist.antlr,
- nl.dslmeinte.xtext.ambiguity.ui.internal
-Bundle-Activator: nl.dslmeinte.xtext.ambiguity.ui.internal.MyPLActivator
+Export-Package: nl.dslmeinte.multilevel.ui.quickfix,
+ nl.dslmeinte.multilevel.ui.contentassist,
+ nl.dslmeinte.multilevel.ui.contentassist.antlr,
+ nl.dslmeinte.multilevel.ui.internal
+Bundle-Activator: nl.dslmeinte.multilevel.ui.internal.ExampleDslActivator

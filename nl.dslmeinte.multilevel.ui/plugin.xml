@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<plugin>
+
+    <extension
+            point="org.eclipse.ui.editors">
+        <editor
+            class="nl.dslmeinte.multilevel.ui.ExampleDslExecutableExtensionFactory:org.eclipse.xtext.ui.editor.XtextEditor"
+            contributorClass="org.eclipse.ui.editors.text.TextEditorActionContributor"
+            default="true"
+            extensions="exdsl"
+            id="nl.dslmeinte.multilevel.ExampleDsl"
+            name="ExampleDsl Editor">
+        </editor>
+    </extension>
+    <extension
+        point="org.eclipse.ui.handlers">
+        <handler
+            class="nl.dslmeinte.multilevel.ui.ExampleDslExecutableExtensionFactory:org.eclipse.xtext.ui.editor.hyperlinking.OpenDeclarationHandler"
+            commandId="org.eclipse.xtext.ui.editor.hyperlinking.OpenDeclaration">
+            <activeWhen>
+                <reference
+                    definitionId="nl.dslmeinte.multilevel.ExampleDsl.Editor.opened">
+                </reference>
+            </activeWhen>
+        </handler>
+        <handler
+            class="nl.dslmeinte.multilevel.ui.ExampleDslExecutableExtensionFactory:org.eclipse.xtext.ui.editor.handler.ValidateActionHandler"
+            commandId="nl.dslmeinte.multilevel.ExampleDsl.validate">
+         <activeWhen>
+            <reference
+                    definitionId="nl.dslmeinte.multilevel.ExampleDsl.Editor.opened">
+            </reference>
+         </activeWhen>
+      	</handler>
+      	<!-- copy qualified name -->
+        <handler
+            class="nl.dslmeinte.multilevel.ui.ExampleDslExecutableExtensionFactory:org.eclipse.xtext.ui.editor.copyqualifiedname.EditorCopyQualifiedNameHandler"
+            commandId="org.eclipse.xtext.ui.editor.copyqualifiedname.EditorCopyQualifiedName">
+            <activeWhen>
+				<reference definitionId="nl.dslmeinte.multilevel.ExampleDsl.Editor.opened" />
+            </activeWhen>
+        </handler>
+        <handler
+            class="nl.dslmeinte.multilevel.ui.ExampleDslExecutableExtensionFactory:org.eclipse.xtext.ui.editor.copyqualifiedname.OutlineCopyQualifiedNameHandler"
+            commandId="org.eclipse.xtext.ui.editor.copyqualifiedname.OutlineCopyQualifiedName">
+            <activeWhen>
+            	<and>
+            		<reference definitionId="nl.dslmeinte.multilevel.ExampleDsl.XtextEditor.opened" />
+	                <iterate>
+						<adapt type="org.eclipse.xtext.ui.editor.outline.IOutlineNode" />
+					</iterate>
+				</and>
+            </activeWhen>
+        </handler>
+    </extension>
+    <extension point="org.eclipse.core.expressions.definitions">
+        <definition id="nl.dslmeinte.multilevel.ExampleDsl.Editor.opened">
+            <and>
+                <reference definitionId="isActiveEditorAnInstanceOfXtextEditor"/>
+                <with variable="activeEditor">
+                    <test property="org.eclipse.xtext.ui.editor.XtextEditor.languageName" 
+                        value="nl.dslmeinte.multilevel.ExampleDsl" 
+                        forcePluginActivation="true"/>
+                </with>        
+            </and>
+        </definition>
+        <definition id="nl.dslmeinte.multilevel.ExampleDsl.XtextEditor.opened">
+            <and>
+                <reference definitionId="isXtextEditorActive"/>
+                <with variable="activeEditor">
+                    <test property="org.eclipse.xtext.ui.editor.XtextEditor.languageName" 
+                        value="nl.dslmeinte.multilevel.ExampleDsl" 
+                        forcePluginActivation="true"/>
+                </with>        
+            </and>
+        </definition>
+    </extension>
+    <extension
+            point="org.eclipse.ui.preferencePages">
+        <page
+            class="nl.dslmeinte.multilevel.ui.ExampleDslExecutableExtensionFactory:org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage"
+            id="nl.dslmeinte.multilevel.ExampleDsl"
+            name="ExampleDsl">
+            <keywordReference id="nl.dslmeinte.multilevel.ui.keyword_ExampleDsl"/>
+        </page>
+        <page
+            category="nl.dslmeinte.multilevel.ExampleDsl"
+            class="nl.dslmeinte.multilevel.ui.ExampleDslExecutableExtensionFactory:org.eclipse.xtext.ui.editor.syntaxcoloring.SyntaxColoringPreferencePage"
+            id="nl.dslmeinte.multilevel.ExampleDsl.coloring"
+            name="Syntax Coloring">
+            <keywordReference id="nl.dslmeinte.multilevel.ui.keyword_ExampleDsl"/>
+        </page>
+        <page
+            category="nl.dslmeinte.multilevel.ExampleDsl"
+            class="nl.dslmeinte.multilevel.ui.ExampleDslExecutableExtensionFactory:org.eclipse.xtext.ui.editor.templates.XtextTemplatePreferencePage"
+            id="nl.dslmeinte.multilevel.ExampleDsl.templates"
+            name="Templates">
+            <keywordReference id="nl.dslmeinte.multilevel.ui.keyword_ExampleDsl"/>
+        </page>
+    </extension>
+    <extension
+            point="org.eclipse.ui.propertyPages">
+        <page
+            class="nl.dslmeinte.multilevel.ui.ExampleDslExecutableExtensionFactory:org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage"
+            id="nl.dslmeinte.multilevel.ExampleDsl"
+            name="ExampleDsl">
+            <keywordReference id="nl.dslmeinte.multilevel.ui.keyword_ExampleDsl"/>
+            <enabledWhen>
+	            <adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+	        <filter name="projectNature" value="org.eclipse.xtext.ui.shared.xtextNature"/>
+        </page>
+    </extension>
+    <extension
+        point="org.eclipse.ui.keywords">
+        <keyword
+            id="nl.dslmeinte.multilevel.ui.keyword_ExampleDsl"
+            label="ExampleDsl"/>
+    </extension>
+    <extension
+         point="org.eclipse.ui.commands">
+      <command
+            description="Trigger expensive validation"
+            id="nl.dslmeinte.multilevel.ExampleDsl.validate"
+            name="Validate">
+      </command>
+      <!-- copy qualified name -->
+      <command
+            id="org.eclipse.xtext.ui.editor.copyqualifiedname.EditorCopyQualifiedName"
+            categoryId="org.eclipse.ui.category.edit"
+            description="Copy the qualified name for the selected element"
+            name="Copy Qualified Name">
+      </command>
+      <command
+            id="org.eclipse.xtext.ui.editor.copyqualifiedname.OutlineCopyQualifiedName"
+            categoryId="org.eclipse.ui.category.edit"
+            description="Copy the qualified name for the selected element"
+            name="Copy Qualified Name">
+      </command>
+    </extension>
+    <extension point="org.eclipse.ui.menus">
+        <menuContribution
+            locationURI="popup:#TextEditorContext?after=group.edit">
+             <command
+                 commandId="nl.dslmeinte.multilevel.ExampleDsl.validate"
+                 style="push"
+                 tooltip="Trigger expensive validation">
+            <visibleWhen checkEnabled="false">
+                <reference
+                    definitionId="nl.dslmeinte.multilevel.ExampleDsl.Editor.opened">
+                </reference>
+            </visibleWhen>
+         </command>  
+         </menuContribution>
+         <!-- copy qualified name -->
+         <menuContribution locationURI="popup:#TextEditorContext?after=copy">
+         	<command commandId="org.eclipse.xtext.ui.editor.copyqualifiedname.EditorCopyQualifiedName" 
+         		style="push" tooltip="Copy Qualified Name">
+            	<visibleWhen checkEnabled="false">
+                	<reference definitionId="nl.dslmeinte.multilevel.ExampleDsl.Editor.opened" />
+            	</visibleWhen>
+         	</command>  
+         </menuContribution>
+         <menuContribution locationURI="menu:edit?after=copy">
+         	<command commandId="org.eclipse.xtext.ui.editor.copyqualifiedname.EditorCopyQualifiedName"
+            	style="push" tooltip="Copy Qualified Name">
+            	<visibleWhen checkEnabled="false">
+                	<reference definitionId="nl.dslmeinte.multilevel.ExampleDsl.Editor.opened" />
+            	</visibleWhen>
+         	</command>  
+         </menuContribution>
+         <menuContribution locationURI="popup:org.eclipse.xtext.ui.outline?after=additions">
+			<command commandId="org.eclipse.xtext.ui.editor.copyqualifiedname.OutlineCopyQualifiedName" 
+				style="push" tooltip="Copy Qualified Name">
+         		<visibleWhen checkEnabled="false">
+	            	<and>
+	            		<reference definitionId="nl.dslmeinte.multilevel.ExampleDsl.XtextEditor.opened" />
+						<iterate>
+							<adapt type="org.eclipse.xtext.ui.editor.outline.IOutlineNode" />
+						</iterate>
+					</and>
+				</visibleWhen>
+			</command>
+         </menuContribution>
+    </extension>
+    <extension point="org.eclipse.ui.menus">
+		<menuContribution locationURI="popup:#TextEditorContext?endof=group.find">
+			<command commandId="org.eclipse.xtext.ui.editor.FindReferences">
+				<visibleWhen checkEnabled="false">
+                	<reference definitionId="nl.dslmeinte.multilevel.ExampleDsl.Editor.opened">
+                	</reference>
+            	</visibleWhen>
+			</command>
+		</menuContribution>
+	</extension>
+	<extension point="org.eclipse.ui.handlers">
+	    <handler
+            class="nl.dslmeinte.multilevel.ui.ExampleDslExecutableExtensionFactory:org.eclipse.xtext.ui.editor.findrefs.FindReferencesHandler"
+            commandId="org.eclipse.xtext.ui.editor.FindReferences">
+            <activeWhen>
+                <reference
+                    definitionId="nl.dslmeinte.multilevel.ExampleDsl.Editor.opened">
+                </reference>
+            </activeWhen>
+        </handler>
+    </extension>   
+
+<!-- adding resource factories -->
+
+	<extension
+		point="org.eclipse.emf.ecore.extension_parser">
+		<parser
+			class="nl.dslmeinte.multilevel.ui.ExampleDslExecutableExtensionFactory:org.eclipse.xtext.resource.IResourceFactory"
+			type="exdsl">
+		</parser>
+	</extension>
+	<extension point="org.eclipse.xtext.extension_resourceServiceProvider">
+        <resourceServiceProvider
+            class="nl.dslmeinte.multilevel.ui.ExampleDslExecutableExtensionFactory:org.eclipse.xtext.ui.resource.IResourceUIServiceProvider"
+            uriExtension="exdsl">
+        </resourceServiceProvider>
+    </extension>
+
+
+	<!-- marker definitions for nl.dslmeinte.multilevel.ExampleDsl -->
+	<extension
+	        id="exampledsl.check.fast"
+	        name="ExampleDsl Problem"
+	        point="org.eclipse.core.resources.markers">
+	    <super type="org.eclipse.xtext.ui.check.fast"/>
+	    <persistent value="true"/>
+	</extension>
+	<extension
+	        id="exampledsl.check.normal"
+	        name="ExampleDsl Problem"
+	        point="org.eclipse.core.resources.markers">
+	    <super type="org.eclipse.xtext.ui.check.normal"/>
+	    <persistent value="true"/>
+	</extension>
+	<extension
+	        id="exampledsl.check.expensive"
+	        name="ExampleDsl Problem"
+	        point="org.eclipse.core.resources.markers">
+	    <super type="org.eclipse.xtext.ui.check.expensive"/>
+	    <persistent value="true"/>
+	</extension>
+
+   <extension
+         point="org.eclipse.xtext.builder.participant">
+      <participant
+            class="nl.dslmeinte.multilevel.ui.ExampleDslExecutableExtensionFactory:org.eclipse.xtext.builder.IXtextBuilderParticipant"
+            fileExtensions="exdsl"
+            >
+      </participant>
+   </extension>
+   <extension
+            point="org.eclipse.ui.preferencePages">
+        <page
+            category="nl.dslmeinte.multilevel.ExampleDsl"
+            class="nl.dslmeinte.multilevel.ui.ExampleDslExecutableExtensionFactory:org.eclipse.xtext.builder.preferences.BuilderPreferencePage"
+            id="nl.dslmeinte.multilevel.ExampleDsl.compiler.preferencePage"
+            name="Compiler">
+            <keywordReference id="nl.dslmeinte.multilevel.ui.keyword_ExampleDsl"/>
+        </page>
+    </extension>
+    <extension
+            point="org.eclipse.ui.propertyPages">
+        <page
+            category="nl.dslmeinte.multilevel.ExampleDsl"
+            class="nl.dslmeinte.multilevel.ui.ExampleDslExecutableExtensionFactory:org.eclipse.xtext.builder.preferences.BuilderPreferencePage"
+            id="nl.dslmeinte.multilevel.ExampleDsl.compiler.propertyPage"
+            name="Compiler">
+            <keywordReference id="nl.dslmeinte.multilevel.ui.keyword_ExampleDsl"/>
+            <enabledWhen>
+	            <adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+	        <filter name="projectNature" value="org.eclipse.xtext.ui.shared.xtextNature"/>
+        </page>
+    </extension>
+
+	<!-- Quick Outline -->
+	<extension
+		point="org.eclipse.ui.handlers">
+		<handler 
+			class="nl.dslmeinte.multilevel.ui.ExampleDslExecutableExtensionFactory:org.eclipse.xtext.ui.editor.outline.quickoutline.ShowQuickOutlineActionHandler"
+			commandId="org.eclipse.xtext.ui.editor.outline.QuickOutline">
+			<activeWhen>
+				<reference
+					definitionId="nl.dslmeinte.multilevel.ExampleDsl.Editor.opened">
+				</reference>
+			</activeWhen>
+		</handler>
+	</extension>
+	<extension
+		point="org.eclipse.ui.commands">
+		<command
+			description="Open the quick outline."
+			id="org.eclipse.xtext.ui.editor.outline.QuickOutline"
+			name="Quick Outline">
+		</command>
+	</extension>
+	<extension point="org.eclipse.ui.menus">
+		<menuContribution
+			locationURI="popup:#TextEditorContext?after=group.open">
+			<command commandId="org.eclipse.xtext.ui.editor.outline.QuickOutline"
+				style="push"
+				tooltip="Open Quick Outline">
+				<visibleWhen checkEnabled="false">
+					<reference definitionId="nl.dslmeinte.multilevel.ExampleDsl.Editor.opened"/>
+				</visibleWhen>
+			</command>
+		</menuContribution>
+	</extension>
+    <!-- quickfix marker resolution generator for nl.dslmeinte.multilevel.ExampleDsl -->
+    <extension
+            point="org.eclipse.ui.ide.markerResolution">
+        <markerResolutionGenerator
+            class="nl.dslmeinte.multilevel.ui.ExampleDslExecutableExtensionFactory:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator"
+            markerType="nl.dslmeinte.multilevel.ui.exampledsl.check.fast">
+            <attribute
+                name="FIXABLE_KEY"
+                value="true">
+            </attribute>
+        </markerResolutionGenerator>
+        <markerResolutionGenerator
+            class="nl.dslmeinte.multilevel.ui.ExampleDslExecutableExtensionFactory:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator"
+            markerType="nl.dslmeinte.multilevel.ui.exampledsl.check.normal">
+            <attribute
+                name="FIXABLE_KEY"
+                value="true">
+            </attribute>
+        </markerResolutionGenerator>
+        <markerResolutionGenerator
+            class="nl.dslmeinte.multilevel.ui.ExampleDslExecutableExtensionFactory:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator"
+            markerType="nl.dslmeinte.multilevel.ui.exampledsl.check.expensive">
+            <attribute
+                name="FIXABLE_KEY"
+                value="true">
+            </attribute>
+        </markerResolutionGenerator>
+    </extension>
+   	<!-- Rename Refactoring -->
+	<extension point="org.eclipse.ui.handlers">
+		<handler 
+			class="nl.dslmeinte.multilevel.ui.ExampleDslExecutableExtensionFactory:org.eclipse.xtext.ui.refactoring.ui.DefaultRenameElementHandler"
+			commandId="org.eclipse.xtext.ui.refactoring.RenameElement">
+			<activeWhen>
+				<reference
+					definitionId="nl.dslmeinte.multilevel.ExampleDsl.Editor.opened">
+				</reference>
+			</activeWhen>
+		</handler>
+	</extension>
+    <extension point="org.eclipse.ui.menus">
+         <menuContribution
+            locationURI="popup:#TextEditorContext?after=group.edit">
+         <command commandId="org.eclipse.xtext.ui.refactoring.RenameElement"
+               style="push">
+            <visibleWhen checkEnabled="false">
+               <reference
+                     definitionId="nl.dslmeinte.multilevel.ExampleDsl.Editor.opened">
+               </reference>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+   </extension>
+   <extension point="org.eclipse.ui.preferencePages">
+	    <page
+	        category="nl.dslmeinte.multilevel.ExampleDsl"
+	        class="nl.dslmeinte.multilevel.ui.ExampleDslExecutableExtensionFactory:org.eclipse.xtext.ui.refactoring.ui.RefactoringPreferencePage"
+	        id="nl.dslmeinte.multilevel.ExampleDsl.refactoring"
+	        name="Refactoring">
+	        <keywordReference id="nl.dslmeinte.multilevel.ui.keyword_ExampleDsl"/>
+	    </page>
+	</extension>
+
+  <extension point="org.eclipse.compare.contentViewers">
+    <viewer id="nl.dslmeinte.multilevel.ExampleDsl.compare.contentViewers"
+            class="nl.dslmeinte.multilevel.ui.ExampleDslExecutableExtensionFactory:org.eclipse.xtext.ui.compare.InjectableViewerCreator"
+            extensions="exdsl">
+    </viewer>
+  </extension>
+  <extension point="org.eclipse.compare.contentMergeViewers">
+    <viewer id="nl.dslmeinte.multilevel.ExampleDsl.compare.contentMergeViewers"
+            class="nl.dslmeinte.multilevel.ui.ExampleDslExecutableExtensionFactory:org.eclipse.xtext.ui.compare.InjectableViewerCreator"
+            extensions="exdsl" label="ExampleDsl Compare">
+     </viewer>
+  </extension>
+  <extension point="org.eclipse.ui.editors.documentProviders">
+    <provider id="nl.dslmeinte.multilevel.ExampleDsl.editors.documentProviders"
+            class="nl.dslmeinte.multilevel.ui.ExampleDslExecutableExtensionFactory:org.eclipse.xtext.ui.editor.model.XtextDocumentProvider"
+            extensions="exdsl">
+    </provider>
+  </extension>
+
+</plugin>

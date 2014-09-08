@@ -1,12 +1,12 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: nl.dslmeinte.xtext.ambiguity.tests
+Bundle-Name: nl.dslmeinte.multilevel.tests
 Bundle-Vendor: DSL Consultancy
 Bundle-Version: 1.0.0.qualifier
-Bundle-SymbolicName: nl.dslmeinte.xtext.ambiguity.tests; singleton:=true
+Bundle-SymbolicName: nl.dslmeinte.multilevel.tests; singleton:=true
 Bundle-ActivationPolicy: lazy
-Require-Bundle: nl.dslmeinte.xtext.ambiguity,
- nl.dslmeinte.xtext.ambiguity.ui,
+Require-Bundle: nl.dslmeinte.multilevel,
+ nl.dslmeinte.multilevel.ui,
  org.eclipse.core.runtime,
  org.eclipse.xtext.junit4,
  org.eclipse.ui.workbench;resolution:=optional,
@@ -20,4 +20,4 @@ Import-Package: org.apache.log4j,
  org.junit.runners.model;version="4.5.0",
  org.hamcrest.core
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Export-Package: nl.dslmeinte.xtext.ambiguity
+Export-Package: nl.dslmeinte.multilevel
