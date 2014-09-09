@@ -17,16 +17,17 @@ IntegerLiteral: int=INT;
 
 // our reworked grammar:
 
-Variable:		name=ID;
-FirstHeadType:	Class | Variable;
-Named:			Class | Variable | Attribute;
+Variable:	name=ID;
+HeadTarget:	Class | Variable;				// both alternatives are parsed from a single ID token
+Named:		Class | Variable | Attribute;
 	/*
 	 * We need a common super type for all named things,
 	 * otherwise Xtext will signal that Variable.name and FirstHeadType.name conflict
 	 * since they are identical features but each existing in separate branches of the hierarchy.
 	 */
-Head:			first=[FirstHeadType] tail=FeatureRefTail?;
+Head:			target=[HeadTarget] tail=FeatureRefTail?;
 FeatureRefTail: '.' feature=[Feature] tail=FeatureRefTail?;
+SpecElement:	Head | FeatureRefTail;			// (synthetic:) convenience Java type
 
 Statement:
 	Head (
