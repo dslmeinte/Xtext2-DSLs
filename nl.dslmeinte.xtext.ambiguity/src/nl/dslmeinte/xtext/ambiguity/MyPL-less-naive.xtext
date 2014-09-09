@@ -3,44 +3,24 @@ grammar nl.dslmeinte.xtext.ambiguity.MyPL with org.eclipse.xtext.common.Terminal
 generate myPL "http://www.dslmeinte.nl/xtext/ambiguity/MyPL"
 
 
-// general stuff:
-
-Program:
-	elements += (Class | Statement)*
-	;
-
-Class:
-	'class' name=ID '{'
-		features+=Feature*
-	'}'
-	;
-
-Feature:
-	Class | Attribute;
-
-Attribute:
-	name=ID ':' type=STRING
-	;
+Program: elements += (Class | Statement)*;
 
 
-// expression sub language
-
-Expression returns Expression:
-	IntegerLiteral
-	;
-
-IntegerLiteral returns Expression:
-	int=INT
-	;
+Class: 'class' name=ID '{' features+=Feature* '}';
+Feature:	Class | Attribute;
+Attribute:	name=ID ':' type=ID;		// (a DataType enum is nicer but unnecessary for the example)
 
 
-// our naive grammar:
+Expression: IntegerLiteral;
+IntegerLiteral: int=INT;
+
+
+// our slightly-less naive grammar:
 
 Variable:		varName=ID;
 FirstHeadType:	Class | Variable;
 Head:			first=[FirstHeadType] tail=FeatureRefTail?;
 FeatureRefTail: '.' feature=[Feature] tail=FeatureRefTail?;
-
 
 Statement:
     VariableDeclaration | Assignment;
