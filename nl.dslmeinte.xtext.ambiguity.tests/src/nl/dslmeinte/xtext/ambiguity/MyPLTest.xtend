@@ -49,12 +49,12 @@ class MyPLTest {
 		val intField = someInnerClass.features.head.assertType(typeof(Attribute)) [ assertEquals("integer", type) ]
 
 		val statement1 = model.elements.get(1).assertType(typeof(VariableDeclaration)) [
-			assertEquals("localVar", variable.varName)
+			assertEquals("localVar", variable.name)
 			value.assertIntegerLiteral(37)
 			typeRef.assertHead(someClass, someInnerClass)
 		]
 
-		model.elements.get(2).assertType(typeof(Assignment)) [
+		val statement2 = model.elements.get(2).assertType(typeof(Assignment)) [
 			value.assertIntegerLiteral(42)
 			lhs.assertHead((statement1 as VariableDeclaration).variable, intField)
 		]

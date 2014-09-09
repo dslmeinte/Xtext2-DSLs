@@ -17,18 +17,18 @@ IntegerLiteral: int=INT;
 
 // our slightly-less naive grammar:
 
-Variable:		varName=ID;
+Variable:		name=ID;
 FirstHeadType:	Class | Variable;
+Named:			Class | Variable | Attribute;
+	/*
+	 * We need a common super type for all named things,
+	 * otherwise Xtext will signal that Variable.name and FirstHeadType.name conflict
+	 * since they are identical features but each existing in separate branches of the hierarchy.
+	 */
 Head:			first=[FirstHeadType] tail=FeatureRefTail?;
 FeatureRefTail: '.' feature=[Feature] tail=FeatureRefTail?;
 
-Statement:
-    VariableDeclaration | Assignment;
-
-
-VariableDeclaration:
-    head=Head variable=Variable (':=' value=Expression)?;
-
-Assignment:
-    lhs=Head ':=' value=Expression;
+Statement:				VariableDeclaration | Assignment;
+VariableDeclaration:	head=Head variable=Variable (':=' value=Expression)?;
+Assignment:				lhs=Head ':=' value=Expression;
 

@@ -32,7 +32,7 @@ ClassRef:
     type=[Class] tail=FeatureRefTail?;
 
 Variable:
-	varName=ID;
+	name=ID;
 
 
 Assignment:
