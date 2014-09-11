@@ -6,29 +6,31 @@ generate myPL "http://www.dslmeinte.nl/xtext/ambiguity/MyPL"
 Program: elements += (Class | Statement)*;
 
 
-Class: 'class' name=ID '{' features+=Feature* '}';
-Feature:	Class | Attribute;
-Attribute:	name=ID ':' type=ID;		// (a DataType enum is nicer but unnecessary for the example)
+Class:     'class' name=ID '{' features+=Feature* '}';
+Feature:   Class | Attribute;
+Attribute: name=ID ':' type=ID;		// (a DataType enum is nicer but unnecessary for the example)
 
 
-Expression: IntegerLiteral;
+Expression:     IntegerLiteral;
 IntegerLiteral: int=INT;
+
+
+Variable: name=ID;
 
 
 // our slightly-less naive grammar:
 
-Variable:	name=ID;
-HeadTarget:	Class | Variable;				// both alternatives are parsed from a single ID token
-Named:		Class | Variable | Attribute;
+HeadTarget: Class | Variable;				// both alternatives are parsed from a single ID token
+Named:      Class | Variable | Attribute;
 	/*
 	 * We need a common super type for all named things,
 	 * otherwise Xtext will signal that Variable.name and FirstHeadType.name conflict
 	 * since they are identical features but each existing in separate branches of the hierarchy.
 	 */
-Head:			target=[HeadTarget] tail=FeatureRefTail?;
+Head:           target=[HeadTarget] tail=FeatureRefTail?;
 FeatureRefTail: '.' feature=[Feature] tail=FeatureRefTail?;
 
-Statement:				VariableDeclaration | Assignment;
-VariableDeclaration:	head=Head variable=Variable (':=' value=Expression)?;
-Assignment:				lhs=Head ':=' value=Expression;
+Statement:           VariableDeclaration | Assignment;
+VariableDeclaration: head=Head variable=Variable (':=' value=Expression)?;
+Assignment:          lhs=Head ':=' value=Expression;
 

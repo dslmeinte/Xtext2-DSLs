@@ -6,38 +6,27 @@ generate myPL "http://www.dslmeinte.nl/xtext/ambiguity/MyPL"
 Program: elements += (Class | Statement)*;
 
 
-Class: 'class' name=ID '{' features+=Feature* '}';
-Feature:	Class | Attribute;
-Attribute:	name=ID ':' type=ID;		// (a DataType enum is nicer but unnecessary for the example)
+Class:     'class' name=ID '{' features+=Feature* '}';
+Feature:   Class | Attribute;
+Attribute: name=ID ':' type=ID;		// (a DataType enum is nicer but unnecessary for the example)
 
 
-Expression: IntegerLiteral;
+Expression:     IntegerLiteral;
 IntegerLiteral: int=INT;
+
+
+Variable: name=ID;
 
 
 // our naive grammar:
 
-FeatureRefTail:
-    '.' feature=[Feature] tail=FeatureRefTail?;
+Statement: VariableDeclaration | Assignment;
 
+VariableDeclaration: typeRef=ClassRef variable=Variable (':=' value=Expression)?;
+ClassRef:            type=[Class] tail=FeatureRefTail?;
 
-Statement:
-    VariableDeclaration | Assignment;
+Assignment:     lhs=AssignableSite ':=' value=Expression;
+AssignableSite: var=[VariableDeclaration] tail=FeatureRefTail?;
 
-
-VariableDeclaration:
-    typeRef=ClassRef variable=Variable (':=' value=Expression)?;
-
-ClassRef:
-    type=[Class] tail=FeatureRefTail?;
-
-Variable:
-	name=ID;
-
-
-Assignment:
-    lhs=AssignableSite ':=' value=Expression;
-
-AssignableSite:
-    var=[VariableDeclaration] tail=FeatureRefTail?;
+FeatureRefTail: '.' feature=[Feature] tail=FeatureRefTail?;
 
