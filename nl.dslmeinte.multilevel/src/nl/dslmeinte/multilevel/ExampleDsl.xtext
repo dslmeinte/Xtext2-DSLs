@@ -3,7 +3,7 @@ grammar nl.dslmeinte.multilevel.ExampleDsl with org.eclipse.xtext.common.Termina
 generate exampleDsl "http://www.dslmeinte.nl/multilevel/ExampleDsl"
 
 Model:
-	elements+=(Entity | EntityInstance | MarkdownDialects)*;
+	elements+=(Entity | EntityInstance | MarkdownDialect)*;
 
 Entity:
 	'entity' name=ID '{'
@@ -39,7 +39,7 @@ StringLiteral:		string=STRING;
 IntegerLiteral:		integer=INT;
 
 
-MarkdownDialects:
+MarkdownDialect:
 	'markdown-dialect' '{'
 		  ('name' '=' name=STRING)
 		& ('author' '=' authorName=STRING)
